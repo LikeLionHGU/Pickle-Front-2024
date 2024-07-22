@@ -1,11 +1,17 @@
-import './App.css';
+import { Route, Routes } from "react-router";
+import { BrowserRouter } from "react-router-dom";
+import "./App.css";
+import Main from "./pages/MainPage.jsx";
+import Map from "./components/MapCon.jsx";
 
 function App() {
   return (
-    <div>
-      <h1>예라야 안녕</h1>
-      <h2>우리 파이팅 이라는 걸 해보장구리</h2>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Main />}></Route>
+        <Route path="/map" element={<Map />}></Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
