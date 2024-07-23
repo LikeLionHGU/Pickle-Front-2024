@@ -1,10 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import CalendarCom from "../Common/CalendarCom";
 
 function FilterContainerMain() {
   return (
     <Wrapper>
       <Text>원하는 운동 강좌를 검색해보세요</Text>
+      {/* <CalendarCom /> */}
     </Wrapper>
   );
 }
