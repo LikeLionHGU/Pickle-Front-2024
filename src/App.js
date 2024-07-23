@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import "./App.css";
 import Main from "./pages/MainPage.jsx";
-import Map from "./components/MapCon.jsx";
+import Map from "./components/Common/MapCon.jsx";
 import ScrollToTop from "./components/Common/ScrollToTop.jsx";
 import UserPage from "./pages/UserPage.jsx";
 import UserSavedLecturePage from "./pages/UserSavedLecturePage.jsx";
