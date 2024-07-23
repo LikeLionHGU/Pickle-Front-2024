@@ -2,6 +2,7 @@ import React from "react";
 import HeaderLightVer from "../components/Common/HeaderLightVer";
 import SideBar from "../components/UserPage.jsx/SideBar";
 import styled from "styled-components";
+import UserSavedLectureContent from "../components/UserPage.jsx/UserSavedLectureContent";
 
 function UserSavedLecturePage() {
   return (
@@ -9,6 +10,7 @@ function UserSavedLecturePage() {
       <HeaderLightVer />
       <ContentWarpper>
         <SideBar />
+        <UserSavedLectureContent />
       </ContentWarpper>
     </>
   );

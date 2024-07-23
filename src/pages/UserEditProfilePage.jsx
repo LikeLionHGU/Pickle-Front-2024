@@ -1,7 +1,24 @@
 import React from "react";
+import HeaderLightVer from "../components/Common/HeaderLightVer";
+import SideBar from "../components/UserPage.jsx/SideBar";
+import styled from "styled-components";
+import UserEditProfileContent from "../components/UserPage.jsx/UserEditProfileContent";
 
 function UserEditProfilePage() {
-  return <div>UserEditProfilePage</div>;
+  return (
+    <>
+      <HeaderLightVer />
+      <ContentWarpper>
+        <SideBar />
+        <UserEditProfileContent />
+      </ContentWarpper>
+    </>
+  );
 }
 
 export default UserEditProfilePage;
+
+const ContentWarpper = styled.div`
+  border: 2px solid green;
+  display: flex;
+`;
