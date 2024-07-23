@@ -9,6 +9,7 @@ import UserSavedLecturePage from "./pages/UserSavedLecturePage.jsx";
 import UserLearningPage from "./pages/UserLearningPage.jsx";
 import UserCompleteLecturePage from "./pages/UserCompleteLecturePage.jsx";
 import UserEditProfilePage from "./pages/UserEditProfilePage.jsx";
+import LectureListPage from "./pages/LectureListPage.jsx";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Main />}></Route>
+        <Route path="/lecture" element={<LectureListPage />}></Route>
         <Route path="/user" element={<UserPage />}></Route>
         <Route path="/user/saved" element={<UserSavedLecturePage />}></Route>
         <Route path="/user/learning" element={<UserLearningPage />}></Route>

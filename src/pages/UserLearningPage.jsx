@@ -1,8 +1,8 @@
 import React from "react";
 import HeaderLightVer from "../components/Common/HeaderLightVer";
-import SideBar from "../components/UserPage.jsx/SideBar";
+import SideBar from "../components/UserPage/SideBar";
 import styled from "styled-components";
-import UserLearningContent from "../components/UserPage.jsx/UserLearningContent";
+import UserLearningContent from "../components/UserPage/UserLearningContent";
 
 function UserLearningPage() {
   return (
