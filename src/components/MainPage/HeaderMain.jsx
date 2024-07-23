@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 function HeaderMain() {
-  return <Wrapper>Header</Wrapper>;
+  return <Wrapper>메인페이지 헤더</Wrapper>;
 }
 
 export default HeaderMain;
