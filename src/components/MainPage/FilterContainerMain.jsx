@@ -5,7 +5,6 @@ function FilterContainerMain() {
   return (
     <Wrapper>
       <Text>원하는 운동 강좌를 검색해보세요</Text>
-      <Text>필터링부분, 화면 크기가 변해도 가운데로 정렬되도록 수정필요</Text>
     </Wrapper>
   );
 }
@@ -18,7 +17,8 @@ const Wrapper = styled.div`
   width: 1000px;
   height: 153px;
   top: 317px;
-  left: 220px;
+  left: 50%;
+  transform: translateX(-50%);
   background-color: white;
   border-radius: 10px;
 `;
