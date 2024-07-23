@@ -1,22 +1,29 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 function SideBar() {
+  const navigate = useNavigate();
+
+  const handleMenuClick = (url) => {
+    navigate(url);
+  };
+
   return (
     <Wrapper>
-      <Menu>
+      <Menu onClick={() => handleMenuClick("/user")}>
         <Text>내 경험치</Text>
       </Menu>
-      <Menu>
+      <Menu onClick={() => handleMenuClick("/user/saved")}>
         <Text>찜한 강의</Text>
       </Menu>
-      <Menu>
+      <Menu onClick={() => handleMenuClick("/user/learning")}>
         <Text>수강 중</Text>
       </Menu>
-      <Menu>
+      <Menu onClick={() => handleMenuClick("/user/complete")}>
         <Text>수강 완료</Text>
       </Menu>
-      <Menu>
+      <Menu onClick={() => handleMenuClick("/user/edit")}>
         <Text>프로필 수정</Text>
       </Menu>
     </Wrapper>
