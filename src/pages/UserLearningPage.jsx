@@ -19,6 +19,6 @@ function UserLearningPage() {
 export default UserLearningPage;
 
 const ContentWarpper = styled.div`
-  border: 2px solid green;
+  /* border: 2px solid green; */
   display: flex;
 `;
