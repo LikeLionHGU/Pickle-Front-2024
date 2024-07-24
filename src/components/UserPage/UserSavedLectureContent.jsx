@@ -18,7 +18,8 @@ function UserSavedLectureContent() {
       isLike: true,
       isGroup: false,
       teacherName: "이다빈 강사님",
-      imageURL: "../../assets/img/defaultSwimImg.svg",
+      imageURL:
+        "https://cdn.pixabay.com/photo/2019/07/01/10/44/water-4309678_1280.jpg",
     },
     {
       courseId: 2,
@@ -33,7 +34,8 @@ function UserSavedLectureContent() {
       isLike: true,
       isGroup: false,
       teacherName: "이다빈 강사님",
-      imageURL: "../../assets/img/defaultSwimImg.svg",
+      imageURL:
+        "https://cdn.pixabay.com/photo/2019/07/01/10/44/water-4309678_1280.jpg",
     },
   ];
 
@@ -42,9 +44,12 @@ function UserSavedLectureContent() {
       <Content>
         <Title>최예라 님! 찜한 강의들이에요</Title>
         <CourseContainer>
-          <CourseCard></CourseCard>
-          <CourseDivideLine />
-          <CourseCard></CourseCard>
+          {data.map((course) => (
+            <React.Fragment key={course.courseId}>
+              <CourseCard course={course} />
+              <CourseDivideLine />
+            </React.Fragment>
+          ))}
         </CourseContainer>
       </Content>
     </Wrapper>

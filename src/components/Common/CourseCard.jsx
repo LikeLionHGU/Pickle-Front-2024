@@ -1,27 +1,29 @@
 import React from "react";
 import styled from "styled-components";
-import defaultImg from "../../assets/img/defaultSwimImg.svg";
-import like from "../../assets/img/like.svg";
+// import defaultImg from "../../assets/img/defaultSwimImg.svg";
+// import like from "../../assets/img/like.svg";
 
-function CourseCard() {
+function CourseCard({ course }) {
   return (
     <Card>
-      <img src={defaultImg} alt="기본 강좌 이미지"></img>
+      <CourseImg>
+        <img src={course.imageURL} alt="기본 강좌 이미지"></img>
+      </CourseImg>
       <InfoSection>
         <Top>
-          <Title>물개가 되는 법</Title>
+          <Title>{course.title}</Title>
           {/* <Like>
             <img src={like} alt="좋아요 아이콘"></img>
           </Like> */}
         </Top>
         <Tags>
-          <Tag># 경북 포항시 북구</Tag>
-          <Tag>수영</Tag>
+          <Tag>#{course.location}</Tag>
+          <Tag>{course.sportType}</Tag>
           <Tag>7월 17일</Tag>
         </Tags>
-        <Teacher>이다빈 강사님</Teacher>
-        <DisabailityType>뇌병변, 시/청각 장애 가능</DisabailityType>
-        <Price>30,000원</Price>
+        <Teacher>{course.name}</Teacher>
+        <DisabailityType>{course.disabilityType}</DisabailityType>
+        <Price>{course.price.toLocaleString()}원</Price>
       </InfoSection>
     </Card>
   );
@@ -30,18 +32,28 @@ function CourseCard() {
 export default CourseCard;
 
 const Card = styled.div`
-  border: 1px solid lightgray;
+  /* border: 1px solid rgba(80, 80, 80, 0.15); */
   width: 480px;
   height: 130px;
   display: flex;
   cursor: pointer;
-  /* box-shadow: 0 10px 10px rgba(52, 52, 52, 0.15),
-    0 3px 3px rgba(34, 34, 34, 0.23); */
+  box-shadow: 0 10px 10px rgba(52, 52, 52, 0.15),
+    0 3px 3px rgba(34, 34, 34, 0.23);
 `;
 
 const InfoSection = styled.div`
   width: 100%;
   padding-left: 26px;
+`;
+
+const CourseImg = styled.div`
+  width: 200px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+  }
 `;
 
 const Top = styled.div`
