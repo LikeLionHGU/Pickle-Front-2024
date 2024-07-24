@@ -37,8 +37,9 @@ const Card = styled.div`
   height: 130px;
   display: flex;
   cursor: pointer;
-  box-shadow: 0 10px 10px rgba(52, 52, 52, 0.15),
-    0 3px 3px rgba(34, 34, 34, 0.23);
+  margin-bottom: 70px;
+  /* box-shadow: 0 10px 10px rgba(52, 52, 52, 0.15),
+    0 3px 3px rgba(34, 34, 34, 0.23); */
 `;
 
 const InfoSection = styled.div`
