@@ -7,6 +7,10 @@ import HeaderSearchBar from "./HeaderSearchBar";
 function HeaderLightVer() {
   const navigate = useNavigate();
 
+  const handleMenuClick = (url) => {
+    navigate(url);
+  };
+
   const handlePickleLogoClick = () => {
     navigate("/");
   };
@@ -14,9 +18,9 @@ function HeaderLightVer() {
   return (
     <Wrapper>
       <Menus>
-        <Menu>홈</Menu>
-        <Menu>강의목록</Menu>
-        <Menu>마이페이지</Menu>
+        <Menu onClick={() => handleMenuClick("/")}>홈</Menu>
+        <Menu onClick={() => handleMenuClick("/lecture")}>강의목록</Menu>
+        <Menu onClick={() => handleMenuClick("/user")}>마이페이지</Menu>
         <Logo>
           <img
             onClick={handlePickleLogoClick}
