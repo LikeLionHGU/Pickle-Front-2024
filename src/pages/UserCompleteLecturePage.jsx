@@ -19,6 +19,6 @@ function UserCompleteLecturePage() {
 export default UserCompleteLecturePage;
 
 const ContentWarpper = styled.div`
-  border: 2px solid green;
+  /* border: 2px solid green; */
   display: flex;
 `;
