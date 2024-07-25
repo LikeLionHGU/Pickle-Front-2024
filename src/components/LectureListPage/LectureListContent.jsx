@@ -5,6 +5,7 @@ import CourseCard from "../Common/CourseCard";
 import CourseDivideLine from "../Common/CourseDivideLine";
 import data from "../../components/Common/CourseDummyData";
 import PaginationCom from "../Common/PaginationCom";
+import { Link } from "react-router-dom";
 
 // LectureFilterContainer 는 나중에 지우고 FilterContainerMain 컴포넌트로 import 할거임
 
@@ -20,10 +21,16 @@ function LectureListContent() {
       <LectureFilterContainer />
       <CourseContainer>
         {data.map((course, index) => (
-          <React.Fragment key={course.courseId}>
-            <CourseCard course={course} />
-            {index % 2 === 0 && <CourseDivideLine />}
-          </React.Fragment>
+          <Link
+            key={course.courseId}
+            style={{ textDecoration: "none", color: "black", display: "flex" }}
+            to={`/lecture/${course.courseId}`}
+          >
+            <React.Fragment key={course.courseId}>
+              <CourseCard course={course} />
+              {index % 2 === 0 && <CourseDivideLine />}
+            </React.Fragment>
+          </Link>
         ))}
       </CourseContainer>
       <PaginationCom total={30} limit={limit} page={page} setPage={setPage} />

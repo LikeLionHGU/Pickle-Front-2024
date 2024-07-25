@@ -10,6 +10,7 @@ import UserLearningPage from "./pages/UserLearningPage.jsx";
 import UserCompleteLecturePage from "./pages/UserCompleteLecturePage.jsx";
 import UserEditProfilePage from "./pages/UserEditProfilePage.jsx";
 import LectureListPage from "./pages/LectureListPage.jsx";
+import LectureDetailPage from "./pages/LectureDetailPage.jsx";
 
 function App() {
   return (
@@ -18,6 +19,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />}></Route>
         <Route path="/lecture" element={<LectureListPage />}></Route>
+        <Route
+          path="/lecture/:courseId"
+          element={<LectureDetailPage />}
+        ></Route>
         <Route path="/user" element={<UserPage />}></Route>
         <Route path="/user/saved" element={<UserSavedLecturePage />}></Route>
         <Route path="/user/learning" element={<UserLearningPage />}></Route>

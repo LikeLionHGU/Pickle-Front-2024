@@ -1,7 +1,7 @@
 const data = [
   {
     courseId: 1,
-    title: "물개가 되는 법",
+    title: "하루 30분: 건강한 피트니스 루틴",
     name: "이다빈 강사님",
     sportType: "수영",
     location: "경북 포항시 북구",
@@ -17,7 +17,7 @@ const data = [
   },
   {
     courseId: 2,
-    title: "물개가 되는 법",
+    title: "유연한 몸: 요가와 스트레칭 클래스",
     name: "김예지 강사님",
     sportType: "수영",
     location: "경북 포항시 북구",
@@ -33,7 +33,7 @@ const data = [
   },
   {
     courseId: 3,
-    title: "물개가 되는 법",
+    title: "에너지 부스트: 아침 활력 운동",
     name: "김예지 강사님",
     sportType: "수영",
     location: "경북 포항시 북구",
@@ -49,7 +49,7 @@ const data = [
   },
   {
     courseId: 4,
-    title: "물개가 되는 법",
+    title: "집에서 즐기는 홈트레이닝",
     name: "김예지 강사님",
     sportType: "수영",
     location: "경북 포항시 북구",
@@ -65,7 +65,7 @@ const data = [
   },
   {
     courseId: 5,
-    title: "물개가 되는 법",
+    title: "강한 코어: 복근 강화 프로그램",
     name: "김예지 강사님",
     sportType: "수영",
     location: "경북 포항시 북구",
@@ -81,7 +81,7 @@ const data = [
   },
   {
     courseId: 6,
-    title: "물개가 되는 법",
+    title: "마음과 몸의 힐링: 저녁 명상 운동",
     name: "김예지 강사님",
     sportType: "수영",
     location: "경북 포항시 북구",
@@ -97,7 +97,7 @@ const data = [
   },
   {
     courseId: 7,
-    title: "물개가 되는 법",
+    title: "효과적인 칼로리 소모 운동",
     name: "김예지 강사님",
     sportType: "수영",
     location: "경북 포항시 북구",
@@ -113,7 +113,7 @@ const data = [
   },
   {
     courseId: 8,
-    title: "물개가 되는 법",
+    title: "파워풀 웨이트 트레이닝",
     name: "김예지 강사님",
     sportType: "수영",
     location: "경북 포항시 북구",

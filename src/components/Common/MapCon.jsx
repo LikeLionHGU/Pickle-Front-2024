@@ -23,7 +23,7 @@ export default function MapCon() {
   }, []);
 
   return (
-    <div style={{ width: "100vw", height: "900vh" }}>
+    <div style={{ width: "100%", height: "100%" }}>
       <Map
         center={currentPosition} // 현재 위치 불러오기
         style={{ width: "100%", height: "100%" }}
