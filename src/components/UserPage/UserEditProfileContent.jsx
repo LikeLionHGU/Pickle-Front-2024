@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import BlueBtn from "../Common/BlueBtn";
+import BlueBtn from "../Common/CommonBtn/BlueBtn";
 import GrayInfoBox from "../Common/GrayInfoBox";
 
 function UserEditProfileContent() {
