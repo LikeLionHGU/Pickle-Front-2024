@@ -27,6 +27,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: end;
   margin-right: 40px;
+  font-family: "PretendardRegular";
 `;
 
 const Search = styled.input`

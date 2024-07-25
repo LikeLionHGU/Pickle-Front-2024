@@ -41,6 +41,7 @@ const Wrapper = styled.div`
   font-size: 20px;
   display: flex;
   justify-content: center;
+  font-family: "PretendardRegular";
 `;
 
 const Menus = styled.div`
