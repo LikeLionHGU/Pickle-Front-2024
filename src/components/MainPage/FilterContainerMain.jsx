@@ -74,6 +74,14 @@ function FilterContainerMain() {
     },
   ];
 
+  const disableOptions = [
+    { name: "지체" },
+    { name: "시각" },
+    { name: "청각/언어" },
+    { name: "지적/자폐" },
+    { name: "뇌병변" },
+    { name: "기타" },
+  ];
   const handleClickOutside = (event) => {
     if (
       regionRef.current &&
@@ -122,7 +130,7 @@ function FilterContainerMain() {
           <FilterTitle onClick={toggleRegionDropdown}>지역</FilterTitle>
           {regionDropdown && (
             <DropdownMenu>
-              <DropdownSections>
+              <RegionDropdownSections>
                 <DropdownSection>
                   {regionOptions
                     .slice(0, Math.ceil(regionOptions.length / 2))
@@ -153,7 +161,7 @@ function FilterContainerMain() {
                       <DropdownItem key={subOption}>{subOption}</DropdownItem>
                     ))}
                 </SubDropdownSection>
-              </DropdownSections>
+              </RegionDropdownSections>
             </DropdownMenu>
           )}
         </FilterContent>
@@ -161,43 +169,28 @@ function FilterContainerMain() {
           <FilterTitle onClick={toggleSportsDropdown}>운동종목</FilterTitle>
           {sportsDropdown && (
             <DropdownMenu>
-              <DropdownSections>
-                <DropdownSection>
-                  {sportsOptions
-                    .slice(0, Math.ceil(sportsOptions.length / 2))
-                    .map((option) => (
-                      <DropdownItem
-                        key={option.name}
-                        onClick={() => handleOptionClick(option)}
-                      >
-                        {option.name}
-                      </DropdownItem>
-                    ))}
-                </DropdownSection>
-                <DropdownSection>
-                  {sportsOptions
-                    .slice(Math.ceil(sportsOptions.length / 2))
-                    .map((option) => (
-                      <DropdownItem
-                        key={option.name}
-                        onClick={() => handleOptionClick(option)}
-                      >
-                        {option.name}
-                      </DropdownItem>
-                    ))}
-                </DropdownSection>
-                <SubDropdownSection>
-                  {subDropdown &&
-                    subOptions.map((subOption) => (
+              <SportsDropdownSections>
+                {sportsOptions.map((option) => (
+                  <SportsCategory key={option.name}>
+                    <CategoryTitle>{option.name}</CategoryTitle>
+                    {option.subOptions.map((subOption) => (
                       <DropdownItem key={subOption}>{subOption}</DropdownItem>
                     ))}
-                </SubDropdownSection>
-              </DropdownSections>
+                  </SportsCategory>
+                ))}
+              </SportsDropdownSections>
             </DropdownMenu>
           )}
         </FilterContent>
         <FilterContent>
           <FilterTitle>장애유형</FilterTitle>
+          <DisDropdownMenu>
+            <DisDropdownSections>
+              {disableOptions.map((option) => (
+                <DropdownItem key={option.name}>{option.name}</DropdownItem>
+              ))}
+            </DisDropdownSections>
+          </DisDropdownMenu>
         </FilterContent>
         <FilterContent>
           <FilterTitle>날짜</FilterTitle>
@@ -268,17 +261,22 @@ const DropdownMenu = styled.div`
   z-index: 1000;
 `;
 
-const DropdownSections = styled.div`
+const RegionDropdownSections = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   height: 100%;
+`;
+
+const SportsDropdownSections = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-right: 25px;
 `;
 
 const DropdownSection = styled.div`
   display: flex;
   flex-direction: column;
   padding-right: 10px;
-  overflow-y: auto;
 `;
 
 const SubDropdownSection = styled.div`
@@ -291,10 +289,41 @@ const SubDropdownSection = styled.div`
 const DropdownItem = styled.div`
   margin-bottom: 15px;
   cursor: pointer;
+  text-align: left;
   color: ${(props) => (props.isSelected ? "#49abf9" : "black")};
   &:hover {
     color: #49abf9;
   }
+`;
+
+const SportsCategory = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
+const CategoryTitle = styled.div`
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #aaaaaa;
+`;
+
+const DisDropdownMenu = styled.div`
+  padding-top: 27px;
+  padding-left: 23px;
+  margin-top: 5px;
+  width: 157px;
+  height: 245px;
+  background-color: white;
+  border: 1px solid #d5d5d5;
+  border-radius: 10px;
+  z-index: 1000;
+`;
+
+const DisDropdownSections = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-left: 23px;
 `;
 
 const SearchBtn = styled.div`
