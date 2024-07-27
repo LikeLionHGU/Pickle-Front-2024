@@ -3,39 +3,44 @@ import styled from "styled-components";
 
 function LecturePurchaseCard({ course }) {
   return (
-    <Card>
-      <CourseImg>
-        <img src={course.imageURL} alt="기본 강좌 이미지"></img>
-      </CourseImg>
-      <InfoSection>
-        <Top>
-          <Title>{course.title}</Title>
-          {/* <Like>
-            <img src={like} alt="좋아요 아이콘"></img>
-          </Like> */}
-        </Top>
-        <Tags>
-          <Tag>#{course.location}</Tag>
-          <Tag>{course.sportType}</Tag>
-          <Tag>7월 17일</Tag>
-        </Tags>
-        <Teacher>{course.name}</Teacher>
-        <DisabailityType>{course.disabilityType}</DisabailityType>
-        <Price>{course.price}원</Price>
-      </InfoSection>
-    </Card>
+    <>
+      <Card>
+        <CourseImg>
+          <img src={course.imageURL} alt="기본 강좌 이미지"></img>
+        </CourseImg>
+        <InfoSection>
+          <Top>
+            <Title>{course.title}</Title>
+            {/* <Like>
+          <img src={like} alt="좋아요 아이콘"></img>
+        </Like> */}
+          </Top>
+          <Tags>
+            <Tag>#{course.location}</Tag>
+            <Tag>{course.sportType}</Tag>
+            <Tag>7월 17일</Tag>
+          </Tags>
+          <Teacher>{course.name}</Teacher>
+          <DisabailityType>{course.disabilityType}</DisabailityType>
+          <Price>{course.price}원</Price>
+        </InfoSection>
+      </Card>
+      <BottomInfo>
+        <DetailInfo>• 7월 17일 월요일 오후 6시</DetailInfo>{" "}
+        <DetailInfo>• 포항시 남구 포스플렉스 수영장</DetailInfo>
+      </BottomInfo>
+    </>
   );
 }
 
 export default LecturePurchaseCard;
 
 const Card = styled.div`
-  width: 480px;
+  width: 460px;
   height: 130px;
   display: flex;
   cursor: pointer;
-  margin-bottom: 70px;
-  border: 1px solid red;
+  /* border: 1px solid red; */
 `;
 
 const InfoSection = styled.div`
@@ -99,4 +104,18 @@ const DisabailityType = styled.div`
 const Price = styled.div`
   font-size: 14px;
   margin-top: 5px;
+`;
+
+const BottomInfo = styled.div`
+  /* border: 1px solid green; */
+  margin-top: 47px;
+  padding-left: 30px;
+`;
+
+const DetailInfo = styled.div`
+  font-size: 17px;
+
+  &:last-child {
+    margin-top: 24px;
+  }
 `;

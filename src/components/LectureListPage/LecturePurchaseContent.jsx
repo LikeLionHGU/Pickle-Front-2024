@@ -106,7 +106,7 @@ export default LecturePurchaseContent;
 
 const Wrapper = styled.div`
   /* border: 1px solid green; */
-  width: 1020px;
+  width: 1040px;
   margin: auto;
   margin-top: 95px;
   display: flex;
@@ -125,7 +125,7 @@ const Left = styled.div`
 `;
 
 const Right = styled.div`
-  width: 510px;
+  width: 520px;
   /* border: 1px solid red; */
 `;
 
@@ -191,9 +191,8 @@ const CourseInfo = styled.div`
   height: 280px;
   margin-top: 30px;
   border-radius: 20px;
-  padding-top: 30px;
-  display: flex;
-  justify-content: center;
+  padding-top: 40px;
+  padding-left: 30px;
 `;
 
 const Map = styled.div`
