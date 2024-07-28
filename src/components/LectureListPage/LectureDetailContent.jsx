@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import MapCon from "../Common/MapCon";
 import BlueBtn from "../Common/CommonBtn/BlueBtn";
@@ -6,8 +6,24 @@ import WhiteBtn from "../Common/CommonBtn/WhiteBtn";
 import defaultImg from "../../assets/img/defaultImg.jpg";
 import locationIcon from "../../assets/img/PickedCourse.svg";
 import heartIcon from "../../assets/img/heart.svg";
+import TeacherProfileModal from "./TeacherProfileModal";
 
 function LectureDetailContent() {
+  const [isTeacherProfileModalOpen, setTeacherProfileModalOpen] =
+    useState(false);
+
+  const toggleTeacherProfileModal = () => {
+    setTeacherProfileModalOpen((prevState) => !prevState);
+  };
+
+  useEffect(() => {
+    document.body.style.overflow = isTeacherProfileModalOpen
+      ? "hidden"
+      : "auto";
+  }, [isTeacherProfileModalOpen]);
+
+  console.log("is modal open: ", isTeacherProfileModalOpen);
+
   return (
     <Wrapper>
       <CourseCard>
@@ -54,7 +70,10 @@ function LectureDetailContent() {
         </InfoContent>
       </CourseInfo>
       <Btn>
-        <WhiteBtn>강사 프로필</WhiteBtn>
+        {isTeacherProfileModalOpen && (
+          <TeacherProfileModal toggleModal={toggleTeacherProfileModal} />
+        )}
+        <WhiteBtn onClick={toggleTeacherProfileModal}>강사 프로필</WhiteBtn>
         <BlueBtn>수강신청</BlueBtn>
       </Btn>
     </Wrapper>
