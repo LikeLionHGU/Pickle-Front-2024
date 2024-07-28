@@ -5,7 +5,13 @@ import mainBannerImg from "../../assets/img/MainBanner.svg";
 function BannerMain() {
   return (
     <Wrapper>
-      <BannerBg></BannerBg>
+      <BannerBg>
+        <Greeting>
+          <MainText>안녕하세요, 최예라 님</MainText>
+          <MainText>어떤 운동을 계획 중이세요 ?</MainText>
+          <Rate>Lv.1</Rate>
+        </Greeting>
+      </BannerBg>
     </Wrapper>
   );
 }
@@ -25,4 +31,23 @@ const BannerBg = styled.div`
   background-size: cover;
   background-position: left;
   background-repeat: no-repeat;
+`;
+
+const Greeting = styled.div`
+  /* border: 2px solid red; */
+  padding-top: 155px;
+  padding-left: 220px;
+  color: white;
+  font-size: 30px;
+`;
+
+const MainText = styled.div`
+  /* border: 2px solid red; */
+  margin-top: 10px;
+`;
+
+const Rate = styled.div`
+  color: #ffdd85;
+  font-size: 16px;
+  margin-top: 25px;
 `;

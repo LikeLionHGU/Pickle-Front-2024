@@ -29,7 +29,7 @@ function HeaderMain() {
           ></img>
         </Logo>
       </Menus>
-      <HeaderSearchBar />
+      <HeaderSearchBar borderColor="#ffffff" placeholderColor="#ffffff" />
     </Wrapper>
   );
 }
@@ -44,7 +44,7 @@ const Wrapper = styled.div`
   position: absolute;
   width: 1440px;
   font-family: "PretendardRegular";
-  border: 1px solid red;
+  /* border: 1px solid red; */
 `;
 
 const Menus = styled.div`
