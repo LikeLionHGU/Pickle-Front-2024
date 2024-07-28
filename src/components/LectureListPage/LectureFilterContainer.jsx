@@ -236,6 +236,8 @@ const FilterContainer = styled.div`
   display: flex;
   margin-left: 30px;
   margin-bottom: 28px;
+  position: absolute;
+  z-index: 1;
 `;
 
 const FilterContent = styled.div`
