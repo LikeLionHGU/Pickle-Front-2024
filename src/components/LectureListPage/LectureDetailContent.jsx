@@ -7,10 +7,16 @@ import defaultImg from "../../assets/img/defaultImg.jpg";
 import locationIcon from "../../assets/img/PickedCourse.svg";
 import heartIcon from "../../assets/img/heart.svg";
 import TeacherProfileModal from "./TeacherProfileModal";
+import { useNavigate, useParams } from "react-router-dom";
 
 function LectureDetailContent() {
   const [isTeacherProfileModalOpen, setTeacherProfileModalOpen] =
     useState(false);
+  const navigate = useNavigate();
+
+  const handleCourseApplyBtnClick = () => {
+    navigate("/lecture/:courseId/:courseBlockId");
+  };
 
   const toggleTeacherProfileModal = () => {
     setTeacherProfileModalOpen((prevState) => !prevState);
@@ -74,7 +80,7 @@ function LectureDetailContent() {
           <TeacherProfileModal toggleModal={toggleTeacherProfileModal} />
         )}
         <WhiteBtn onClick={toggleTeacherProfileModal}>강사 프로필</WhiteBtn>
-        <BlueBtn>수강신청</BlueBtn>
+        <BlueBtn onClick={handleCourseApplyBtnClick}>수강신청</BlueBtn>
       </Btn>
     </Wrapper>
   );
