@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
-function BlueBtn({ children }) {
-  return <Wrapper>{children}</Wrapper>;
+function BlueBtn({ children, onClick }) {
+  return <Wrapper onClick={onClick}>{children}</Wrapper>;
 }
 
 export default BlueBtn;
