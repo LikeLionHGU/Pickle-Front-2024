@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import defaultTeacherImg from "../../assets/img/defaultTeacherImg.svg";
 import closeBtn from "../../assets/img/CloseBtn.svg";
+import star from "../../assets/img/star.svg";
 import { Link } from "react-router-dom";
 import TeacherProfileCard from "./TeacherProfileCard";
 
@@ -54,7 +55,23 @@ function TeacherProfileModal({ toggleModal }) {
               <TeacherName>최예라</TeacherName>
               <TeacherText>강사님</TeacherText>
             </Teacher>
-            <TeacherDetail></TeacherDetail>
+            <TeacherDetail>
+              <StudentNum>
+                <DetailCategory>수강생 수</DetailCategory>
+                <DetailContent>87</DetailContent>
+              </StudentNum>
+              <CourseReview>
+                <DetailCategory>수강평수</DetailCategory>
+                <DetailContent>12</DetailContent>
+              </CourseReview>
+              <CourseRate>
+                <DetailCategory>강의평점</DetailCategory>
+                <div style={{ display: "flex" }}>
+                  <img src={star} alt="별 이미지"></img>
+                  <DetailContent>5.0</DetailContent>
+                </div>
+              </CourseRate>
+            </TeacherDetail>
             <Certificate>
               <CertificateCategory>보유 자격증</CertificateCategory>
               <CertificateDetail>• 생활 체육 지도사 1급</CertificateDetail>
@@ -180,12 +197,49 @@ const TeacherDetail = styled.div`
   border-top: 1px solid #dddddd;
   border-bottom: 1px solid #dddddd;
   margin-top: 20px;
-  height: 78px;
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 20px;
+`;
+
+const DetailCategory = styled.div`
+  font-size: 13px;
+  color: #626262;
+  display: flex;
+  justify-content: center;
+`;
+
+const DetailContent = styled.div`
+  font-size: 17px;
+  display: flex;
+  justify-content: center;
+  margin-top: 14px;
+`;
+
+const StudentNum = styled.div`
+  /* border: 1px solid red; */
+  width: 60px;
+`;
+
+const CourseReview = styled.div`
+  /* border: 1px solid red; */
+  width: 60px;
+`;
+
+const CourseRate = styled.div`
+  /* border: 1px solid red; */
+  width: 60px;
+
+  img {
+    padding-top: 10px;
+    padding-left: 5px;
+  }
 `;
 
 const Certificate = styled.div`
   /* border: 1px solid red; */
-  margin-top: 68px;
+  margin-top: 58px;
 `;
 
 const CertificateCategory = styled.div`
@@ -203,7 +257,7 @@ const CertificateDetail = styled.div`
 const DivisionLine = styled.div`
   display: flex;
   margin-top: 10px;
-  height: 510px;
+  height: 530px;
   border: 1px solid #dddddd;
 `;
 
