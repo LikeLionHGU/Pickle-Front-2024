@@ -42,8 +42,9 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   position: absolute;
-  width: 100%;
+  width: 1440px;
   font-family: "PretendardRegular";
+  border: 1px solid red;
 `;
 
 const Menus = styled.div`
