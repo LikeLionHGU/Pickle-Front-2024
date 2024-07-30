@@ -41,8 +41,8 @@ const Title = styled.div`
 `;
 
 const CourseContainer = styled.div`
-  /* border: 2px solid green; */
-  width: 1020px;
+  border: 2px solid green;
+  width: 1040px;
   margin-top: 59px;
   display: flex;
   flex-wrap: wrap;

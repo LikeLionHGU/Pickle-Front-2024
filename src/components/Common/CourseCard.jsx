@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import StarRating from "./StarRating";
-// import defaultImg from "../../assets/img/defaultSwimImg.svg";
-// import like from "../../assets/img/like.svg";
+import heartIcon from "../../assets/img/heart.svg";
 
 function CourseCard({ course }) {
   return (
@@ -13,9 +12,10 @@ function CourseCard({ course }) {
       <InfoSection>
         <Top>
           <Title>{course.title}</Title>
-          {/* <Like>
-            <img src={like} alt="좋아요 아이콘"></img>
-          </Like> */}
+          <Like>
+            <img src={heartIcon} alt="좋아요 아이콘"></img>
+            <LikeCount>{course.likeCount}</LikeCount>
+          </Like>
         </Top>
         <Tags>
           <Tag>#{course.location}</Tag>
@@ -75,7 +75,19 @@ const Title = styled.div`
   font-size: 20px;
 `;
 
-const Like = styled.div``;
+const Like = styled.div`
+  display: flex;
+  padding-top: 4px;
+  img {
+    height: 16px;
+  }
+`;
+
+const LikeCount = styled.div`
+  font-size: 14px;
+  color: #ff1c1c;
+  margin-left: 3px;
+`;
 
 const Tags = styled.div`
   display: flex;
