@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import heartIcon from "../../assets/img/heart.svg";
+import StarRating from "../Common/StarRating";
 
 function LecturePurchaseCard({ course }) {
   return (
@@ -11,9 +13,10 @@ function LecturePurchaseCard({ course }) {
         <InfoSection>
           <Top>
             <Title>{course.title}</Title>
-            {/* <Like>
-          <img src={like} alt="좋아요 아이콘"></img>
-        </Like> */}
+            <Like>
+              <img src={heartIcon} alt="좋아요 아이콘"></img>
+              <LikeCount>{course.likeCount}</LikeCount>
+            </Like>
           </Top>
           <Tags>
             <Tag>#{course.location}</Tag>
@@ -22,11 +25,17 @@ function LecturePurchaseCard({ course }) {
           </Tags>
           <Teacher>{course.name}</Teacher>
           <DisabailityType>{course.disabilityType}</DisabailityType>
-          <Price>{course.price}원</Price>
+          <Bottom>
+            <Price>{course.price}원</Price>
+            <Score>
+              <StarRating score={course.score} />
+              <StarRate>(45)</StarRate>
+            </Score>
+          </Bottom>
         </InfoSection>
       </Card>
       <BottomInfo>
-        <DetailInfo>• 7월 17일 월요일 오후 6시</DetailInfo>{" "}
+        <DetailInfo>• 7월 17일 월요일 오후 6시</DetailInfo>
         <DetailInfo>• 포항시 남구 포스플렉스 수영장</DetailInfo>
       </BottomInfo>
     </>
@@ -68,7 +77,20 @@ const Title = styled.div`
   font-size: 20px;
 `;
 
-const Like = styled.div``;
+const Like = styled.div`
+  display: flex;
+  padding-top: 4px;
+  margin-left: 4px;
+  img {
+    height: 16px;
+  }
+`;
+
+const LikeCount = styled.div`
+  font-size: 14px;
+  color: #ff1c1c;
+  margin-left: 3px;
+`;
 
 const Tags = styled.div`
   display: flex;
@@ -104,6 +126,21 @@ const DisabailityType = styled.div`
 const Price = styled.div`
   font-size: 14px;
   margin-top: 5px;
+`;
+
+const Bottom = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const Score = styled.div`
+  /* border: 1px solid red; */
+  display: flex;
+`;
+
+const StarRate = styled.div`
+  font-size: 15px;
+  margin-left: 4px;
 `;
 
 const BottomInfo = styled.div`
