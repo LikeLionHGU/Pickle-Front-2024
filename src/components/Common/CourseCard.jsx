@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import StarRating from "./StarRating";
 // import defaultImg from "../../assets/img/defaultSwimImg.svg";
 // import like from "../../assets/img/like.svg";
 
@@ -24,6 +25,7 @@ function CourseCard({ course }) {
         <Teacher>{course.name}</Teacher>
         <DisabailityType>{course.disabilityType}</DisabailityType>
         <Price>{course.price.toLocaleString()}원</Price>
+        <StarRating score={4.2} />
       </InfoSection>
     </Card>
   );
