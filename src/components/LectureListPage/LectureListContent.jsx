@@ -41,8 +41,8 @@ function LectureListContent() {
 export default LectureListContent;
 
 const Wrapper = styled.div`
-  /* border: 3px solid red; */
-  width: 1020px;
+  border: 3px solid red;
+  width: 1040px;
   margin: auto;
   margin-top: 97px;
   padding-bottom: 40px;
@@ -55,7 +55,7 @@ const Title = styled.div`
 
 const CourseContainer = styled.div`
   /* border: 2px solid green; */
-  width: 1020px;
+  width: 1040px;
   margin-top: 59px;
   margin-bottom: 40px;
   display: flex;
