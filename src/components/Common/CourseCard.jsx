@@ -24,8 +24,13 @@ function CourseCard({ course }) {
         </Tags>
         <Teacher>{course.name}</Teacher>
         <DisabailityType>{course.disabilityType}</DisabailityType>
-        <Price>{course.price.toLocaleString()}원</Price>
-        <StarRating score={4.2} />
+        <Bottom>
+          <Price>{course.price.toLocaleString()}원</Price>
+          <Score>
+            <StarRating score={course.score} />
+            <StarRate>(45)</StarRate>
+          </Score>
+        </Bottom>
       </InfoSection>
     </Card>
   );
@@ -34,7 +39,7 @@ function CourseCard({ course }) {
 export default CourseCard;
 
 const Card = styled.div`
-  /* border: 1px solid rgba(80, 80, 80, 0.15); */
+  border: 1px solid rgba(80, 80, 80, 0.15);
   width: 480px;
   height: 130px;
   display: flex;
@@ -106,4 +111,19 @@ const DisabailityType = styled.div`
 const Price = styled.div`
   font-size: 14px;
   margin-top: 5px;
+`;
+
+const Bottom = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const Score = styled.div`
+  /* border: 1px solid red; */
+  display: flex;
+`;
+
+const StarRate = styled.div`
+  font-size: 15px;
+  margin-left: 4px;
 `;

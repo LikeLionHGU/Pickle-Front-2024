@@ -20,8 +20,8 @@ const StarWrapper = styled.div`
 const Star = styled.div`
   position: relative;
   display: inline-block;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   margin-right: 2px;
   background-color: lightgray;
   clip-path: polygon(
@@ -44,7 +44,7 @@ const FullStarWrapper = styled.div`
   left: 0;
   width: ${(props) => props.width};
   height: 100%;
-  background-color: gold;
+  background-color: #ffd15b;
   clip-path: inherit;
   overflow: hidden;
 `;
