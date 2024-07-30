@@ -8,6 +8,7 @@ import locationIcon from "../../assets/img/PickedCourse.svg";
 import heartIcon from "../../assets/img/heart.svg";
 import TeacherProfileModal from "./TeacherProfileModal";
 import { useNavigate, useParams } from "react-router-dom";
+import StarRating from "../Common/StarRating";
 
 function LectureDetailContent() {
   const [isTeacherProfileModalOpen, setTeacherProfileModalOpen] =
@@ -47,7 +48,13 @@ function LectureDetailContent() {
             </Like>
           </Top>
           <Middle>
-            <DetailText>• 강사 : 이다빈</DetailText>
+            <Teacher>
+              <DetailText>• 강사 : 이다빈</DetailText>
+              <Score>
+                <StarRating score={3.5} />
+                <StarRate>(45)</StarRate>
+              </Score>
+            </Teacher>
             <DetailText>• 연락처 : 010-1234-1234</DetailText>
             <DetailText>
               • 주소 : 경북 포항시 북구 법원로 98번길 36 1층
@@ -55,11 +62,8 @@ function LectureDetailContent() {
             <DetailText>
               • 가능한 장애유형 : 뇌병변 / 시,청각 장애 가능
             </DetailText>
+            <DetailText>• 강좌 시간 : 8/1, 8/2, 8/3 오전 10-12시</DetailText>
           </Middle>
-          <Bottom>
-            <DetailText>별 컴포넌트</DetailText>
-            <DetailText>(45)</DetailText>
-          </Bottom>
         </CourseDetail>
       </CourseCard>
       <Map>
@@ -142,6 +146,7 @@ const Like = styled.div`
   display: flex;
   justify-content: end;
   vertical-align: middle;
+  cursor: pointer;
 `;
 
 const Middle = styled.div`
@@ -150,14 +155,24 @@ const Middle = styled.div`
   padding-left: 30px;
 `;
 
+const Teacher = styled.div`
+  display: flex;
+`;
+
+const Score = styled.div`
+  margin-top: 17px;
+  padding-left: 13px;
+  display: flex;
+`;
+
+const StarRate = styled.div`
+  font-size: 15px;
+  margin-left: 4px;
+`;
+
 const DetailText = styled.div`
   font-size: 16px;
   margin-top: 17px;
-`;
-
-const Bottom = styled.div`
-  display: flex;
-  padding-left: 40px;
 `;
 
 const Map = styled.div`

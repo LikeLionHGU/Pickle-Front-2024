@@ -13,7 +13,7 @@ function LecturePurchaseContent() {
 
   const course = {
     courseId: 1,
-    title: "하루 30분: 건강한 피트니스 루틴",
+    title: "건강한 피트니스 루틴",
     name: "이다빈 강사님",
     sportType: "수영",
     location: "경북 포항시 북구",

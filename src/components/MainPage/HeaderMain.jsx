@@ -19,7 +19,7 @@ function HeaderMain() {
     <Wrapper>
       <Menus>
         <Menu onClick={() => handleMenuClick("/")}>홈</Menu>
-        <Menu onClick={() => handleMenuClick("/lecture")}>강의목록</Menu>
+        <Menu onClick={() => handleMenuClick("/lecture")}>강좌목록</Menu>
         <Menu onClick={() => handleMenuClick("/user")}>마이페이지</Menu>
         <Logo>
           <img

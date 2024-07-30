@@ -41,7 +41,7 @@ function LectureListContent() {
 export default LectureListContent;
 
 const Wrapper = styled.div`
-  border: 3px solid red;
+  /* border: 3px solid red; */
   width: 1040px;
   margin: auto;
   margin-top: 97px;
