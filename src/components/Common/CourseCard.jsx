@@ -39,7 +39,7 @@ function CourseCard({ course }) {
 export default CourseCard;
 
 const Card = styled.div`
-  border: 1px solid rgba(80, 80, 80, 0.15);
+  /* border: 1px solid rgba(80, 80, 80, 0.15); */
   width: 480px;
   height: 130px;
   display: flex;

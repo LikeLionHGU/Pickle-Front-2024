@@ -29,7 +29,7 @@ const Wrapper = styled.div`
   width: 100%;
   font-size: 40px;
   padding-top: 90px;
-  padding-left: 135px;
+  padding-left: 120px;
 `;
 
 const Content = styled.div`
@@ -41,7 +41,7 @@ const Title = styled.div`
 `;
 
 const CourseContainer = styled.div`
-  border: 2px solid green;
+  /* border: 2px solid green; */
   width: 1040px;
   margin-top: 59px;
   display: flex;
