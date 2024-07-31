@@ -29,6 +29,10 @@ function HeaderMain() {
           ></img>
         </Logo>
       </Menus>
+      <SignInSection>
+        <SignIn>로그인</SignIn>
+        <SignIn>회원가입</SignIn>
+      </SignInSection>
       <HeaderSearchBar borderColor="#ffffff" placeholderColor="#ffffff" />
     </Wrapper>
   );
@@ -72,5 +76,23 @@ const Logo = styled.div`
   width: 90px;
   margin-top: 54px;
   margin-left: 200px;
+  cursor: pointer;
+`;
+
+const SignInSection = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 120px;
+  /* border: 1px solid green; */
+  position: absolute;
+  left: 92%;
+  top: 30%;
+  transform: translateX(-50%);
+`;
+
+const SignIn = styled.div`
+  /* border: 1px solid red; */
+  color: #1997fc;
+  font-size: 14px;
   cursor: pointer;
 `;
