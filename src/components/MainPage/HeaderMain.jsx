@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import pickleLogo from "../../assets/logo/PickleWhiteLogo.svg";
 import { useNavigate } from "react-router-dom";
 import HeaderSearchBar from "../Common/HeaderSearchBar";
+import LoginModal from "./LoginModal";
 
 function HeaderMain() {
+  const [isLoginModalOpen, setLoginModalOpen] = useState(false);
   const navigate = useNavigate();
+
+  const toggleLoginModal = () => {
+    setLoginModalOpen((prevState) => !prevState);
+  };
+
+  useEffect(() => {
+    document.body.style.overflow = isLoginModalOpen ? "hidden" : "auto";
+  }, [isLoginModalOpen]);
+
+  console.log("is modal open: ", isLoginModalOpen);
 
   const handleMenuClick = (url) => {
     navigate(url);
@@ -30,9 +42,10 @@ function HeaderMain() {
         </Logo>
       </Menus>
       <SignInSection>
-        <SignIn>로그인</SignIn>
+        <SignIn onClick={toggleLoginModal}>로그인</SignIn>
         <SignIn>회원가입</SignIn>
       </SignInSection>
+      {isLoginModalOpen && <LoginModal toggleModal={toggleLoginModal} />}
       <HeaderSearchBar borderColor="#ffffff" placeholderColor="#ffffff" />
     </Wrapper>
   );
@@ -88,6 +101,7 @@ const SignInSection = styled.div`
   left: 92%;
   top: 30%;
   transform: translateX(-50%);
+  z-index: 1;
 `;
 
 const SignIn = styled.div`
