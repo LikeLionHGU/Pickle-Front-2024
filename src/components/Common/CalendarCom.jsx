@@ -7,8 +7,8 @@ const StyledCalendar = styled(Calendar)`
   .react-calendar {
     width: 328px;
     height: 286px;
-    border: none;
-    box-shadow: none;
+    border: none !important;
+    box-shadow: none !important;
   }
 
   .react-calendar__navigation {
@@ -42,10 +42,10 @@ const StyledCalendar = styled(Calendar)`
     font-weight: bolder;
   }
 
-  .react-calendar__month-view__days__day--neighboringMonth {
+  /* .react-calendar__month-view__days__day--neighboringMonth {
     color: #e8e8e8;
     font-weight: normal;
-  }
+  } */
 
   .react-calendar__navigation {
     margin-top: 8px;
@@ -66,30 +66,34 @@ const StyledCalendar = styled(Calendar)`
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    position: relative;
   }
 
-  .react-calendar__tile:enabled:hover,
-  .react-calendar__tile:enabled:focus,
-  .react-calendar__tile--active {
+  .react-calendar__tile:enabled:hover {
     background: #42a8f8;
     color: white;
     border-radius: 30px;
   }
 
+  .react-calendar__tile--active {
+    background: white;
+    color: black;
+    /* border-radius: 30px; */
+  }
+
   .react-calendar__tile--now {
-    border: 2px solid #42a8f8;
     background-color: white;
     color: black;
     border-radius: 30px;
   }
 `;
 
-function CalendarCom({ onDateChange }) {
-  const [dates, setDates] = useState([]);
+function CalendarCom({ selected, onDateChange }) {
+  const [dates, setDates] = useState(selected);
 
+  // 날짜 변경 핸들러
   const handleDateChange = (newDate) => {
-    const selectedDate = Array.isArray(newDate) ? newDate[0] : newDate;
-    const selectedDateStr = selectedDate.toLocaleDateString();
+    const selectedDateStr = newDate.toLocaleDateString();
 
     setDates((prevDates) => {
       const isAlreadySelected = prevDates.includes(selectedDateStr);
@@ -98,7 +102,7 @@ function CalendarCom({ onDateChange }) {
         ? prevDates.filter((date) => date !== selectedDateStr)
         : [...prevDates, selectedDateStr];
 
-      onDateChange(updatedDates);
+      onDateChange(updatedDates); // 선택된 날짜를 상위 컴포넌트에 전달
       return updatedDates;
     });
   };
@@ -107,8 +111,13 @@ function CalendarCom({ onDateChange }) {
     <StyledCalendar
       locale="en"
       onChange={handleDateChange}
-      value={dates.length > 0 ? dates.map((date) => new Date(date)) : null}
-      selectRange={false}
+      value={dates.map((date) => new Date(date))}
+      tileClassName={({ date }) => {
+        const dateStr = date.toLocaleDateString();
+        return dates.includes(dateStr)
+          ? "react-calendar__tile--highlighted"
+          : null;
+      }}
     />
   );
 }

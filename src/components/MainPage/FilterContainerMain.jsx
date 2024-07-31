@@ -4,6 +4,11 @@ import CalendarCom from "../Common/CalendarCom";
 import SliderCom from "../Common/SliderCom";
 
 function FilterContainerMain() {
+  const [checked, setChecked] = useState({
+    individual: false,
+    group: false,
+  });
+
   const [regionDropdown, setRegionDropdown] = useState(false);
   const [sportsDropdown, setSportsDropdown] = useState(false);
   const [disDropdown, setDisDropdown] = useState(false);
@@ -97,6 +102,13 @@ function FilterContainerMain() {
     { name: "기타" },
   ];
 
+  const handleChange = (event) => {
+    setChecked({
+      ...checked,
+      [event.target.name]: event.target.checked,
+    });
+  };
+
   const handleClickOutside = (event) => {
     if (
       regionRef.current &&
@@ -172,16 +184,32 @@ function FilterContainerMain() {
 
   const handleOptionClick = (option) => {
     if (option.subOptions && option.subOptions.length > 0) {
-      setSubOptions(option.subOptions);
+      setSubOptions(
+        option.subOptions.filter(
+          (subOption) =>
+            !selectedRegion.includes(subOption) &&
+            !selectedSport.includes(subOption) &&
+            !selectedDisability.includes(subOption)
+        )
+      );
       setSubDropdown(true);
     } else {
       setSubDropdown(false);
       if (regionDropdown) {
-        setSelectedRegion((prev) => [...prev, option.name]);
+        // Only add if not already selected
+        if (!selectedRegion.includes(option.name)) {
+          setSelectedRegion((prev) => [...prev, option.name]);
+        }
       } else if (sportsDropdown) {
-        setSelectedSport((prev) => [...prev, option.name]);
+        // Only add if not already selected
+        if (!selectedSport.includes(option.name)) {
+          setSelectedSport((prev) => [...prev, option.name]);
+        }
       } else if (disDropdown) {
-        setSelectedDisability((prev) => [...prev, option.name]);
+        // Only add if not already selected
+        if (!selectedDisability.includes(option.name)) {
+          setSelectedDisability((prev) => [...prev, option.name]);
+        }
       }
       setRegionDropdown(false);
       setSportsDropdown(false);
@@ -193,9 +221,15 @@ function FilterContainerMain() {
 
   const handleSubOptionClick = (subOption) => {
     if (regionDropdown) {
-      setSelectedRegion((prev) => [...prev, subOption]);
+      // Only add if not already selected
+      if (!selectedRegion.includes(subOption)) {
+        setSelectedRegion((prev) => [...prev, subOption]);
+      }
     } else if (sportsDropdown) {
-      setSelectedSport((prev) => [...prev, subOption]);
+      // Only add if not already selected
+      if (!selectedSport.includes(subOption)) {
+        setSelectedSport((prev) => [...prev, subOption]);
+      }
     }
     setSubDropdown(false);
   };
@@ -263,24 +297,38 @@ function FilterContainerMain() {
             </ClearButton>
           </SelectedContent>
         ))}
-        {/* {selectedPrice && (
-          <SelectedContent>
-            <Hashtag>#</Hashtag>
-            {`${selectedPrice.min}원 ~ ${selectedPrice.max}원`}
-            <ClearButton
-              onClick={() => setSelectedPrice({ min: 0, max: 100000 })}
-            >
-              ×
-            </ClearButton>
-          </SelectedContent>
-        )} */}
+        {/* 가격 선택 관련 내용이 있으면 여기에 추가 */}
       </>
     );
   };
 
   return (
     <Wrapper>
-      <Text>원하는 운동 강좌를 검색해보세요</Text>
+      <Container>
+        <Text>원하는 운동 강좌를 검색해보세요</Text>
+        <CheckboxContainer>
+          <CheckboxWrapper>
+            <CheckBox
+              type="checkbox"
+              id="individual"
+              name="individual"
+              checked={checked.individual}
+              onChange={handleChange}
+            />
+            <Label htmlFor="individual">개인</Label>
+          </CheckboxWrapper>
+          <CheckboxWrapper>
+            <CheckBox
+              type="checkbox"
+              id="group"
+              name="group"
+              checked={checked.group}
+              onChange={handleChange}
+            />
+            <Label htmlFor="group">그룹</Label>
+          </CheckboxWrapper>
+        </CheckboxContainer>
+      </Container>
       <SelectedContainer>{renderSelectedContent()}</SelectedContainer>
       <FilterContainer>
         <FilterContent ref={regionRef}>
@@ -295,6 +343,7 @@ function FilterContainerMain() {
                       <DropdownItem
                         key={option.name}
                         onClick={() => handleOptionClick(option)}
+                        selected={selectedRegion.includes(option.name)}
                       >
                         {option.name}
                       </DropdownItem>
@@ -307,17 +356,25 @@ function FilterContainerMain() {
                       <DropdownItem
                         key={option.name}
                         onClick={() => handleOptionClick(option)}
+                        selected={selectedSport.includes(option.name)}
                       >
                         {option.name}
                       </DropdownItem>
                     ))}
                 </DropdownSection>
-                <SubDropdownSection>
+                <SubDropdownSection
+                  style={{
+                    borderLeft: "1px solid #D5D5D5",
+                    paddingLeft: "30px",
+                  }}
+                >
                   {subDropdown &&
                     subOptions.map((subOption) => (
                       <DropdownItem
                         key={subOption}
                         onClick={() => handleSubOptionClick(subOption)}
+                        // selected={selectedDisability.includes(option.name)}
+                        selected={selectedDisability.includes(subOption)}
                       >
                         {subOption}
                       </DropdownItem>
@@ -328,7 +385,12 @@ function FilterContainerMain() {
           )}
         </FilterContent>
         <FilterContent ref={sportsRef}>
-          <FilterTitle onClick={toggleSportsDropdown}>운동종목</FilterTitle>
+          <FilterTitle
+            selected={selectedSport.length > 0}
+            onClick={toggleSportsDropdown}
+          >
+            운동종목
+          </FilterTitle>
           {sportsDropdown && (
             <DropdownMenu>
               <SportsDropdownSections>
@@ -341,6 +403,7 @@ function FilterContainerMain() {
                         onClick={() =>
                           handleOptionClick({ name: subOption, subOptions: [] })
                         }
+                        selected={selectedSport.includes(subOption)}
                       >
                         {subOption}
                       </DropdownItem>
@@ -351,8 +414,14 @@ function FilterContainerMain() {
             </DropdownMenu>
           )}
         </FilterContent>
+
         <FilterContent ref={disRef}>
-          <FilterTitle onClick={toggleDisDropdown}>장애유형</FilterTitle>
+          <FilterTitle
+            selected={selectedDisability.length > 0}
+            onClick={toggleDisDropdown}
+          >
+            장애유형
+          </FilterTitle>
           {disDropdown && (
             <DisDropdownMenu>
               <DisDropdownSections>
@@ -360,6 +429,7 @@ function FilterContainerMain() {
                   <DropdownItem
                     key={option.name}
                     onClick={() => handleOptionClick(option)}
+                    selected={selectedDisability.includes(option.name)}
                   >
                     {option.name}
                   </DropdownItem>
@@ -368,20 +438,33 @@ function FilterContainerMain() {
             </DisDropdownMenu>
           )}
         </FilterContent>
+
         <FilterContent ref={calendarRef}>
-          <FilterTitle onClick={toggleCalendarDropdown}>날짜</FilterTitle>
+          <FilterTitle
+            selected={selectedDate.length > 0}
+            onClick={toggleCalendarDropdown}
+          >
+            날짜
+          </FilterTitle>
           {calendarDropdown && (
-            <DropdownMenu>
-              <CalendarCom onDateChange={handleDateChange} />
-            </DropdownMenu>
+            <CalDropdownMenu>
+              <CalendarCom
+                selected={selectedDate}
+                onDateChange={handleDateChange}
+              />
+            </CalDropdownMenu>
           )}
         </FilterContent>
+
         <FilterContent ref={priceRef}>
           <FilterTitle onClick={togglePriceDropdown}>가격</FilterTitle>
           {priceDropdown && (
             <PriceDropdown>
               <Slider>
-                <SliderCom onPriceChange={handlePriceChange} />
+                <SliderCom
+                  selected={selectedDate}
+                  onPriceChange={handlePriceChange}
+                />
               </Slider>
             </PriceDropdown>
           )}
@@ -397,24 +480,71 @@ function FilterContainerMain() {
 export default FilterContainerMain;
 
 const Wrapper = styled.div`
-  border: 3px solid black;
+  box-shadow: 0px 4px 30px #3737373b;
   position: absolute;
   width: 1000px;
-  height: 153px;
-  top: 317px;
+  /* height: 153px; */
+  height: auto;
+  top: 350px;
   left: 50%;
   transform: translateX(-50%);
   background-color: white;
+  z-index: 10000;
   border-radius: 10px;
   padding-bottom: 28px;
 `;
 
-const Text = styled.div`
-  margin-top: 29px;
+const Container = styled.div`
+  display: flex;
+`;
 
+const Text = styled.div`
+  display: flex;
+  margin-top: 29px;
   margin-left: 41px;
   font-size: 18px;
+  margin-right: 23px;
 `;
+
+const CheckboxContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  /* gap: 40px; */
+`;
+
+const CheckboxWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 14px;
+  margin-top: 25px;
+`;
+
+const CheckBox = styled.input.attrs({ type: "checkbox" })`
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border: 2px solid #42a8f8;
+  cursor: pointer;
+  position: relative;
+  margin-right: 8px;
+
+  &:checked::before {
+    content: "";
+    background-color: #42a8f8;
+    border-radius: 2px;
+  }
+
+  &:checked {
+    background-color: #42a8f8;
+  }
+`;
+
+const Label = styled.label`
+  font-size: 16px;
+  color: #42a8f8;
+  cursor: pointer;
+`;
+
 const SelectedContainer = styled.div`
   margin-top: 20px;
   margin-bottom: 20px;
@@ -468,6 +598,8 @@ const FilterTitle = styled.div`
   margin-left: 14px;
   color: #747474;
   cursor: pointer;
+  color: ${({ selected }) =>
+    selected ? "#4aabf9" : "#747474"}; // 선택된 카테고리 체크
 `;
 const DropdownMenu = styled.div`
   padding-top: 27px;
@@ -476,12 +608,24 @@ const DropdownMenu = styled.div`
   width: 422px;
   height: 342px;
   background-color: white;
-  border: 1px solid #d5d5d5;
   border-radius: 10px;
   z-index: 1000;
   position: absolute;
   top: 29px;
   left: 0;
+  box-shadow: 0px 4px 30px #37373763;
+`;
+const CalDropdownMenu = styled.div`
+  margin-top: 5px;
+  width: 328px;
+  height: 286px;
+  background-color: white;
+  border-radius: 10px;
+  z-index: 1000;
+  position: absolute;
+  top: 29px;
+  left: 0;
+  box-shadow: 0px 4px 30px #37373763;
 `;
 const RegionDropdownSections = styled.div`
   display: grid;
@@ -500,7 +644,6 @@ const DropdownSection = styled.div`
 `;
 const SubDropdownSection = styled.div`
   display: flex;
-
   flex-direction: column;
   padding-left: 10px;
   overflow-y: auto;
@@ -509,7 +652,7 @@ const DropdownItem = styled.div`
   margin-bottom: 15px;
   cursor: pointer;
   text-align: left;
-  color: ${(props) => (props.isSelected ? "#49abf9" : "black")};
+  color: ${({ selected }) => (selected ? "#49abf9" : "black")};
   &:hover {
     color: #49abf9;
   }
@@ -532,7 +675,8 @@ const DisDropdownMenu = styled.div`
   width: 157px;
   height: 245px;
   background-color: white;
-  border: 1px solid #d5d5d5;
+  box-shadow: 0px 4px 30px #37373763;
+
   border-radius: 10px;
   z-index: 1000;
   position: absolute;
@@ -555,8 +699,9 @@ const Slider = styled.div`
   height: 141px;
   border-radius: 10px;
   background-color: white;
-  border: 1px solid #d5d5d5;
-  margin-top: 5px;
+  border: 1px solid white;
+  box-shadow: 0px 4px 30px #37373763;
+  margin-top: 10px;
 `;
 const SearchBtn = styled.div`
   width: 126px;
