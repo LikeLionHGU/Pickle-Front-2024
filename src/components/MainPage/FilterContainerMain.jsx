@@ -297,7 +297,6 @@ function FilterContainerMain() {
             </ClearButton>
           </SelectedContent>
         ))}
-        {/* 가격 선택 관련 내용이 있으면 여기에 추가 */}
       </>
     );
   };
