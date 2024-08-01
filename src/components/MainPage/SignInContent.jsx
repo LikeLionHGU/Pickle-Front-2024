@@ -33,6 +33,8 @@ function SignInContent() {
     console.log("Form submitted:", form);
   };
 
+  console.log("location: ", form.location);
+
   return (
     <Wrapper>
       <BgImg>
@@ -107,9 +109,9 @@ function SignInContent() {
               <Label htmlFor="location">
                 주소<Red>*</Red>
               </Label>
-              <DaumPost />
+              <DaumPost setForm={setForm} />
             </AddressSection>
-            <Address></Address>
+            <Address>{form.location}</Address>
             <Section>
               <Label htmlFor="contactNumber">
                 연락처<Red>*</Red>
@@ -247,10 +249,15 @@ const AddressSection = styled.div`
 const Address = styled.div`
   border: 1.3px solid #c3c3c3;
   border-radius: 2px;
-  width: 271px;
+  width: 257px;
   height: 34px;
   margin-left: 98px;
   margin-bottom: 30px;
+  font-size: 13px;
+  padding-left: 14px;
+  display: flex;
+  align-items: center;
+  font-family: "PretendardRegular";
 `;
 
 const Input = styled.input`
@@ -262,6 +269,7 @@ const Input = styled.input`
   padding-left: 14px;
   color: #000000;
   background: transparent;
+  font-family: "PretendardRegular";
 
   &:focus {
     outline: none;
@@ -281,6 +289,7 @@ const Calendar = styled.input`
   padding-left: 14px;
   color: ${(props) => (props.hasValue ? "black" : "#c3c3c3")};
   background: transparent;
+  font-family: "PretendardRegular";
 
   &::placeholder {
     color: #c3c3c3;
@@ -326,6 +335,7 @@ const Select = styled.select`
   appearance: none;
   background: url('data:image/svg+xml;utf8,<svg fill="black" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>')
     no-repeat right 8px center;
+  font-family: "PretendardRegular";
 
   &:last-child {
     margin: 0;

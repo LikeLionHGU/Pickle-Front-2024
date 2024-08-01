@@ -1,9 +1,8 @@
 import React from "react";
-import { useDaumPostcodePopup } from "react-daum-postcode"; // Daum 주소 검색 관련 hook
+import { useDaumPostcodePopup } from "react-daum-postcode";
 import styled from "styled-components";
-//주소 api
 
-const DaumPost = ({ setAddress }) => {
+const DaumPost = ({ setForm }) => {
   const postcodeScriptUrl =
     "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
   const open = useDaumPostcodePopup(postcodeScriptUrl);
@@ -25,7 +24,10 @@ const DaumPost = ({ setAddress }) => {
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
 
-    setAddress(fullAddress); // setAddress를 호출하여 부모 컴포넌트의 상태를 업데이트
+    setForm((prevForm) => ({
+      ...prevForm,
+      location: fullAddress,
+    }));
   };
 
   const handleClick = () => {
