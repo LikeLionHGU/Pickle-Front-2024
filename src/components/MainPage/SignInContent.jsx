@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import kakaoBtn from "../../assets/img/bigKakaoBtn.svg";
+import bgImg from "../../assets/img/signInBgImg.svg";
 
 function SignInContent() {
   const [form, setForm] = useState({
@@ -33,151 +34,153 @@ function SignInContent() {
 
   return (
     <Wrapper>
-      <Content>
-        <SignIn>회원가입</SignIn>
-        <Form onSubmit={handleSubmit}>
-          <Section>
-            <Label htmlFor="name">
-              이름<Red>*</Red>
-            </Label>
-            <Input
-              type="text"
-              id="name"
-              name="name"
-              placeholder="이름을 입력해주세요"
-              value={form.name}
-              onChange={handleChange}
-              required
-            />
-          </Section>
-          <Section>
-            <Label htmlFor="nickname">
-              닉네임<Red>*</Red>
-            </Label>
-            <Input
-              type="text"
-              id="nickname"
-              name="nickname"
-              placeholder="닉네임을 입력해주세요"
-              value={form.nickname}
-              onChange={handleChange}
-              required
-            />
-          </Section>
-          <Section>
-            <Label>성별</Label>
-            <Gender>
-              <input
-                type="radio"
-                id="male"
-                name="sex"
-                value="남성"
-                checked={form.sex === "남성"}
+      <BgImg>
+        <Content>
+          <SignIn>회원가입</SignIn>
+          <Form onSubmit={handleSubmit}>
+            <Section>
+              <Label htmlFor="name">
+                이름<Red>*</Red>
+              </Label>
+              <Input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="이름을 입력해주세요"
+                value={form.name}
+                onChange={handleChange}
+                required
+              />
+            </Section>
+            <Section>
+              <Label htmlFor="nickname">
+                닉네임<Red>*</Red>
+              </Label>
+              <Input
+                type="text"
+                id="nickname"
+                name="nickname"
+                placeholder="닉네임을 입력해주세요"
+                value={form.nickname}
+                onChange={handleChange}
+                required
+              />
+            </Section>
+            <Section>
+              <Label>성별</Label>
+              <Gender>
+                <input
+                  type="radio"
+                  id="male"
+                  name="sex"
+                  value="남성"
+                  checked={form.sex === "남성"}
+                  onChange={handleChange}
+                />
+                <GenderLabel htmlFor="male">남성</GenderLabel>
+                <input
+                  type="radio"
+                  id="female"
+                  name="sex"
+                  value="여성"
+                  checked={form.sex === "여성"}
+                  onChange={handleChange}
+                />
+                <GenderLabel htmlFor="female">여성</GenderLabel>
+              </Gender>
+            </Section>
+            <Section>
+              <Label htmlFor="birthdate">생년월일</Label>
+              <Input
+                type="date"
+                id="birthdate"
+                name="birthdate"
+                placeholder="생년월일을 입력해주세요"
+                value={form.birthdate}
+                onChange={handleChange}
+                required
+              />
+            </Section>
+            <Section>
+              <Label htmlFor="contactNumber">
+                주소<Red>*</Red>
+              </Label>
+              <Input
+                type="location"
+                id="location"
+                name="location"
+                placeholder="주소를 입력해주세요"
+                value={form.location}
+                onChange={handleChange}
+                required
+              />
+            </Section>
+            <Section>
+              <Label htmlFor="contactNumber">
+                연락처<Red>*</Red>
+              </Label>
+              <Input
+                type="tel"
+                id="contactNumber"
+                name="contactNumber"
+                placeholder="연락처를 입력해주세요"
+                value={form.contactNumber}
+                onChange={handleChange}
+                required
+              />
+            </Section>
+            <Section>
+              <Label htmlFor="familyNumber">보호자 연락처</Label>
+              <Input
+                type="tel"
+                id="familyNumber"
+                name="familyNumber"
+                placeholder="연락처를 입력해주세요"
+                value={form.familyNumber}
                 onChange={handleChange}
               />
-              <GenderLabel htmlFor="male">남성</GenderLabel>
-              <input
-                type="radio"
-                id="female"
-                name="sex"
-                value="여성"
-                checked={form.sex === "여성"}
+            </Section>
+            <SelectWrapper>
+              <Label htmlFor="disabilityType">
+                장애 유형<Red>*</Red>
+              </Label>
+              <label htmlFor="disabilityLevel"></label>
+              <Select
+                id="disabilityType"
+                name="disabilityType"
+                value={form.disabilityType}
                 onChange={handleChange}
-              />
-              <GenderLabel htmlFor="female">여성</GenderLabel>
-            </Gender>
-          </Section>
-          <Section>
-            <Label htmlFor="birthdate">생년월일</Label>
-            <Input
-              type="date"
-              id="birthdate"
-              name="birthdate"
-              placeholder="생년월일을 입력해주세요"
-              value={form.birthdate}
-              onChange={handleChange}
-              required
-            />
-          </Section>
-          <Section>
-            <Label htmlFor="contactNumber">
-              주소<Red>*</Red>
-            </Label>
-            <Input
-              type="location"
-              id="location"
-              name="location"
-              placeholder="주소를 입력해주세요"
-              value={form.location}
-              onChange={handleChange}
-              required
-            />
-          </Section>
-          <Section>
-            <Label htmlFor="contactNumber">
-              연락처<Red>*</Red>
-            </Label>
-            <Input
-              type="tel"
-              id="contactNumber"
-              name="contactNumber"
-              placeholder="연락처를 입력해주세요"
-              value={form.contactNumber}
-              onChange={handleChange}
-              required
-            />
-          </Section>
-          <Section>
-            <Label htmlFor="familyNumber">보호자 연락처</Label>
-            <Input
-              type="tel"
-              id="familyNumber"
-              name="familyNumber"
-              placeholder="연락처를 입력해주세요"
-              value={form.familyNumber}
-              onChange={handleChange}
-            />
-          </Section>
-          <SelectWrapper>
-            <Label htmlFor="disabilityType">
-              장애 유형<Red>*</Red>
-            </Label>
-            <label htmlFor="disabilityLevel"></label>
-            <Select
-              id="disabilityType"
-              name="disabilityType"
-              value={form.disabilityType}
-              onChange={handleChange}
-              required
-            >
-              <option value="">선택하세요</option>
-              <option value="시각">시각</option>
-              <option value="청각">청각</option>
-              <option value="지체">지체</option>
-              <option value="지적">지적</option>
-              <option value="기타">기타</option>
-            </Select>
-            <Select
-              id="disabilityLevel"
-              name="disabilityLevel"
-              value={form.disabilityLevel}
-              onChange={handleChange}
-              required
-            >
-              <option value="">등급</option>
-              <option value="1">1급</option>
-              <option value="2">2급</option>
-              <option value="3">3급</option>
-              <option value="4">4급</option>
-              <option value="5">5급</option>
-              <option value="6">6급</option>
-            </Select>
-          </SelectWrapper>
-        </Form>
-        <KakaoBtn>
-          <img src={kakaoBtn} alt="카카오로 시작하기 버튼" />
-        </KakaoBtn>
-      </Content>
+                required
+              >
+                <option value="">선택하세요</option>
+                <option value="시각">시각</option>
+                <option value="청각">청각</option>
+                <option value="지체">지체</option>
+                <option value="지적">지적</option>
+                <option value="기타">기타</option>
+              </Select>
+              <Select
+                id="disabilityLevel"
+                name="disabilityLevel"
+                value={form.disabilityLevel}
+                onChange={handleChange}
+                required
+              >
+                <option value="">등급</option>
+                <option value="1">1급</option>
+                <option value="2">2급</option>
+                <option value="3">3급</option>
+                <option value="4">4급</option>
+                <option value="5">5급</option>
+                <option value="6">6급</option>
+              </Select>
+            </SelectWrapper>
+          </Form>
+          <KakaoBtn>
+            <img src={kakaoBtn} alt="카카오로 시작하기 버튼" />
+          </KakaoBtn>
+        </Content>
+      </BgImg>
     </Wrapper>
   );
 }
@@ -187,8 +190,19 @@ export default SignInContent;
 const Wrapper = styled.div`
   /* border: 1px solid red; */
   background-color: #fafafa;
-  padding-top: 80px;
-  padding-bottom: 116px;
+  overflow: hidden;
+`;
+
+const BgImg = styled.div`
+  background-image: url(${bgImg});
+  margin-top: 80px;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: top;
+  background-repeat: no-repeat;
+  z-index: 1;
+  /* border: 2px solid green; */
 `;
 
 const Content = styled.div`
@@ -196,6 +210,7 @@ const Content = styled.div`
   width: 370px;
   margin: auto;
   background-color: #fafafa;
+  padding-bottom: 116px;
 `;
 
 const SignIn = styled.div`
@@ -232,10 +247,10 @@ const Input = styled.input`
   width: 273px;
   height: 34px;
   padding-left: 14px;
-  color: #585858;
+  color: #c3c3c3;
 
   &::placeholder {
-    color: #585858;
+    color: #c3c3c3;
   }
 
   &::-webkit-calendar-picker-indicator {
@@ -264,22 +279,6 @@ const SelectWrapper = styled.div`
   width: 100%;
   /* border: 1px solid green; */
 `;
-
-// const Select = styled.select`
-//   width: 133px;
-//   height: 34px;
-//   border: 1px solid #ccc;
-//   border-radius: 4px;
-//   box-sizing: border-box;
-//   padding-left: 14px;
-//   margin-right: 5px;
-//   cursor: pointer;
-//   /* border: 1px solid green; */
-
-//   &:last-child {
-//     margin: 0;
-//   }
-// `;
 
 const Select = styled.select`
   width: 133px;
