@@ -56,7 +56,7 @@ function SideBar() {
 export default SideBar;
 
 const Wrapper = styled.div`
-  /* border: 3px solid #42a8f8; */
+  border: 1px solid #f6f6f6;
   height: 668px;
   width: 145px;
   margin-top: 17px;

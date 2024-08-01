@@ -12,8 +12,7 @@ function UserPointContent() {
 export default UserPointContent;
 
 const Wrapper = styled.div`
-  border: 2px solid red;
+  /* border: 2px solid red; */
   width: 100%;
   font-size: 40px;
-  background-color: #fafafa;
 `;

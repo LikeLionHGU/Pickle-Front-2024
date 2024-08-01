@@ -75,7 +75,6 @@ const Wrapper = styled.div`
   padding-top: 90px;
   padding-left: 135px;
   display: flex;
-  background-color: #fafafa;
 `;
 
 const Title = styled.div`

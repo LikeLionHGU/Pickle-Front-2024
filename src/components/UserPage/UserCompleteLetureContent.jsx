@@ -31,7 +31,6 @@ const Wrapper = styled.div`
   font-size: 40px;
   padding-top: 90px;
   padding-left: 120px;
-  background-color: #fafafa;
 `;
 
 const Content = styled.div`
