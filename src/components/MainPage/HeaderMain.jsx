@@ -13,6 +13,10 @@ function HeaderMain() {
     setLoginModalOpen((prevState) => !prevState);
   };
 
+  const handleSignInClick = () => {
+    navigate("/sign");
+  };
+
   useEffect(() => {
     document.body.style.overflow = isLoginModalOpen ? "hidden" : "auto";
   }, [isLoginModalOpen]);
@@ -43,7 +47,7 @@ function HeaderMain() {
       </Menus>
       <SignInSection>
         <SignIn onClick={toggleLoginModal}>로그인</SignIn>
-        <SignIn>회원가입</SignIn>
+        <SignIn onClick={handleSignInClick}>회원가입</SignIn>
       </SignInSection>
       {isLoginModalOpen && <LoginModal toggleModal={toggleLoginModal} />}
       <HeaderSearchBar borderColor="#ffffff" placeholderColor="#ffffff" />
