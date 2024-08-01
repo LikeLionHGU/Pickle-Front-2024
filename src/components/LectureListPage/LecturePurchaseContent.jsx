@@ -84,17 +84,21 @@ function LecturePurchaseContent() {
           </Map>
           <Price>
             <PriceContent>
-              <SelectedPrice>선택상품 금액</SelectedPrice>
               <div style={{ display: "flex", justifyContent: "space-Between" }}>
-                <DiscountedPrice>할인금액</DiscountedPrice>
+                <SelectedPrice>선택상품 금액</SelectedPrice>
                 <SelectedPrice>50,000원</SelectedPrice>
               </div>
-              <DiscountedPrice
-                style={{ display: "flex", justifyContent: "end" }}
-              >
-                5,000원
-              </DiscountedPrice>
               <div style={{ display: "flex", justifyContent: "space-Between" }}>
+                <DiscountedPrice>할인금액</DiscountedPrice>
+                <DiscountedPrice>5,000원</DiscountedPrice>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-Between",
+                  marginTop: "48px",
+                }}
+              >
                 <TotalPrice>총 결제금액</TotalPrice>
                 <TotalPrice>45,000원</TotalPrice>
               </div>
@@ -218,10 +222,6 @@ const PriceContent = styled.div`
 
 const SelectedPrice = styled.div`
   color: #777777;
-
-  &:last-child {
-    margin-top: 12px;
-  }
 `;
 
 const DiscountedPrice = styled.div`
@@ -242,5 +242,6 @@ const PurchaseBtn = styled.div`
   align-items: center;
   color: white;
   font-size: 20px;
+  border-radius: 8px;
   cursor: pointer;
 `;
