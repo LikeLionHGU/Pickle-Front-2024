@@ -4,12 +4,20 @@ import GrayInfoBox from "../Common/GrayInfoBox";
 import MapCon from "../Common/MapCon";
 import LecturePurchaseCard from "./LecturePurchaseCard";
 import BgColor from "../Common/BgColor";
+import { useNavigate } from "react-router-dom";
 
 function LecturePurchaseContent() {
   const [selectedOption, setSelectedOpiton] = useState("creditCard");
+  const navigate = useNavigate();
 
   const handleOptionChange = (event) => {
     setSelectedOpiton(event.target.value);
+  };
+
+  const handlePurchaseBtnClick = () => {
+    if (window.confirm("이 강좌를 결제하시겠습니까?")) {
+      navigate("/user/learning");
+    }
   };
 
   const course = {
@@ -104,7 +112,7 @@ function LecturePurchaseContent() {
               </div>
             </PriceContent>
           </Price>
-          <PurchaseBtn>결제하기</PurchaseBtn>
+          <PurchaseBtn onClick={handlePurchaseBtnClick}>결제하기</PurchaseBtn>
         </Right>
       </Wrapper>
     </BgColor>
