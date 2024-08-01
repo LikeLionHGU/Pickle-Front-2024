@@ -35,12 +35,12 @@ const Search = styled.input`
   width: 100%;
   height: 40px;
   border: none;
-  font-size: 17px;
+  font-size: 16px;
   background: transparent;
 
   &::placeholder {
     color: ${(props) => props.placeholderColor || "#42a8f8"};
-    font-size: 17px;
+    font-size: 16px;
     padding-left: 10px;
   }
 
