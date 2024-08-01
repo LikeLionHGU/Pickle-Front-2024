@@ -1,7 +1,14 @@
 import React from "react";
+import HeaderLightVer from "../components/Common/HeaderLightVer";
+import SignInContent from "../components/MainPage/SignInContent";
 
 function SignInPage() {
-  return <div>SignInPage</div>;
+  return (
+    <>
+      <HeaderLightVer />
+      <SignInContent />
+    </>
+  );
 }
 
 export default SignInPage;
