@@ -21,4 +21,5 @@ export default UserEditProfilePage;
 const ContentWarpper = styled.div`
   /* border: 2px solid green; */
   display: flex;
+  background-color: #fafafa;
 `;
