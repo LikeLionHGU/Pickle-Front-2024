@@ -481,16 +481,18 @@ export default FilterContainerMain;
 const Wrapper = styled.div`
   box-shadow: 0px 4px 30px #3737373b;
   position: absolute;
+  justify-content: center;
   width: 1000px;
   /* height: 153px; */
   height: auto;
-  top: 350px;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-top: 350px;
+  /* left: 40%; */
+  /* transform: translateX(-50%); */
   background-color: white;
   z-index: 10000;
   border-radius: 10px;
   padding-bottom: 28px;
+  margin-left: 220px;
 `;
 
 const Container = styled.div`
@@ -617,7 +619,7 @@ const DropdownMenu = styled.div`
 const CalDropdownMenu = styled.div`
   margin-top: 5px;
   width: 328px;
-  height: 286px;
+  height: 328px;
   background-color: white;
   border-radius: 10px;
   z-index: 1000;

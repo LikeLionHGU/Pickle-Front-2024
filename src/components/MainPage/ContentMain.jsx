@@ -5,23 +5,45 @@ import CourseCard from "../Common/CourseCard";
 import CourseDivideLine from "../Common/CourseDivideLine";
 import data from "../../components/Common/CourseDummyData";
 import { Link } from "react-router-dom";
-
-import SliderCom from "../Common/SliderCom.jsx";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 function ContentMain() {
-  // const [posts, setPosts] = useState(tempdatas);
-  const [limit, setlimit] = useState(4); // setlimit을 통해 화면에 표시될 콘텐츠 수 조절 가능.
-  const [page, setPage] = useState(1); // 처음에 몇 번째 페이지를 보여줄 건지
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+
+  const [limit, setLimit] = useState(4); // Number of courses per page
+  const [page, setPage] = useState(1); // Current page
+
+  // Calculate offset and slice data for current page
   const offset = (page - 1) * limit;
+  const paginatedData = data.slice(offset, offset + limit);
 
   return (
     <Wrapper>
-      {/* <SliderCom /> */}
+      {/* Slider for displaying featured courses or ads */}
       <AdCourse>
         이런 강좌는 어떠세요?
+        <Slider {...settings}>
+          <div>
+            <h1>1</h1>
+          </div>
+          <div>
+            <h1>2</h1>
+          </div>
+          <div>
+            <h1>3</h1>
+          </div>
+        </Slider>
         <AdContainer>
-          <CouseContainer>
-            {data.map((course, index) => (
+          <CourseContainer>
+            {paginatedData.map((course, index) => (
               <Link
                 key={course.courseId}
                 style={{
@@ -37,14 +59,14 @@ function ContentMain() {
                 </React.Fragment>
               </Link>
             ))}
-          </CouseContainer>
+          </CourseContainer>
         </AdContainer>
       </AdCourse>
       <PopularCourse>
         최예라 님과 가까운 곳의 인기 강좌예요 !
         <PopularContainer>
-          <CouseContainer>
-            {data.map((course, index) => (
+          <CourseContainer>
+            {paginatedData.map((course, index) => (
               <Link
                 key={course.courseId}
                 style={{
@@ -60,19 +82,15 @@ function ContentMain() {
                 </React.Fragment>
               </Link>
             ))}
-          </CouseContainer>
+          </CourseContainer>
         </PopularContainer>
       </PopularCourse>
-      {/* <PaginationCom
-        total={30}
-        // limit={10}
-        // page={5}
-        // setPage={10}
-        // total={posts.length}
-        limit={limit}
-        page={page}
-        setPage={setPage}
-      /> */}
+      <PaginationCom
+        total={data.length} // Total number of items
+        limit={limit} // Number of items per page
+        page={page} // Current page
+        setPage={setPage} // Function to update the current page
+      />
     </Wrapper>
   );
 }
@@ -93,8 +111,8 @@ const AdCourse = styled.div`
 
 const AdContainer = styled.div`
   width: 445px;
-  /* height: 115px; */
 `;
+
 const PopularCourse = styled.div`
   font-size: 20px;
   margin-bottom: 30px;
@@ -104,7 +122,8 @@ const PopularContainer = styled.div`
   width: 445px;
   height: 115px;
 `;
-const CouseContainer = styled.div`
+
+const CourseContainer = styled.div`
   width: 1040px;
   margin-top: 40px;
   margin-bottom: 40px;
@@ -112,4 +131,5 @@ const CouseContainer = styled.div`
   flex-wrap: wrap;
   align-content: flex-start;
 `;
+
 const CName = styled.div``;
