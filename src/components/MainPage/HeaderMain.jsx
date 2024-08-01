@@ -50,7 +50,9 @@ function HeaderMain() {
         <SignIn onClick={handleSignInClick}>회원가입</SignIn>
       </SignInSection>
       {isLoginModalOpen && <LoginModal toggleModal={toggleLoginModal} />}
-      <HeaderSearchBar borderColor="#ffffff" placeholderColor="#ffffff" />
+      <SearchSection>
+        <HeaderSearchBar borderColor="#ffffff" placeholderColor="#ffffff" />{" "}
+      </SearchSection>
     </Wrapper>
   );
 }
@@ -73,6 +75,7 @@ const Menus = styled.div`
   width: 100%;
   margin-right: 15px;
   display: flex;
+  margin-left: 44px;
 `;
 
 const Menu = styled.div`
@@ -84,7 +87,7 @@ const Menu = styled.div`
   margin-left: 55px;
 
   &:first-child {
-    margin-left: 244px;
+    margin-left: 200px;
   }
 `;
 
@@ -92,8 +95,15 @@ const Logo = styled.div`
   height: 25px;
   width: 90px;
   margin-top: 54px;
-  margin-left: 200px;
+  margin-left: 170px;
   cursor: pointer;
+`;
+
+const SearchSection = styled.div`
+  width: 340px;
+  /* border: 1px solid red; */
+  display: flex;
+  align-items: end;
 `;
 
 const SignInSection = styled.div`
