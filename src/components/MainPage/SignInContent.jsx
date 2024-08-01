@@ -91,13 +91,14 @@ function SignInContent() {
             </Section>
             <Section>
               <Label htmlFor="birthdate">생년월일</Label>
-              <Input
+              <Calendar
                 type="date"
                 id="birthdate"
                 name="birthdate"
                 placeholder="생년월일을 입력해주세요"
                 value={form.birthdate}
                 onChange={handleChange}
+                hasValue={!!form.birthdate}
                 required
               />
             </Section>
@@ -150,6 +151,7 @@ function SignInContent() {
                 name="disabilityType"
                 value={form.disabilityType}
                 onChange={handleChange}
+                hasValue={!!form.disabilityType}
                 required
               >
                 <option value="">선택하세요</option>
@@ -164,6 +166,7 @@ function SignInContent() {
                 name="disabilityLevel"
                 value={form.disabilityLevel}
                 onChange={handleChange}
+                hasValue={!!form.disabilityLevel}
                 required
               >
                 <option value="">등급</option>
@@ -247,7 +250,27 @@ const Input = styled.input`
   width: 273px;
   height: 34px;
   padding-left: 14px;
-  color: #c3c3c3;
+  color: #000000;
+  background: transparent;
+
+  &:focus {
+    outline: none;
+  }
+
+  &::placeholder {
+    color: #c3c3c3;
+  }
+`;
+
+const Calendar = styled.input`
+  border: 1.3px solid #c3c3c3;
+  border-radius: 2px;
+  box-sizing: border-box;
+  width: 273px;
+  height: 34px;
+  padding-left: 14px;
+  color: ${(props) => (props.hasValue ? "black" : "#c3c3c3")};
+  background: transparent;
 
   &::placeholder {
     color: #c3c3c3;
@@ -288,6 +311,7 @@ const Select = styled.select`
   box-sizing: border-box;
   padding-left: 14px;
   margin-right: 5px;
+  color: ${(props) => (props.hasValue ? "black" : "#c3c3c3")};
   cursor: pointer;
   appearance: none;
   background: url('data:image/svg+xml;utf8,<svg fill="black" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>')
@@ -297,8 +321,8 @@ const Select = styled.select`
     margin: 0;
   }
 
-  &option[value=""] {
-    color: red;
+  &:focus {
+    outline: none;
   }
 `;
 
