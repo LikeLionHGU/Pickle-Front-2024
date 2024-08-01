@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import kakaoBtn from "../../assets/img/bigKakaoBtn.svg";
 import bgImg from "../../assets/img/signInBgImg.svg";
+import DaumPost from "../Common/DaumPost";
 
 function SignInContent() {
   const [form, setForm] = useState({
@@ -31,6 +32,8 @@ function SignInContent() {
     e.preventDefault();
     console.log("Form submitted:", form);
   };
+
+  console.log("location: ", form.location);
 
   return (
     <Wrapper>
@@ -91,30 +94,24 @@ function SignInContent() {
             </Section>
             <Section>
               <Label htmlFor="birthdate">생년월일</Label>
-              <Input
+              <Calendar
                 type="date"
                 id="birthdate"
                 name="birthdate"
                 placeholder="생년월일을 입력해주세요"
                 value={form.birthdate}
                 onChange={handleChange}
+                hasValue={!!form.birthdate}
                 required
               />
             </Section>
-            <Section>
-              <Label htmlFor="contactNumber">
+            <AddressSection>
+              <Label htmlFor="location">
                 주소<Red>*</Red>
               </Label>
-              <Input
-                type="location"
-                id="location"
-                name="location"
-                placeholder="주소를 입력해주세요"
-                value={form.location}
-                onChange={handleChange}
-                required
-              />
-            </Section>
+              <DaumPost setForm={setForm} />
+            </AddressSection>
+            <Address>{form.location}</Address>
             <Section>
               <Label htmlFor="contactNumber">
                 연락처<Red>*</Red>
@@ -150,9 +147,10 @@ function SignInContent() {
                 name="disabilityType"
                 value={form.disabilityType}
                 onChange={handleChange}
+                hasValue={!!form.disabilityType}
                 required
               >
-                <option value="">선택하세요</option>
+                <option value="">장애유형</option>
                 <option value="시각">시각</option>
                 <option value="청각">청각</option>
                 <option value="지체">지체</option>
@@ -164,6 +162,7 @@ function SignInContent() {
                 name="disabilityLevel"
                 value={form.disabilityLevel}
                 onChange={handleChange}
+                hasValue={!!form.disabilityLevel}
                 required
               >
                 <option value="">등급</option>
@@ -240,6 +239,27 @@ const Label = styled.label`
   padding-right: 15px;
 `;
 
+const AddressSection = styled.div`
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+
+const Address = styled.div`
+  border: 1.3px solid #c3c3c3;
+  border-radius: 2px;
+  width: 257px;
+  height: 34px;
+  margin-left: 98px;
+  margin-bottom: 30px;
+  font-size: 13px;
+  padding-left: 14px;
+  display: flex;
+  align-items: center;
+  font-family: "PretendardRegular";
+`;
+
 const Input = styled.input`
   border: 1.3px solid #c3c3c3;
   border-radius: 2px;
@@ -247,7 +267,29 @@ const Input = styled.input`
   width: 273px;
   height: 34px;
   padding-left: 14px;
-  color: #c3c3c3;
+  color: #000000;
+  background: transparent;
+  font-family: "PretendardRegular";
+
+  &:focus {
+    outline: none;
+  }
+
+  &::placeholder {
+    color: #c3c3c3;
+  }
+`;
+
+const Calendar = styled.input`
+  border: 1.3px solid #c3c3c3;
+  border-radius: 2px;
+  box-sizing: border-box;
+  width: 273px;
+  height: 34px;
+  padding-left: 14px;
+  color: ${(props) => (props.hasValue ? "black" : "#c3c3c3")};
+  background: transparent;
+  font-family: "PretendardRegular";
 
   &::placeholder {
     color: #c3c3c3;
@@ -284,21 +326,23 @@ const Select = styled.select`
   width: 133px;
   height: 34px;
   border: 1.3px solid #c3c3c3;
-  border-radius: 4px;
+  border-radius: 2px;
   box-sizing: border-box;
   padding-left: 14px;
   margin-right: 5px;
+  color: ${(props) => (props.hasValue ? "black" : "#c3c3c3")};
   cursor: pointer;
   appearance: none;
   background: url('data:image/svg+xml;utf8,<svg fill="black" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>')
     no-repeat right 8px center;
+  font-family: "PretendardRegular";
 
   &:last-child {
     margin: 0;
   }
 
-  &option[value=""] {
-    color: red;
+  &:focus {
+    outline: none;
   }
 `;
 
