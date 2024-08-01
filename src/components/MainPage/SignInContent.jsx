@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import kakaoBtn from "../../assets/img/bigKakaoBtn.svg";
 import bgImg from "../../assets/img/signInBgImg.svg";
+import DaumPost from "../Common/DaumPost";
 
 function SignInContent() {
   const [form, setForm] = useState({
@@ -102,20 +103,13 @@ function SignInContent() {
                 required
               />
             </Section>
-            <Section>
-              <Label htmlFor="contactNumber">
+            <AddressSection>
+              <Label htmlFor="location">
                 주소<Red>*</Red>
               </Label>
-              <Input
-                type="location"
-                id="location"
-                name="location"
-                placeholder="주소를 입력해주세요"
-                value={form.location}
-                onChange={handleChange}
-                required
-              />
-            </Section>
+              <DaumPost />
+            </AddressSection>
+            <Address></Address>
             <Section>
               <Label htmlFor="contactNumber">
                 연락처<Red>*</Red>
@@ -154,7 +148,7 @@ function SignInContent() {
                 hasValue={!!form.disabilityType}
                 required
               >
-                <option value="">선택하세요</option>
+                <option value="">장애유형</option>
                 <option value="시각">시각</option>
                 <option value="청각">청각</option>
                 <option value="지체">지체</option>
@@ -243,6 +237,22 @@ const Label = styled.label`
   padding-right: 15px;
 `;
 
+const AddressSection = styled.div`
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+
+const Address = styled.div`
+  border: 1.3px solid #c3c3c3;
+  border-radius: 2px;
+  width: 271px;
+  height: 34px;
+  margin-left: 98px;
+  margin-bottom: 30px;
+`;
+
 const Input = styled.input`
   border: 1.3px solid #c3c3c3;
   border-radius: 2px;
@@ -307,7 +317,7 @@ const Select = styled.select`
   width: 133px;
   height: 34px;
   border: 1.3px solid #c3c3c3;
-  border-radius: 4px;
+  border-radius: 2px;
   box-sizing: border-box;
   padding-left: 14px;
   margin-right: 5px;
