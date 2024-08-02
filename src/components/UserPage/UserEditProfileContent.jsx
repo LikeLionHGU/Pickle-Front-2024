@@ -13,8 +13,7 @@ function UserEditProfileContent() {
     birthdate: "1990-05-15",
     address: "테스트 주소",
     description: "저는 맥도날드를 좋아합니다",
-    disabilityType: "시각장애",
-    disabilityLevel: 3,
+    disabilities: [{ type: "시각장애", level: 3 }],
   });
 
   const [editableField, setEditableField] = useState(null);
@@ -23,8 +22,15 @@ function UserEditProfileContent() {
     setEditableField(field);
   };
 
-  const handleInputChange = (field, value) => {
-    setFormData({ ...formData, [field]: value });
+  const handleInputChange = (field, value, index = null) => {
+    if (index !== null) {
+      const newDisabilities = formData.disabilities.map((disability, i) =>
+        i === index ? { ...disability, [field]: value } : disability
+      );
+      setFormData({ ...formData, disabilities: newDisabilities });
+    } else {
+      setFormData({ ...formData, [field]: value });
+    }
   };
 
   const handleBlur = () => {
@@ -38,6 +44,16 @@ function UserEditProfileContent() {
       return `${match[1]}-${match[2]}-${match[3]}`;
     }
     return phoneNumber;
+  };
+
+  const addDisability = () => {
+    setFormData({
+      ...formData,
+      disabilities: [
+        ...formData.disabilities,
+        { type: "장애유형", level: "등급" },
+      ],
+    });
   };
 
   return (
@@ -180,57 +196,67 @@ function UserEditProfileContent() {
                 </div>
               )}
             </GrayInfoBox>
-            <HalfInfo>
-              <HalfContent>
-                <UserInfo>장애 유형</UserInfo>
-                <GrayInfoBox>
-                  {editableField === "disabilityType" ? (
-                    <Select
-                      value={formData.disabilityType}
-                      onChange={(e) =>
-                        handleInputChange("disabilityType", e.target.value)
-                      }
-                      onBlur={handleBlur}
-                    >
-                      <option value="시각장애">시각장애</option>
-                      <option value="청각장애">청각장애</option>
-                      <option value="지체장애">지체장애</option>
-                      <option value="지적장애">지적장애</option>
-                      <option value="기타">기타</option>
-                    </Select>
-                  ) : (
-                    <div onClick={() => handleFieldClick("disabilityType")}>
-                      {formData.disabilityType}
-                    </div>
-                  )}
-                </GrayInfoBox>
-              </HalfContent>
-              <HalfContent>
-                <UserInfo>등급</UserInfo>
-                <GrayInfoBox>
-                  {editableField === "disabilityLevel" ? (
-                    <Select
-                      value={formData.disabilityLevel}
-                      onChange={(e) =>
-                        handleInputChange("disabilityLevel", e.target.value)
-                      }
-                      onBlur={handleBlur}
-                    >
-                      {[...Array(6).keys()].map((level) => (
-                        <option key={level + 1} value={level + 1}>
-                          {level + 1}
-                        </option>
-                      ))}
-                    </Select>
-                  ) : (
-                    <div onClick={() => handleFieldClick("disabilityLevel")}>
-                      {formData.disabilityLevel}
-                    </div>
-                  )}
-                </GrayInfoBox>
-              </HalfContent>
-            </HalfInfo>
-            <AddInfoBtn>+</AddInfoBtn>
+            {formData.disabilities.map((disability, index) => (
+              <HalfInfo key={index}>
+                <HalfContent>
+                  {index === 0 && <UserInfo>장애 유형</UserInfo>}
+                  <GrayInfoBox>
+                    {editableField === `disabilityType-${index}` ? (
+                      <Select
+                        value={disability.type}
+                        onChange={(e) =>
+                          handleInputChange("type", e.target.value, index)
+                        }
+                        onBlur={handleBlur}
+                      >
+                        <option value="시각장애">시각장애</option>
+                        <option value="청각장애">청각장애</option>
+                        <option value="지체장애">지체장애</option>
+                        <option value="지적장애">지적장애</option>
+                        <option value="기타">기타</option>
+                      </Select>
+                    ) : (
+                      <div
+                        onClick={() =>
+                          handleFieldClick(`disabilityType-${index}`)
+                        }
+                      >
+                        {disability.type}
+                      </div>
+                    )}
+                  </GrayInfoBox>
+                </HalfContent>
+                <HalfContent>
+                  {index === 0 && <UserInfo>등급</UserInfo>}
+                  <GrayInfoBox>
+                    {editableField === `disabilityLevel-${index}` ? (
+                      <Select
+                        value={disability.level}
+                        onChange={(e) =>
+                          handleInputChange("level", e.target.value, index)
+                        }
+                        onBlur={handleBlur}
+                      >
+                        {[...Array(6).keys()].map((level) => (
+                          <option key={level + 1} value={level + 1}>
+                            {level + 1}
+                          </option>
+                        ))}
+                      </Select>
+                    ) : (
+                      <div
+                        onClick={() =>
+                          handleFieldClick(`disabilityLevel-${index}`)
+                        }
+                      >
+                        {disability.level}
+                      </div>
+                    )}
+                  </GrayInfoBox>
+                </HalfContent>
+              </HalfInfo>
+            ))}
+            <AddInfoBtn onClick={addDisability}>+</AddInfoBtn>
           </InfoRight>
         </Content>
       </Contents>
@@ -315,6 +341,7 @@ const AddInfoBtn = styled.div`
   font-weight: bold;
   padding-left: 15px;
   cursor: pointer;
+  margin-bottom: 50px;
 `;
 
 const Input = styled.input`
