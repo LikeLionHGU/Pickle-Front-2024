@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import LectureFilterContainer from "./LectureFilterContainer";
 import CourseCard from "../Common/CourseCard";
 import CourseDivideLine from "../Common/CourseDivideLine";
 import data from "../../components/Common/CourseDummyData";
 import PaginationCom from "../Common/PaginationCom";
 import { Link } from "react-router-dom";
 import BgColor from "../Common/BgColor";
-
-// LectureFilterContainer 는 나중에 지우고 FilterContainerMain 컴포넌트로 import 할거임
+import FilterContainerMain from "../MainPage/FilterContainerMain";
 
 function LectureListContent() {
   // const [posts, setPosts] = useState(tempdatas);
@@ -20,7 +18,13 @@ function LectureListContent() {
     <BgColor>
       <Wrapper>
         <Title>최예라님의 검색 결과에요!</Title>
-        <LectureFilterContainer />
+        <Filter>
+          <FilterContainerMain
+            absolute={false}
+            marginTop="0px"
+            marginLeft="0px"
+          />
+        </Filter>
         <CourseContainer>
           {data.map((course, index) => (
             <Link
@@ -58,6 +62,11 @@ const Wrapper = styled.div`
 const Title = styled.div`
   font-size: 20px;
   margin-bottom: 30px;
+`;
+
+const Filter = styled.div`
+  /* border: 1px solid red; */
+  width: 100%;
 `;
 
 const CourseContainer = styled.div`
