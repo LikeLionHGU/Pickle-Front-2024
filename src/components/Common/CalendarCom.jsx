@@ -2,13 +2,16 @@ import React, { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import styled from "styled-components";
+import moment from "moment";
+import dayjs from "dayjs";
 
 const StyledCalendar = styled(Calendar)`
-  .react-calendar {
+  & {
     width: 328px;
     height: 286px;
-    border: none !important;
-    box-shadow: none !important;
+    border: none;
+  }
+  .react-calendar {
   }
 
   .react-calendar__navigation {
@@ -42,11 +45,6 @@ const StyledCalendar = styled(Calendar)`
     font-weight: bolder;
   }
 
-  /* .react-calendar__month-view__days__day--neighboringMonth {
-    color: #e8e8e8;
-    font-weight: normal;
-  } */
-
   .react-calendar__navigation {
     margin-top: 8px;
     margin-bottom: 0px;
@@ -78,7 +76,6 @@ const StyledCalendar = styled(Calendar)`
   .react-calendar__tile--active {
     background: white;
     color: black;
-    /* border-radius: 30px; */
   }
 
   .react-calendar__tile--now {
@@ -86,14 +83,23 @@ const StyledCalendar = styled(Calendar)`
     color: black;
     border-radius: 30px;
   }
+  .react-calendar__month-view__weekdays abbr {
+    text-decoration: none;
+    font-weight: 800;
+  }
+
+  .react-calendar__tile--hasActive {
+    background: #42a8f8;
+    color: white;
+    border-radius: 30px;
+  }
 `;
 
 function CalendarCom({ selected, onDateChange }) {
   const [dates, setDates] = useState(selected);
 
-  // 날짜 변경 핸들러
   const handleDateChange = (newDate) => {
-    const selectedDateStr = newDate.toLocaleDateString();
+    const selectedDateStr = moment(newDate).format("YYYY-MM-DD");
 
     setDates((prevDates) => {
       const isAlreadySelected = prevDates.includes(selectedDateStr);
@@ -102,21 +108,22 @@ function CalendarCom({ selected, onDateChange }) {
         ? prevDates.filter((date) => date !== selectedDateStr)
         : [...prevDates, selectedDateStr];
 
-      onDateChange(updatedDates); // 선택된 날짜를 상위 컴포넌트에 전달
+      onDateChange(updatedDates);
       return updatedDates;
     });
   };
 
   return (
     <StyledCalendar
-      locale="en"
+      locale="ko"
       onChange={handleDateChange}
       value={dates.map((date) => new Date(date))}
+      formatDay={(locale, date) => dayjs(date).format("DD")}
       tileClassName={({ date }) => {
-        const dateStr = date.toLocaleDateString();
-        return dates.includes(dateStr)
-          ? "react-calendar__tile--highlighted"
-          : null;
+        const dateStr = moment(date).format("YYYY-MM-DD");
+        return dates.includes(dateStr);
+        // ? "react-calendar__tile--highlighted"
+        // : null;
       }}
     />
   );
