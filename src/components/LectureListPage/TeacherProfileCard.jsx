@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import StarRating from "../../components/Common/StarRating";
+import heartIcon from "../../assets/img/heart.svg";
 
 function TeacherProfileCard({ course }) {
   return (
@@ -11,9 +13,10 @@ function TeacherProfileCard({ course }) {
         <InfoSection>
           <Top>
             <Title>{course.title}</Title>
-            {/* <Like>
-          <img src={like} alt="좋아요 아이콘"></img>
-        </Like> */}
+            <Like>
+              <img src={heartIcon} alt="좋아요 아이콘"></img>
+              <LikeCount>{course.likeCount}</LikeCount>
+            </Like>
           </Top>
           <Tags>
             <Tag>#{course.location}</Tag>
@@ -22,7 +25,13 @@ function TeacherProfileCard({ course }) {
           </Tags>
           <Teacher>{course.name}</Teacher>
           <DisabailityType>{course.disabilityType}</DisabailityType>
-          <Price>{course.price}원</Price>
+          <Bottom>
+            <Price>{course.price.toLocaleString()}원</Price>
+            <Score>
+              <StarRating score={course.score} />
+              <StarRate>(45)</StarRate>
+            </Score>
+          </Bottom>
         </InfoSection>
       </Card>
     </>
@@ -32,11 +41,11 @@ function TeacherProfileCard({ course }) {
 export default TeacherProfileCard;
 
 const Card = styled.div`
-  width: 460px;
+  /* border: 1px solid rgba(80, 80, 80, 0.15); */
+  width: 490px;
   height: 130px;
   display: flex;
   cursor: pointer;
-  /* border: 1px solid red; */
   margin-bottom: 25px;
 `;
 
@@ -58,14 +67,28 @@ const CourseImg = styled.div`
 const Top = styled.div`
   display: flex;
   justify-content: space-between;
+  /* border: 2px solid red; */
   margin-bottom: 10px;
 `;
 
 const Title = styled.div`
-  font-size: 20px;
+  font-size: 18px;
 `;
 
-const Like = styled.div``;
+const Like = styled.div`
+  display: flex;
+  align-items: center;
+  /* border: 1px solid green; */
+  img {
+    height: 10px;
+  }
+`;
+
+const LikeCount = styled.div`
+  font-size: 13px;
+  color: #ff1c1c;
+  margin-left: 3px;
+`;
 
 const Tags = styled.div`
   display: flex;
@@ -103,16 +126,18 @@ const Price = styled.div`
   margin-top: 5px;
 `;
 
-const BottomInfo = styled.div`
-  /* border: 1px solid green; */
-  margin-top: 47px;
-  padding-left: 30px;
+const Bottom = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
-const DetailInfo = styled.div`
-  font-size: 17px;
+const Score = styled.div`
+  /* border: 1px solid red; */
+  display: flex;
+`;
 
-  &:last-child {
-    margin-top: 24px;
-  }
+const StarRate = styled.div`
+  font-size: 13px;
+  padding-top: 2px;
+  margin-left: 4px;
 `;

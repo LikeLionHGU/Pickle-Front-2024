@@ -25,7 +25,7 @@ function UserSavedLectureContent() {
 export default UserSavedLectureContent;
 
 const Wrapper = styled.div`
-  /* border: 2px solid red; */
+  /* border: 2px solid green; */
   width: 100%;
   font-size: 40px;
   padding-top: 90px;

@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import pickleLogo from "../../assets/logo/PickleLogo.svg";
 import { useNavigate } from "react-router-dom";
 import HeaderSearchBar from "./HeaderSearchBar";
+import LoginModal from "../MainPage/LoginModal";
 
 function HeaderLightVer() {
+  const [isLoginModalOpen, setLoginModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleMenuClick = (url) => {
@@ -13,6 +15,20 @@ function HeaderLightVer() {
 
   const handlePickleLogoClick = () => {
     navigate("/");
+  };
+
+  const toggleLoginModal = () => {
+    setLoginModalOpen((prevState) => !prevState);
+  };
+
+  useEffect(() => {
+    document.body.style.overflow = isLoginModalOpen ? "hidden" : "auto";
+  }, [isLoginModalOpen]);
+
+  console.log("is modal open: ", isLoginModalOpen);
+
+  const handleSignInClick = () => {
+    navigate("/sign");
   };
 
   return (
@@ -29,7 +45,14 @@ function HeaderLightVer() {
           ></img>
         </Logo>
       </Menus>
-      <HeaderSearchBar />
+      <SignInSection>
+        <SignIn onClick={toggleLoginModal}>로그인</SignIn>
+        <SignIn onClick={handleSignInClick}>회원가입</SignIn>
+      </SignInSection>
+      {isLoginModalOpen && <LoginModal toggleModal={toggleLoginModal} />}
+      <SearchSection>
+        <HeaderSearchBar />
+      </SearchSection>
     </Wrapper>
   );
 }
@@ -41,6 +64,7 @@ const Wrapper = styled.div`
   font-size: 20px;
   display: flex;
   justify-content: center;
+  position: relative;
   font-family: "PretendardRegular";
 `;
 
@@ -49,6 +73,8 @@ const Menus = styled.div`
   width: 100%;
   margin-right: 15px;
   display: flex;
+  /* border: 1px solid red; */
+  margin-left: 44px;
 `;
 
 const Menu = styled.div`
@@ -60,7 +86,7 @@ const Menu = styled.div`
   margin-left: 55px;
 
   &:first-child {
-    margin-left: 244px;
+    margin-left: 200px;
   }
 `;
 
@@ -68,6 +94,32 @@ const Logo = styled.div`
   height: 25px;
   width: 90px;
   margin-top: 54px;
-  margin-left: 200px;
+  margin-left: 170px;
+  cursor: pointer;
+`;
+
+const SearchSection = styled.div`
+  width: 340px;
+  /* border: 1px solid red; */
+  display: flex;
+  align-items: end;
+`;
+
+const SignInSection = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 120px;
+  /* border: 1px solid green; */
+  position: absolute;
+  left: 92%;
+  top: 30%;
+  transform: translateX(-50%);
+  z-index: 1;
+`;
+
+const SignIn = styled.div`
+  /* border: 1px solid red; */
+  color: #1997fc;
+  font-size: 14px;
   cursor: pointer;
 `;
