@@ -25,8 +25,6 @@ function HeaderLightVer() {
     document.body.style.overflow = isLoginModalOpen ? "hidden" : "auto";
   }, [isLoginModalOpen]);
 
-  console.log("is modal open: ", isLoginModalOpen);
-
   const handleSignInClick = () => {
     navigate("/sign");
   };
@@ -73,20 +71,40 @@ const Menus = styled.div`
   width: 100%;
   margin-right: 15px;
   display: flex;
-  /* border: 1px solid red; */
-  margin-left: 44px;
+  margin-left: 25px;
 `;
 
 const Menu = styled.div`
-  /* border: 2px solid green; */
   margin-top: 60px;
   font-size: 18px;
   color: #42a8f8;
   cursor: pointer;
-  margin-left: 55px;
+  margin-left: 45px;
+  position: relative;
+  /* border: 1px solid red; */
+  text-align: center;
+  min-width: 50px;
 
   &:first-child {
     margin-left: 200px;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    min-width: 50px;
+    transform: scaleX(0);
+    height: 6px;
+    bottom: 0px;
+    left: 0;
+    background-color: #42a8f8;
+    transform-origin: center;
+    transition: transform 0.25s ease-out;
+  }
+
+  &:hover:after {
+    transform: scaleX(1);
   }
 `;
 
@@ -100,7 +118,6 @@ const Logo = styled.div`
 
 const SearchSection = styled.div`
   width: 340px;
-  /* border: 1px solid red; */
   display: flex;
   align-items: end;
 `;
@@ -109,7 +126,6 @@ const SignInSection = styled.div`
   display: flex;
   justify-content: space-between;
   width: 120px;
-  /* border: 1px solid green; */
   position: absolute;
   left: 92%;
   top: 30%;
@@ -118,7 +134,6 @@ const SignInSection = styled.div`
 `;
 
 const SignIn = styled.div`
-  /* border: 1px solid red; */
   color: #1997fc;
   font-size: 14px;
   cursor: pointer;
