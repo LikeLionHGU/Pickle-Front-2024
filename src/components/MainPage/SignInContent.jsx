@@ -18,6 +18,7 @@ function SignInContent() {
     contactNumber: "",
     familyNumber: "",
     location: "",
+    locationDetail: "",
   });
 
   const handleChange = (e) => {
@@ -101,7 +102,7 @@ function SignInContent() {
                 placeholder="생년월일을 입력해주세요"
                 value={form.birthdate}
                 onChange={handleChange}
-                hasValue={!!form.birthdate}
+                $hasValue={!!form.birthdate}
                 required
               />
             </Section>
@@ -111,7 +112,24 @@ function SignInContent() {
               </Label>
               <DaumPost setForm={setForm} />
             </AddressSection>
-            <Address>{form.location}</Address>
+            <Address
+              type="location"
+              id="location"
+              name="location"
+              placeholder="주소"
+              value={form.location}
+              required
+            />
+            <lable htmlFor="locationDetail"></lable>
+            <Address
+              type="locationDetail"
+              id="locationDetail"
+              name="locationDetail"
+              placeholder="상세주소"
+              value={form.locationDetail}
+              onChange={handleChange}
+              $isSecond
+            />
             <Section>
               <Label htmlFor="contactNumber">
                 연락처<Red>*</Red>
@@ -147,7 +165,7 @@ function SignInContent() {
                 name="disabilityType"
                 value={form.disabilityType}
                 onChange={handleChange}
-                hasValue={!!form.disabilityType}
+                $hasValue={!!form.disabilityType}
                 required
               >
                 <option value="">장애유형</option>
@@ -162,7 +180,7 @@ function SignInContent() {
                 name="disabilityLevel"
                 value={form.disabilityLevel}
                 onChange={handleChange}
-                hasValue={!!form.disabilityLevel}
+                $hasValue={!!form.disabilityLevel}
                 required
               >
                 <option value="">등급</option>
@@ -246,18 +264,27 @@ const AddressSection = styled.div`
   margin-bottom: 10px;
 `;
 
-const Address = styled.div`
+const Address = styled.input`
   border: 1.3px solid #c3c3c3;
   border-radius: 2px;
-  width: 257px;
-  height: 34px;
-  margin-left: 98px;
-  margin-bottom: 30px;
+  width: 252px;
+  height: 32px;
+  margin-left: 100px;
   font-size: 13px;
   padding-left: 14px;
   display: flex;
   align-items: center;
   font-family: "PretendardRegular";
+  background: transparent;
+  margin-bottom: ${($props) => ($props.$isSecond ? "30px" : "10px")};
+
+  &:focus {
+    outline: none;
+  }
+
+  &::placeholder {
+    color: #c3c3c3;
+  }
 `;
 
 const Input = styled.input`
@@ -287,7 +314,7 @@ const Calendar = styled.input`
   width: 273px;
   height: 34px;
   padding-left: 14px;
-  color: ${(props) => (props.hasValue ? "black" : "#c3c3c3")};
+  color: ${($props) => ($props.$hasValue ? "black" : "#c3c3c3")};
   background: transparent;
   font-family: "PretendardRegular";
 
@@ -330,7 +357,7 @@ const Select = styled.select`
   box-sizing: border-box;
   padding-left: 14px;
   margin-right: 5px;
-  color: ${(props) => (props.hasValue ? "black" : "#c3c3c3")};
+  color: ${($props) => ($props.$hasValue ? "black" : "#c3c3c3")};
   cursor: pointer;
   appearance: none;
   background: url('data:image/svg+xml;utf8,<svg fill="black" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>')
