@@ -6,14 +6,17 @@ import WhiteBtn from "../Common/CommonBtn/WhiteBtn";
 import defaultImg from "../../assets/img/defaultImg.jpg";
 import locationIcon from "../../assets/img/PickedCourse.svg";
 import heartIcon from "../../assets/img/heart.svg";
+import heartFalseIcon from "../../assets/img/heartFalse.svg";
 import TeacherProfileModal from "./TeacherProfileModal";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import StarRating from "../Common/StarRating";
 import BgColor from "../Common/BgColor";
 
 function LectureDetailContent() {
   const [isTeacherProfileModalOpen, setTeacherProfileModalOpen] =
     useState(false);
+  const [isLike, setIsLike] = useState(false);
+
   const navigate = useNavigate();
 
   const handleCourseApplyBtnClick = () => {
@@ -24,6 +27,13 @@ function LectureDetailContent() {
     setTeacherProfileModalOpen((prevState) => !prevState);
   };
 
+  const handleHeartIconClick = () => {
+    setIsLike((prevState) => !prevState);
+    if (isLike === false) {
+      alert("찜한 강좌에 저장되었습니다.");
+    }
+  };
+
   useEffect(() => {
     document.body.style.overflow = isTeacherProfileModalOpen
       ? "hidden"
@@ -31,6 +41,7 @@ function LectureDetailContent() {
   }, [isTeacherProfileModalOpen]);
 
   console.log("is modal open: ", isTeacherProfileModalOpen);
+  console.log("isLike : ", isLike);
 
   return (
     <BgColor>
@@ -46,7 +57,11 @@ function LectureDetailContent() {
               </LocationIcon>
               <CourseTitle>물개가 되는 법</CourseTitle>
               <Like>
-                <img src={heartIcon} alt="하트 아이콘"></img>
+                <img
+                  onClick={handleHeartIconClick}
+                  src={isLike ? heartIcon : heartFalseIcon}
+                  alt="하트 아이콘"
+                ></img>
               </Like>
             </Top>
             <Middle>
@@ -151,6 +166,11 @@ const Like = styled.div`
   justify-content: end;
   vertical-align: middle;
   cursor: pointer;
+
+  img {
+    height: 26px;
+    width: 30px;
+  }
 `;
 
 const Middle = styled.div`
