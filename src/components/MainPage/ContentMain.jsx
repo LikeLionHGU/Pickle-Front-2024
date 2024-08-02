@@ -8,14 +8,61 @@ import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import LeftArrowImg from "../../assets/img/leftArrow.svg";
+import RightArrowImg from "../../assets/img/rightArray.svg";
+
+const ArrowContainer = styled.div`
+  position: relative;
+  width: 1040px;
+  margin: auto;
+
+  .arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    z-index: 1;
+    cursor: pointer;
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .prevArrow {
+    left: -50px;
+  }
+
+  .nextArrow {
+    right: -50px;
+    transform: translateY(-50%) rotate(180deg); /* Rotate for right arrow */
+  }
+`;
+
+const NextArrow = ({ onClick }) => (
+  <button className="arrow nextArrow" onClick={onClick} type="button">
+    <img src={RightArrowImg} alt="Prev Arrow" />
+  </button>
+);
+
+const PrevArrow = ({ onClick }) => (
+  <button className="arrow prevArrow" onClick={onClick} type="button">
+    <img src={LeftArrowImg} alt="Next Arrow" />
+  </button>
+);
 
 function ContentMain() {
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
+    slidesToShow: 2,
+    slidesToScroll: 2,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
   };
 
   const [limit, setLimit] = useState(4); // Number of courses per page
@@ -30,17 +77,6 @@ function ContentMain() {
       {/* Slider for displaying featured courses or ads */}
       <AdCourse>
         이런 강좌는 어떠세요?
-        <Slider {...settings}>
-          <div>
-            <h1>1</h1>
-          </div>
-          <div>
-            <h1>2</h1>
-          </div>
-          <div>
-            <h1>3</h1>
-          </div>
-        </Slider>
         <AdContainer>
           <CourseContainer>
             {paginatedData.map((course, index) => (
@@ -62,40 +98,75 @@ function ContentMain() {
           </CourseContainer>
         </AdContainer>
       </AdCourse>
+
       <PopularCourse>
         최예라 님과 가까운 곳의 인기 강좌예요 !
         <PopularContainer>
-          <CourseContainer>
-            {paginatedData.map((course, index) => (
-              <Link
-                key={course.courseId}
-                style={{
-                  textDecoration: "none",
-                  color: "black",
-                  display: "flex",
-                }}
-                to={`/lecture/${course.courseId}`}
-              >
-                <React.Fragment key={course.courseId}>
-                  <CourseCard course={course} />
-                  {index % 2 === 0 && <CourseDivideLine />}
-                </React.Fragment>
-              </Link>
-            ))}
-          </CourseContainer>
+          <ArrowContainer>
+            <StyledSlider {...settings}>
+              {paginatedData.map((course, index) => (
+                <div key={course.courseId}>
+                  <Link
+                    key={course.courseId}
+                    style={{
+                      textDecoration: "none",
+                      color: "black",
+                      display: "flex",
+                    }}
+                    to={`/lecture/${course.courseId}`}
+                  >
+                    <PopCourseCon>
+                      <React.Fragment key={course.courseId}>
+                        <CourseCard course={course} />
+                        {index % 2 === 0 && <CourseDivideLine />}
+                      </React.Fragment>
+                    </PopCourseCon>
+                  </Link>
+                </div>
+              ))}
+            </StyledSlider>
+          </ArrowContainer>
         </PopularContainer>
       </PopularCourse>
-      <PaginationCom
-        total={data.length} // Total number of items
-        limit={limit} // Number of items per page
-        page={page} // Current page
-        setPage={setPage} // Function to update the current page
-      />
     </Wrapper>
   );
 }
 
 export default ContentMain;
+
+const StyledSlider = styled(Slider)`
+  width: 100%;
+  height: 100%;
+  border: 1px solid red;
+  position: relative;
+
+  .slick-prev::before,
+  .slick-next::before {
+    opacity: 0;
+    display: none;
+  }
+
+  .slick-slide {
+    width: 450px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .slick-dots {
+    button {
+      width: 100px;
+      height: 100px;
+    }
+    .slick-active {
+      button::before {
+        color: #4aabf9; //선택된 점의 색상 설정
+      }
+    }
+    button::before {
+      color: #d9d9d9; //선택 안된 점의 색상 설정
+    }
+  }
+`;
 
 const Wrapper = styled.div`
   width: 1160px;
@@ -119,8 +190,13 @@ const PopularCourse = styled.div`
 `;
 
 const PopularContainer = styled.div`
-  width: 445px;
-  height: 115px;
+  width: 1040px;
+  height: 500px;
+  margin-top: 40px;
+`;
+
+const PopCourseCon = styled.div`
+  display: flex;
 `;
 
 const CourseContainer = styled.div`
