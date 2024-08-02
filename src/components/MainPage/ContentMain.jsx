@@ -9,7 +9,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import LeftArrowImg from "../../assets/img/leftArrow.svg";
-import RightArrowImg from "../../assets/img/rightArray.svg";
+import RightArrowImg from "../../assets/img/rightArrow.svg";
 
 const ArrowContainer = styled.div`
   position: relative;
@@ -18,7 +18,7 @@ const ArrowContainer = styled.div`
 
   .arrow {
     position: absolute;
-    top: 50%;
+    top: 40%;
     transform: translateY(-50%);
     background: transparent;
     border: none;
@@ -33,12 +33,11 @@ const ArrowContainer = styled.div`
   }
 
   .prevArrow {
-    left: -50px;
+    left: -100px;
   }
 
   .nextArrow {
-    right: -50px;
-    transform: translateY(-50%) rotate(180deg); /* Rotate for right arrow */
+    right: -100px;
   }
 `;
 
@@ -59,8 +58,10 @@ function ContentMain() {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: 2,
     slidesToScroll: 2,
+    rows: 2,
+    slidesPerRow: 1,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
   };
@@ -111,14 +112,14 @@ function ContentMain() {
                     style={{
                       textDecoration: "none",
                       color: "black",
-                      display: "flex",
                     }}
                     to={`/lecture/${course.courseId}`}
                   >
                     <PopCourseCon>
                       <React.Fragment key={course.courseId}>
                         <CourseCard course={course} />
-                        {index % 2 === 0 && <CourseDivideLine />}
+                        {index % 4 === 0 && <CourseDivideLine />}
+                        {index % 4 === 1 && <CourseDivideLine />}
                       </React.Fragment>
                     </PopCourseCon>
                   </Link>
@@ -137,7 +138,6 @@ export default ContentMain;
 const StyledSlider = styled(Slider)`
   width: 100%;
   height: 100%;
-  border: 1px solid red;
   position: relative;
 
   .slick-prev::before,
@@ -147,15 +147,16 @@ const StyledSlider = styled(Slider)`
   }
 
   .slick-slide {
-    width: 450px;
     justify-content: center;
     align-items: center;
+  }
+  .slick-dots li button {
   }
 
   .slick-dots {
     button {
-      width: 100px;
-      height: 100px;
+      /* width: 100px;
+      height: 100px; */
     }
     .slick-active {
       button::before {
@@ -174,6 +175,9 @@ const Wrapper = styled.div`
   margin-top: 175px;
   font-size: 20px;
   padding-bottom: 40px;
+  justify-content: center;
+  align-items: center;
+  margin-left: 240px;
 `;
 
 const AdCourse = styled.div`
