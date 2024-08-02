@@ -6,6 +6,7 @@ import CourseDivideLine from "../Common/CourseDivideLine";
 import data from "../../components/Common/CourseDummyData";
 import PaginationCom from "../Common/PaginationCom";
 import { Link } from "react-router-dom";
+import BgColor from "../Common/BgColor";
 
 // LectureFilterContainer 는 나중에 지우고 FilterContainerMain 컴포넌트로 import 할거임
 
@@ -16,25 +17,31 @@ function LectureListContent() {
   const offset = (page - 1) * limit;
 
   return (
-    <Wrapper>
-      <Title>최예라님의 검색 결과에요!</Title>
-      <LectureFilterContainer />
-      <CourseContainer>
-        {data.map((course, index) => (
-          <Link
-            key={course.courseId}
-            style={{ textDecoration: "none", color: "black", display: "flex" }}
-            to={`/lecture/${course.courseId}`}
-          >
-            <React.Fragment key={course.courseId}>
-              <CourseCard course={course} />
-              {index % 2 === 0 && <CourseDivideLine />}
-            </React.Fragment>
-          </Link>
-        ))}
-      </CourseContainer>
-      <PaginationCom total={30} limit={limit} page={page} setPage={setPage} />
-    </Wrapper>
+    <BgColor>
+      <Wrapper>
+        <Title>최예라님의 검색 결과에요!</Title>
+        <LectureFilterContainer />
+        <CourseContainer>
+          {data.map((course, index) => (
+            <Link
+              key={course.courseId}
+              style={{
+                textDecoration: "none",
+                color: "black",
+                display: "flex",
+              }}
+              to={`/lecture/${course.courseId}`}
+            >
+              <React.Fragment key={course.courseId}>
+                <CourseCard course={course} />
+                {index % 2 === 0 && <CourseDivideLine />}
+              </React.Fragment>
+            </Link>
+          ))}
+        </CourseContainer>
+        <PaginationCom total={30} limit={limit} page={page} setPage={setPage} />
+      </Wrapper>
+    </BgColor>
   );
 }
 
@@ -42,9 +49,9 @@ export default LectureListContent;
 
 const Wrapper = styled.div`
   /* border: 3px solid red; */
-  width: 1040px;
+  width: 1000px;
   margin: auto;
-  margin-top: 97px;
+  padding-top: 97px;
   padding-bottom: 40px;
 `;
 
@@ -55,7 +62,7 @@ const Title = styled.div`
 
 const CourseContainer = styled.div`
   /* border: 2px solid green; */
-  width: 1040px;
+  width: 1000px;
   margin-top: 59px;
   margin-bottom: 40px;
   display: flex;

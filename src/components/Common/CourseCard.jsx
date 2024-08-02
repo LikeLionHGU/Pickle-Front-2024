@@ -40,13 +40,11 @@ export default CourseCard;
 
 const Card = styled.div`
   /* border: 1px solid rgba(80, 80, 80, 0.15); */
-  width: 480px;
+  width: 450px;
   height: 130px;
   display: flex;
   cursor: pointer;
   margin-bottom: 70px;
-  /* box-shadow: 0 10px 10px rgba(52, 52, 52, 0.15),
-    0 3px 3px rgba(34, 34, 34, 0.23); */
 `;
 
 const InfoSection = styled.div`
@@ -72,19 +70,20 @@ const Top = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 20px;
+  font-size: 18px;
 `;
 
 const Like = styled.div`
   display: flex;
-  padding-top: 4px;
+  align-items: center;
+  /* border: 1px solid green; */
   img {
-    height: 16px;
+    height: 10px;
   }
 `;
 
 const LikeCount = styled.div`
-  font-size: 14px;
+  font-size: 13px;
   color: #ff1c1c;
   margin-left: 3px;
 `;
@@ -136,6 +135,7 @@ const Score = styled.div`
 `;
 
 const StarRate = styled.div`
-  font-size: 15px;
+  font-size: 13px;
+  padding-top: 2px;
   margin-left: 4px;
 `;

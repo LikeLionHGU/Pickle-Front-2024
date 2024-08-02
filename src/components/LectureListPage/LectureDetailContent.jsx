@@ -9,6 +9,7 @@ import heartIcon from "../../assets/img/heart.svg";
 import TeacherProfileModal from "./TeacherProfileModal";
 import { useNavigate, useParams } from "react-router-dom";
 import StarRating from "../Common/StarRating";
+import BgColor from "../Common/BgColor";
 
 function LectureDetailContent() {
   const [isTeacherProfileModalOpen, setTeacherProfileModalOpen] =
@@ -32,61 +33,63 @@ function LectureDetailContent() {
   console.log("is modal open: ", isTeacherProfileModalOpen);
 
   return (
-    <Wrapper>
-      <CourseCard>
-        <CourseImg>
-          <img src={defaultImg} alt="기본 강좌 이미지"></img>
-        </CourseImg>
-        <CourseDetail>
-          <Top>
-            <LocationIcon>
-              <img src={locationIcon} alt="위치 아이콘"></img>
-            </LocationIcon>
-            <CourseTitle>물개가 되는 법</CourseTitle>
-            <Like>
-              <img src={heartIcon} alt="하트 아이콘"></img>
-            </Like>
-          </Top>
-          <Middle>
-            <Teacher>
-              <DetailText>• 강사 : 이다빈</DetailText>
-              <Score>
-                <StarRating score={3.5} />
-                <StarRate>(45)</StarRate>
-              </Score>
-            </Teacher>
-            <DetailText>• 연락처 : 010-1234-1234</DetailText>
-            <DetailText>
-              • 주소 : 경북 포항시 북구 법원로 98번길 36 1층
-            </DetailText>
-            <DetailText>
-              • 가능한 장애유형 : 뇌병변 / 시,청각 장애 가능
-            </DetailText>
-            <DetailText>• 강좌 시간 : 8/1, 8/2, 8/3 오전 10-12시</DetailText>
-          </Middle>
-        </CourseDetail>
-      </CourseCard>
-      <Map>
-        <MapCon />
-      </Map>
-      <CourseInfo>
-        <InfoTitle>개설 강좌정보</InfoTitle>
-        <InfoContent>
-          <InfoText>
-            모두가 차별없이 건강한 세상! <br /> <br /> 장애를 가지고 있어도
-            수영을 배우는 것은 식은 죽 먹기! <br /> 즐거운 마음으로 수영을
-            배우실 여러분들을 초대합니다
-          </InfoText>
-        </InfoContent>
-      </CourseInfo>
-      <Btn>
-        {isTeacherProfileModalOpen && (
-          <TeacherProfileModal toggleModal={toggleTeacherProfileModal} />
-        )}
-        <WhiteBtn onClick={toggleTeacherProfileModal}>강사 프로필</WhiteBtn>
-        <BlueBtn onClick={handleCourseApplyBtnClick}>수강신청</BlueBtn>
-      </Btn>
-    </Wrapper>
+    <BgColor>
+      <Wrapper>
+        <CourseCard>
+          <CourseImg>
+            <img src={defaultImg} alt="기본 강좌 이미지"></img>
+          </CourseImg>
+          <CourseDetail>
+            <Top>
+              <LocationIcon>
+                <img src={locationIcon} alt="위치 아이콘"></img>
+              </LocationIcon>
+              <CourseTitle>물개가 되는 법</CourseTitle>
+              <Like>
+                <img src={heartIcon} alt="하트 아이콘"></img>
+              </Like>
+            </Top>
+            <Middle>
+              <Teacher>
+                <DetailText>• 강사 : 이다빈</DetailText>
+                <Score>
+                  <StarRating score={3.5} />
+                  <StarRate>(45)</StarRate>
+                </Score>
+              </Teacher>
+              <DetailText>• 연락처 : 010-1234-1234</DetailText>
+              <DetailText>
+                • 주소 : 경북 포항시 북구 법원로 98번길 36 1층
+              </DetailText>
+              <DetailText>
+                • 가능한 장애유형 : 뇌병변 / 시,청각 장애 가능
+              </DetailText>
+              <DetailText>• 강좌 시간 : 8/1, 8/2, 8/3 오전 10-12시</DetailText>
+            </Middle>
+          </CourseDetail>
+        </CourseCard>
+        <Map>
+          <MapCon />
+        </Map>
+        <CourseInfo>
+          <InfoTitle>개설 강좌정보</InfoTitle>
+          <InfoContent>
+            <InfoText>
+              모두가 차별없이 건강한 세상! <br /> <br /> 장애를 가지고 있어도
+              수영을 배우는 것은 식은 죽 먹기! <br /> 즐거운 마음으로 수영을
+              배우실 여러분들을 초대합니다
+            </InfoText>
+          </InfoContent>
+        </CourseInfo>
+        <Btn>
+          {isTeacherProfileModalOpen && (
+            <TeacherProfileModal toggleModal={toggleTeacherProfileModal} />
+          )}
+          <WhiteBtn onClick={toggleTeacherProfileModal}>강사 프로필</WhiteBtn>
+          <BlueBtn onClick={handleCourseApplyBtnClick}>수강신청</BlueBtn>
+        </Btn>
+      </Wrapper>
+    </BgColor>
   );
 }
 
@@ -96,7 +99,8 @@ const Wrapper = styled.div`
   /* border: 2px solid red; */
   width: 995px;
   margin: auto;
-  margin-top: 115px;
+  padding-top: 115px;
+  padding-bottom: 60px;
 `;
 
 const CourseCard = styled.div`
@@ -210,5 +214,4 @@ const Btn = styled.div`
   display: flex;
   justify-content: space-between;
   margin: auto;
-  margin-bottom: 60px;
 `;

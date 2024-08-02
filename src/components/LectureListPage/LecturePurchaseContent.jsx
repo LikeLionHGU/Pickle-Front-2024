@@ -3,12 +3,21 @@ import styled from "styled-components";
 import GrayInfoBox from "../Common/GrayInfoBox";
 import MapCon from "../Common/MapCon";
 import LecturePurchaseCard from "./LecturePurchaseCard";
+import BgColor from "../Common/BgColor";
+import { useNavigate } from "react-router-dom";
 
 function LecturePurchaseContent() {
   const [selectedOption, setSelectedOpiton] = useState("creditCard");
+  const navigate = useNavigate();
 
   const handleOptionChange = (event) => {
     setSelectedOpiton(event.target.value);
+  };
+
+  const handlePurchaseBtnClick = () => {
+    if (window.confirm("이 강좌를 결제하시겠습니까?")) {
+      navigate("/user/learning");
+    }
   };
 
   const course = {
@@ -29,76 +38,84 @@ function LecturePurchaseContent() {
   };
 
   return (
-    <Wrapper>
-      <Left>
-        <Blue>신청자 정보</Blue>
-        <UserInfo>이름</UserInfo>
-        <GrayInfoBox>최예라</GrayInfoBox>
-        <UserInfo>생년월일</UserInfo>
-        <GrayInfoBox>2002.08.16</GrayInfoBox>
-        <UserInfo>전화번호</UserInfo>
-        <GrayInfoBox>010-1234-1234</GrayInfoBox>
-        <Coupon>
-          <Blue>할인쿠폰 선택</Blue>
-          <CouponDropDown>컴포넌트로 추가 예정</CouponDropDown>
-        </Coupon>
-        <PaymentInfo>
-          <Payment>결제 정보</Payment>
-          <PaymentOption>
-            <Radio>
-              <Input
-                type="radio"
-                id="creditCard"
-                name="payment"
-                value="creditCard"
-                checked={selectedOption === "creditCard"}
-                onChange={handleOptionChange}
-                style={{ height: "30px", width: "30px" }}
-              />
-              <Option htmlFor="creditCard">신용카드</Option>
-            </Radio>
-            <Radio style={{ marginLeft: "60px" }}>
-              <Input
-                type="radio"
-                id="accountTransfer"
-                name="payment"
-                value="accountTransfer"
-                checked={selectedOption === "accountTransfer"}
-                onChange={handleOptionChange}
-                style={{ height: "30px", width: "30px" }}
-              />
-              <Option htmlFor="accountTransfer">계좌이체</Option>
-            </Radio>
-          </PaymentOption>
-        </PaymentInfo>
-      </Left>
-      <Right>
-        <Blue>강좌정보</Blue>
-        <CourseInfo>
-          <LecturePurchaseCard course={course} />
-        </CourseInfo>
-        <Map>
-          <MapCon />
-        </Map>
-        <Price>
-          <PriceContent>
-            <SelectedPrice>선택상품 금액</SelectedPrice>
-            <div style={{ display: "flex", justifyContent: "space-Between" }}>
-              <DiscountedPrice>할인금액</DiscountedPrice>
-              <SelectedPrice>50,000원</SelectedPrice>
-            </div>
-            <DiscountedPrice style={{ display: "flex", justifyContent: "end" }}>
-              5,000원
-            </DiscountedPrice>
-            <div style={{ display: "flex", justifyContent: "space-Between" }}>
-              <TotalPrice>총 결제금액</TotalPrice>
-              <TotalPrice>45,000원</TotalPrice>
-            </div>
-          </PriceContent>
-        </Price>
-        <PurchaseBtn>결제하기</PurchaseBtn>
-      </Right>
-    </Wrapper>
+    <BgColor>
+      <Wrapper>
+        <Left>
+          <Blue>신청자 정보</Blue>
+          <UserInfo>이름</UserInfo>
+          <GrayInfoBox>최예라</GrayInfoBox>
+          <UserInfo>생년월일</UserInfo>
+          <GrayInfoBox>2002.08.16</GrayInfoBox>
+          <UserInfo>전화번호</UserInfo>
+          <GrayInfoBox>010-1234-1234</GrayInfoBox>
+          <Coupon>
+            <Blue>할인쿠폰 선택</Blue>
+            <CouponDropDown>컴포넌트로 추가 예정</CouponDropDown>
+          </Coupon>
+          <PaymentInfo>
+            <Payment>결제 정보</Payment>
+            <PaymentOption>
+              <Radio>
+                <Input
+                  type="radio"
+                  id="creditCard"
+                  name="payment"
+                  value="creditCard"
+                  checked={selectedOption === "creditCard"}
+                  onChange={handleOptionChange}
+                  style={{ height: "30px", width: "30px" }}
+                />
+                <Option htmlFor="creditCard">신용카드</Option>
+              </Radio>
+              <Radio style={{ marginLeft: "60px" }}>
+                <Input
+                  type="radio"
+                  id="accountTransfer"
+                  name="payment"
+                  value="accountTransfer"
+                  checked={selectedOption === "accountTransfer"}
+                  onChange={handleOptionChange}
+                  style={{ height: "30px", width: "30px" }}
+                />
+                <Option htmlFor="accountTransfer">계좌이체</Option>
+              </Radio>
+            </PaymentOption>
+          </PaymentInfo>
+        </Left>
+        <Right>
+          <Blue>강좌정보</Blue>
+          <CourseInfo>
+            <LecturePurchaseCard course={course} />
+          </CourseInfo>
+          <Map>
+            <MapCon />
+          </Map>
+          <Price>
+            <PriceContent>
+              <div style={{ display: "flex", justifyContent: "space-Between" }}>
+                <SelectedPrice>선택상품 금액</SelectedPrice>
+                <SelectedPrice>50,000원</SelectedPrice>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-Between" }}>
+                <DiscountedPrice>할인금액</DiscountedPrice>
+                <DiscountedPrice>5,000원</DiscountedPrice>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-Between",
+                  marginTop: "48px",
+                }}
+              >
+                <TotalPrice>총 결제금액</TotalPrice>
+                <TotalPrice>45,000원</TotalPrice>
+              </div>
+            </PriceContent>
+          </Price>
+          <PurchaseBtn onClick={handlePurchaseBtnClick}>결제하기</PurchaseBtn>
+        </Right>
+      </Wrapper>
+    </BgColor>
   );
 }
 
@@ -108,10 +125,10 @@ const Wrapper = styled.div`
   /* border: 1px solid green; */
   width: 1040px;
   margin: auto;
-  margin-top: 95px;
+  padding-top: 95px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 200px;
+  padding-bottom: 200px;
 `;
 
 const Blue = styled.div`
@@ -213,10 +230,6 @@ const PriceContent = styled.div`
 
 const SelectedPrice = styled.div`
   color: #777777;
-
-  &:last-child {
-    margin-top: 12px;
-  }
 `;
 
 const DiscountedPrice = styled.div`
@@ -237,5 +250,6 @@ const PurchaseBtn = styled.div`
   align-items: center;
   color: white;
   font-size: 20px;
+  border-radius: 8px;
   cursor: pointer;
 `;

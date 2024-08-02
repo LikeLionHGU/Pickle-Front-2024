@@ -49,7 +49,7 @@ const modalStyles = `
 
 const Modal = styled.div`
   ${modalStyles}
-  z-index: 30000;
+  z-index: 99999;
 `;
 
 const Overlay = styled.div`
