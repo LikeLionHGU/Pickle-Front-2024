@@ -3,7 +3,7 @@ import styled from "styled-components";
 import CalendarCom from "../Common/CalendarCom";
 import SliderCom from "../Common/SliderCom";
 
-function FilterContainerMain() {
+function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
   const [checked, setChecked] = useState({
     individual: false,
     group: false,
@@ -302,7 +302,7 @@ function FilterContainerMain() {
   };
 
   return (
-    <Wrapper>
+    <Wrapper absolute={absolute} marginTop={marginTop} marginLeft={marginLeft}>
       <Container>
         <Text>원하는 운동 강좌를 검색해보세요</Text>
         <CheckboxContainer>
@@ -480,19 +480,18 @@ export default FilterContainerMain;
 
 const Wrapper = styled.div`
   box-shadow: 0px 4px 30px #3737373b;
-  position: absolute;
+  position: ${(props) => (props.absolute ? "absolute" : "relative")};
   justify-content: center;
   width: 1000px;
-  /* height: 153px; */
   height: auto;
-  margin-top: 350px;
+  margin-top: ${(props) => props.marginTop || "350px"};
+  margin-left: ${(props) => props.marginLeft || "220px"};
   /* left: 40%; */
   /* transform: translateX(-50%); */
   background-color: white;
   z-index: 10000;
   border-radius: 10px;
   padding-bottom: 28px;
-  margin-left: 220px;
 `;
 
 const Container = styled.div`
