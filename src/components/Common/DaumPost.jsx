@@ -26,7 +26,7 @@ const DaumPost = ({ setForm }) => {
 
     setForm((prevForm) => ({
       ...prevForm,
-      location: fullAddress,
+      address: fullAddress,
     }));
   };
 

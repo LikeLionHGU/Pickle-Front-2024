@@ -13,6 +13,7 @@ import LectureListPage from "./pages/LectureListPage.jsx";
 import LectureDetailPage from "./pages/LectureDetailPage.jsx";
 import LecturePurchasePage from "./pages/LecturePurchasePage.jsx";
 import SignInPage from "./pages/SignInPage.jsx";
+import LoginRedirection from "./pages/LoginRedirection.jsx";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />}></Route>
         <Route path="/sign" element={<SignInPage />}></Route>
+        <Route path="/kakao/cb" element={<LoginRedirection />}></Route>
         <Route path="/lecture" element={<LectureListPage />}></Route>
         <Route
           path="/lecture/:courseId"
