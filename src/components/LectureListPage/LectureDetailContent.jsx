@@ -20,7 +20,6 @@ function LectureDetailContent() {
     useState(false);
 
   const [data, setData] = useState();
-
   const [isLike, setIsLike] = useState(false);
 
   useEffect(() => {
@@ -36,6 +35,7 @@ function LectureDetailContent() {
       .then((response) => {
         console.log(response.data);
         setData(response.data);
+        setIsLike(response.data.like);
       });
   }, [courseId]);
 
@@ -69,10 +69,31 @@ function LectureDetailContent() {
   };
 
   const handleHeartIconClick = () => {
-    setIsLike((prevState) => !prevState);
-    if (isLike === false) {
-      alert("찜한 강좌에 저장되었습니다.");
-    }
+    const newLikeState = !isLike;
+    setIsLike(newLikeState);
+
+    axios
+      .post(
+        `${process.env.REACT_APP_HOST_URL}/api/course/like?courseId=${courseId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+        if (newLikeState) {
+          alert("찜한 강좌에 저장되었습니다.");
+        } else {
+          alert("찜한 강좌에서 제거되었습니다.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating like status:", error);
+        setIsLike(!newLikeState); // 실패시 상태 롤백
+      });
   };
 
   useEffect(() => {
