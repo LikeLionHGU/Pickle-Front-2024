@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Map, MapMarker, useMap } from "react-kakao-maps-sdk";
+import { Map, MapMarker, ZoomControl } from "react-kakao-maps-sdk";
+import MarkerImg from "../../assets/img/PickedCourse.svg";
 
 export default function MapCon() {
   const [currentPosition, setCurrentPosition] = useState({
     lat: 33.450701,
     lng: 126.570667,
   });
+  const [zoomable, setZoomable] = useState(false);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -20,6 +22,7 @@ export default function MapCon() {
         }
       );
     }
+    setZoomable(false);
   }, []);
 
   return (
@@ -27,26 +30,29 @@ export default function MapCon() {
       <Map
         center={currentPosition} // 현재 위치 불러오기
         style={{ width: "100%", height: "100%" }}
+        // draggable={false}
+        zoomable={zoomable}
       >
         <MapMarker
           position={{ lat: 37.54699, lng: 127.09598 }}
           image={{
-            src: "https://github.com/LikeLionHGU/Pickle-Front-2024/blob/master/src/assets/img/marker.svg", // 마커이미지의 주소입니다
+            src: "https://raw.githubusercontent.com/LikeLionHGU/Pickle-Front-2024/master/src/assets/img/marker.svg",
             size: {
-              width: 30,
-              height: 40,
-            }, // 마커이미지의 크기
+              width: 40,
+              height: 50,
+            }, // 마커이미지 크기
             options: {
               offset: {
-                x: 11,
-                y: 38,
+                x: 20,
+                y: 50,
               },
             },
           }}
         />
-        {/* <MapMarker position={currentPosition}>
-          <div style={{ color: "#000" }}>현재 위치</div>{" "}
-        </MapMarker> */}
+        <MapMarker position={currentPosition}>
+          {/* <div style={{ color: "#000" }}>현재 위치</div>{" "} */}
+        </MapMarker>
+        <ZoomControl />
       </Map>
     </div>
   );
