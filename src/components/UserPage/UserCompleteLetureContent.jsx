@@ -8,7 +8,7 @@ function UserCompleteLetureContent() {
   return (
     <Wrapper>
       <Content>
-        <Title>최예라 님! 지금까지 수강했던 강의들이에요</Title>
+        <Title>최예라 님! 지금까지 수강했던 강좌들이에요</Title>
         <Count>총 10개를 수강했습니다</Count>
         <CourseContainer>
           {data.map((course, index) => (

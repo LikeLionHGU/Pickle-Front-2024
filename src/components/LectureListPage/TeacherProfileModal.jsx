@@ -54,7 +54,7 @@ function TeacherProfileModal({ toggleModal }) {
                 <DetailContent>{data.teacher.reviewCount}</DetailContent>
               </CourseReview>
               <CourseRate>
-                <DetailCategory>강의평점</DetailCategory>
+                <DetailCategory>강좌평점</DetailCategory>
                 <div style={{ display: "flex" }}>
                   <img src={star} alt="별 이미지"></img>
                   <DetailContent>{data.teacher.score}</DetailContent>

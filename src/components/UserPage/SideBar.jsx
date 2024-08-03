@@ -26,8 +26,8 @@ function SideBar() {
         </Menu>
         <Menu onClick={() => handleMenuClick("/user/saved")}>
           <Section>
-            <img src={likedCourseIcon} alt="찜한 강의 아이콘"></img>
-            <Text>찜한 강의</Text>
+            <img src={likedCourseIcon} alt="찜한 강좌 아이콘"></img>
+            <Text>찜한 강좌</Text>
           </Section>
         </Menu>
         <Menu onClick={() => handleMenuClick("/user/learning")}>
