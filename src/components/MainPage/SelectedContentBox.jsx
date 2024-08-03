@@ -6,6 +6,7 @@ const SelectedContentBox = ({
   selectedSport,
   selectedDisability,
   selectedDate,
+  selectedPrice,
   handleClearSelection,
   regionOptions = [], // 기본값을 빈 배열로 설정
 }) => {
@@ -79,6 +80,11 @@ const SelectedContentBox = ({
           </ClearButton>
         </SelectedContent>
       ))}
+      <SelectedPriceContent>
+        <Hashtag>#</Hashtag>
+        {selectedPrice.min.toLocaleString()}원 ~{" "}
+        {selectedPrice.max.toLocaleString()}원
+      </SelectedPriceContent>
     </>
   );
 };
@@ -100,6 +106,21 @@ const SelectedContent = styled.div`
   justify-content: center;
   position: relative;
 `;
+const SelectedPriceContent = styled.div`
+  padding-left: 7px;
+  padding-right: 11px;
+  height: 20px;
+  border: 1px solid #4aabf9;
+  border-radius: 10px;
+  color: #4aabf9;
+  font-size: 13px;
+  margin-right: 22px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+`;
 
 const Hashtag = styled.div`
   color: #4aabf9;
@@ -109,7 +130,7 @@ const Hashtag = styled.div`
 
 const SubRegion = styled.span`
   margin-left: 5px;
-  font-size: 12px;
+  font-size: 13px;
 `;
 
 const ClearButton = styled.div`

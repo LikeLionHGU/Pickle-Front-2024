@@ -93,6 +93,18 @@ const StyledCalendar = styled(Calendar)`
     color: white;
     border-radius: 30px;
   }
+
+  .react-calendar__tile--highlighted {
+    background: #42a8f8;
+    color: white;
+    border-radius: 30px;
+  }
+
+  .react-calendar__tile--highlighted:enabled:hover,
+  .react-calendar__tile--highlighted:enabled:focus {
+    background: #42a8f8;
+    color: white;
+  }
 `;
 
 function CalendarCom({ selected, onDateChange }) {
@@ -117,13 +129,13 @@ function CalendarCom({ selected, onDateChange }) {
     <StyledCalendar
       locale="ko"
       onChange={handleDateChange}
-      value={dates.map((date) => new Date(date))}
+      value={null}
       formatDay={(locale, date) => dayjs(date).format("DD")}
       tileClassName={({ date }) => {
         const dateStr = moment(date).format("YYYY-MM-DD");
-        return dates.includes(dateStr);
-        // ? "react-calendar__tile--highlighted"
-        // : null;
+        return dates.includes(dateStr)
+          ? "react-calendar__tile--highlighted"
+          : null;
       }}
     />
   );

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-export default function SliderCom() {
+export default function SliderCom({ selectedPrice, onPriceChange }) {
   const fixedMinPrice = 0;
   const fixedMaxPrice = 100000;
   const priceGap = 1000;
@@ -21,6 +21,10 @@ export default function SliderCom() {
     if (value - priceGap >= rangeMinValue) {
       setRangeMaxValue(value);
     }
+  };
+
+  const handleApplyClick = () => {
+    onPriceChange(rangeMinValue, rangeMaxValue);
   };
 
   return (
@@ -50,9 +54,13 @@ export default function SliderCom() {
           onChange={handleMaxChange}
         />
       </Slider>
-      <PriceDisplay>
-        {rangeMinValue.toLocaleString()}원 ~ {rangeMaxValue.toLocaleString()}원{" "}
-      </PriceDisplay>
+      <PriceContainer>
+        <PriceDisplay>
+          {rangeMinValue.toLocaleString()}원 ~ {rangeMaxValue.toLocaleString()}
+          원
+        </PriceDisplay>
+        <ApplyButton onClick={handleApplyClick}>적용</ApplyButton>
+      </PriceContainer>
     </SliderContainer>
   );
 }
@@ -81,7 +89,6 @@ const SliderRange = styled.div`
   height: 3px;
   background-color: #4aabf9;
   background-image: linear-gradient(90deg, #cae7ff, #1786e0);
-
   border-radius: 5px;
 `;
 
@@ -114,8 +121,28 @@ const Thumb = styled.input`
   }
 `;
 
-const PriceDisplay = styled.div`
+const PriceContainer = styled.div`
   margin-top: 20px;
-  font-size: 18px;
   text-align: center;
+`;
+
+const PriceDisplay = styled.div`
+  font-size: 16px;
+`;
+
+const ApplyButton = styled.button`
+  margin-top: 25px;
+  width: 100px;
+  height: 29px;
+  border: none;
+  border-radius: 30px;
+  background-color: #4aabf9;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+
+  &:hover {
+    background-color: #1786e0;
+  }
 `;

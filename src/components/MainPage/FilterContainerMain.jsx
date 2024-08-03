@@ -22,7 +22,7 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
   const [selectedSport, setSelectedSport] = useState([]);
   const [selectedDisability, setSelectedDisability] = useState([]);
   const [selectedDate, setSelectedDate] = useState([]);
-  const [selectedPrice, setSelectedPrice] = useState([]);
+  const [selectedPrice, setSelectedPrice] = useState({ min: 0, max: 100000 });
 
   const regionRef = useRef();
   const sportsRef = useRef();
@@ -185,33 +185,17 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
 
   const handleOptionClick = (option) => {
     if (option.subOptions && option.subOptions.length > 0) {
-      setSubOptions(
-        option.subOptions.filter(
-          (subOption) =>
-            !selectedRegion.includes(subOption) &&
-            !selectedSport.includes(subOption) &&
-            !selectedDisability.includes(subOption)
-        )
-      );
+      setSubOptions(option.subOptions);
       setSubDropdown(true);
     } else {
       setSubDropdown(false);
       if (regionDropdown) {
-        if (!selectedRegion.includes(`${option.name}:${subOptions}`)) {
-          setSelectedRegion((prev) => [
-            ...prev,
-            `${option.name}:${subOptions}`,
-          ]);
+        if (!selectedRegion.includes(option.name)) {
+          setSelectedRegion((prev) => [...prev, option.name]);
         }
       } else if (sportsDropdown) {
-        // Only add if not already selected
         if (!selectedSport.includes(option.name)) {
           setSelectedSport((prev) => [...prev, option.name]);
-        }
-      } else if (disDropdown) {
-        // Only add if not already selected
-        if (!selectedDisability.includes(option.name)) {
-          setSelectedDisability((prev) => [...prev, option.name]);
         }
       }
       setRegionDropdown(false);
@@ -224,17 +208,18 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
 
   const handleSubOptionClick = (subOption) => {
     if (regionDropdown) {
-      // Only add if not already selected
       if (!selectedRegion.includes(subOption)) {
         setSelectedRegion((prev) => [...prev, subOption]);
+      } else {
+        setSelectedRegion((prev) => prev.filter((item) => item !== subOption));
       }
     } else if (sportsDropdown) {
-      // Only add if not already selected
       if (!selectedSport.includes(subOption)) {
         setSelectedSport((prev) => [...prev, subOption]);
+      } else {
+        setSelectedSport((prev) => prev.filter((item) => item !== subOption));
       }
     }
-    setSubDropdown(false);
   };
 
   const handleClearSelection = (category, value) => {
@@ -257,6 +242,7 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
   const handlePriceChange = (min, max) => {
     setSelectedPrice({ min, max });
     setPriceDropdown(false);
+    console.log(min, max);
   };
 
   return (
@@ -292,7 +278,9 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
           selectedSport={selectedSport}
           selectedDisability={selectedDisability}
           selectedDate={selectedDate}
+          selectedPrice={selectedPrice}
           handleClearSelection={handleClearSelection}
+          regionOptions={regionOptions}
         />
       </SelectedContainer>{" "}
       <FilterContainer>
@@ -321,7 +309,7 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
                       <DropdownItem
                         key={option.name}
                         onClick={() => handleOptionClick(option)}
-                        selected={selectedSport.includes(option.name)}
+                        selected={selectedRegion.includes(option.name)}
                       >
                         {option.name}
                       </DropdownItem>
@@ -338,8 +326,10 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
                       <DropdownItem
                         key={subOption}
                         onClick={() => handleSubOptionClick(subOption)}
-                        // selected={selectedDisability.includes(option.name)}
-                        selected={selectedDisability.includes(subOption)}
+                        selected={
+                          selectedRegion.includes(subOption) ||
+                          selectedSport.includes(subOption)
+                        }
                       >
                         {subOption}
                       </DropdownItem>
@@ -427,7 +417,7 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
             <PriceDropdown>
               <Slider>
                 <SliderCom
-                  selected={selectedDate}
+                  selectedPrice={selectedPrice}
                   onPriceChange={handlePriceChange}
                 />
               </Slider>
@@ -625,16 +615,12 @@ const DisDropdownSections = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const Calendar = styled.div`
-  margin-top: 5px;
-  width: 328px;
-  height: 286px;
-`;
+
 const PriceDropdown = styled.div``;
 
 const Slider = styled.div`
   width: 325px;
-  height: 141px;
+  height: 170px;
   border-radius: 10px;
   background-color: white;
   border: 1px solid white;
