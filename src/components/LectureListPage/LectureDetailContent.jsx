@@ -8,14 +8,55 @@ import locationIcon from "../../assets/img/PickedCourse.svg";
 import heartIcon from "../../assets/img/heart.svg";
 import heartFalseIcon from "../../assets/img/heartFalse.svg";
 import TeacherProfileModal from "./TeacherProfileModal";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import StarRating from "../Common/StarRating";
 import BgColor from "../Common/BgColor";
+import axios from "axios";
 
 function LectureDetailContent() {
+  const { courseId } = useParams();
+
   const [isTeacherProfileModalOpen, setTeacherProfileModalOpen] =
     useState(false);
+
+  const [data, setData] = useState();
+
   const [isLike, setIsLike] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST_URL}/api/course/detail?courseId=${courseId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+        setData(response.data);
+      });
+  }, [courseId]);
+
+  const possibleDisabilityTypes = data?.possibleDisabilityType.map(
+    (item) => item.disabilityType
+  );
+  const disabilityTypesText = possibleDisabilityTypes?.join(", ");
+
+  const FormatCourseTime = (courseBlock) => {
+    if (!courseBlock) return "";
+    // 강좌 시간 포맷팅
+    const lectureTimes = courseBlock.map((item) => {
+      const date = new Date(item.date);
+      const formattedDate = `${date.getMonth() + 1}/${date.getDate()}`;
+      const startTime = `${item.takenHour < 10 ? "0" : ""}${item.takenHour}:${
+        item.takenMinute < 10 ? "0" : ""
+      }${item.takenMinute}`;
+      return `${formattedDate}일 ${startTime}`;
+    });
+    return lectureTimes.join(", ");
+  };
 
   const navigate = useNavigate();
 
@@ -43,43 +84,45 @@ function LectureDetailContent() {
   console.log("is modal open: ", isTeacherProfileModalOpen);
   console.log("isLike : ", isLike);
 
+  if (!data) return <div>Loading...</div>;
+
   return (
     <BgColor>
       <Wrapper>
         <CourseCard>
           <CourseImg>
-            <img src={defaultImg} alt="기본 강좌 이미지"></img>
+            <img src={defaultImg} alt="기본 강좌 이미지" />
           </CourseImg>
           <CourseDetail>
             <Top>
               <LocationIcon>
-                <img src={locationIcon} alt="위치 아이콘"></img>
+                <img src={locationIcon} alt="위치 아이콘" />
               </LocationIcon>
-              <CourseTitle>물개가 되는 법</CourseTitle>
+              <CourseTitle>{data.title}</CourseTitle>
               <Like>
                 <img
                   onClick={handleHeartIconClick}
                   src={isLike ? heartIcon : heartFalseIcon}
                   alt="하트 아이콘"
-                ></img>
+                />
               </Like>
             </Top>
             <Middle>
               <Teacher>
-                <DetailText>• 강사 : 이다빈</DetailText>
+                <DetailText>• 강사 : {data.teacher.name}</DetailText>
                 <Score>
-                  <StarRating score={3.5} />
-                  <StarRate>(45)</StarRate>
+                  <StarRating score={data.teacher.score} />
+                  <StarRate>({data.teacher.reviewCount})</StarRate>
                 </Score>
               </Teacher>
-              <DetailText>• 연락처 : 010-1234-1234</DetailText>
+              <DetailText>• 연락처 : {data.teacher.contactNumber}</DetailText>
+              <DetailText>• 주소 : {data.location}</DetailText>
               <DetailText>
-                • 주소 : 경북 포항시 북구 법원로 98번길 36 1층
+                • 가능한 장애유형 : {disabilityTypesText} 장애 가능
               </DetailText>
               <DetailText>
-                • 가능한 장애유형 : 뇌병변 / 시,청각 장애 가능
+                • 강좌 시간 : {FormatCourseTime(data.courseBlock)}
               </DetailText>
-              <DetailText>• 강좌 시간 : 8/1, 8/2, 8/3 오전 10-12시</DetailText>
             </Middle>
           </CourseDetail>
         </CourseCard>
@@ -89,11 +132,7 @@ function LectureDetailContent() {
         <CourseInfo>
           <InfoTitle>개설 강좌정보</InfoTitle>
           <InfoContent>
-            <InfoText>
-              모두가 차별없이 건강한 세상! <br /> <br /> 장애를 가지고 있어도
-              수영을 배우는 것은 식은 죽 먹기! <br /> 즐거운 마음으로 수영을
-              배우실 여러분들을 초대합니다
-            </InfoText>
+            <InfoText>{data.description}</InfoText>
           </InfoContent>
         </CourseInfo>
         <Btn>
