@@ -8,6 +8,7 @@ import LoginModal from "./LoginModal";
 function HeaderMain() {
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
   const navigate = useNavigate();
+  const token = localStorage.getItem("jwtToken");
 
   const toggleLoginModal = () => {
     setLoginModalOpen((prevState) => !prevState);
@@ -16,6 +17,8 @@ function HeaderMain() {
   const handleSignInClick = () => {
     navigate("/sign");
   };
+
+  const handleSignOutBtnClick = () => {};
 
   useEffect(() => {
     document.body.style.overflow = isLoginModalOpen ? "hidden" : "auto";
@@ -44,8 +47,14 @@ function HeaderMain() {
         </Logo>
       </Menus>
       <SignInSection>
-        <SignIn onClick={toggleLoginModal}>로그인</SignIn>
-        <SignIn onClick={handleSignInClick}>회원가입</SignIn>
+        {!token ? (
+          <>
+            <SignIn onClick={toggleLoginModal}>로그인</SignIn>
+            <SignIn onClick={handleSignInClick}>회원가입</SignIn>
+          </>
+        ) : (
+          <SignOut onClick={handleSignOutBtnClick}>로그아웃</SignOut>
+        )}
       </SignInSection>
       {isLoginModalOpen && <LoginModal toggleModal={toggleLoginModal} />}
       <SearchSection>
@@ -131,10 +140,19 @@ const SignInSection = styled.div`
   top: 30%;
   transform: translateX(-50%);
   z-index: 1;
+  /* border: 1px solid red; */
 `;
 
 const SignIn = styled.div`
   color: #1997fc;
   font-size: 14px;
   cursor: pointer;
+`;
+
+const SignOut = styled.div`
+  color: #1997fc;
+  font-size: 14px;
+  cursor: pointer;
+  /* border: 1px solid red; */
+  margin-left: 70px;
 `;
