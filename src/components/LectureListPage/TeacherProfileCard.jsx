@@ -3,7 +3,14 @@ import styled from "styled-components";
 import StarRating from "../../components/Common/StarRating";
 import heartIcon from "../../assets/img/heart.svg";
 
-function TeacherProfileCard({ course }) {
+function TeacherProfileCard({ teacher, course }) {
+  const possibleDisabilityTypes = course.possibleDisabilityType?.map(
+    (item) => item.disabilityType
+  );
+  const disabilityTypesText = possibleDisabilityTypes?.join(", ");
+
+  if (!teacher) return <div>강사 정보 불러오는 중 ...</div>;
+
   return (
     <>
       <Card>
@@ -21,15 +28,14 @@ function TeacherProfileCard({ course }) {
           <Tags>
             <Tag>#{course.location}</Tag>
             <Tag>{course.sportType}</Tag>
-            <Tag>7월 17일</Tag>
           </Tags>
-          <Teacher>{course.name}</Teacher>
-          <DisabailityType>{course.disabilityType}</DisabailityType>
+          <Teacher>{teacher.name}</Teacher>
+          <DisabailityType>{disabilityTypesText}</DisabailityType>
           <Bottom>
             <Price>{course.price.toLocaleString()}원</Price>
             <Score>
-              <StarRating score={course.score} />
-              <StarRate>(45)</StarRate>
+              <StarRating score={teacher.score} />
+              <StarRate>({teacher.reviewCount})</StarRate>
             </Score>
           </Bottom>
         </InfoSection>
