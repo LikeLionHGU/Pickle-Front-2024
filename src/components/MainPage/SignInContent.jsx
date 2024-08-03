@@ -21,12 +21,31 @@ function SignInContent() {
     locationDetail: "",
   });
 
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setForm({
+  //     ...form,
+  //     [name]: value,
+  //   });
+  // };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm({
-      ...form,
-      [name]: value,
-    });
+
+    if (name === "birthdate") {
+      const birthDate = new Date(value);
+      setForm({
+        ...form,
+        bornYear: birthDate.getFullYear(),
+        bornMonth: birthDate.getMonth() + 1,
+        bornDay: birthDate.getDate(),
+      });
+    } else {
+      setForm({
+        ...form,
+        [name]: value,
+      });
+    }
   };
 
   const handleSubmit = (e) => {
@@ -35,7 +54,7 @@ function SignInContent() {
   };
 
   console.log("location: ", form.location);
-
+  console.log("Form: ", form);
   return (
     <Wrapper>
       <BgImg>
