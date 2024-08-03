@@ -5,6 +5,13 @@ import googleLoginBtn from "../../assets/img/googleLoginBtn.svg";
 import kakaoLoginBtn from "../../assets/img/kakaoLoginBtn.svg";
 
 function LoginModal({ toggleModal }) {
+  const handleKakaoLogin = () => {
+    const REST_API_KEY = process.env.REACT_APP_KAKAO_AUTH_CLIENT_ID;
+    const REDIRECT_URI = process.env.REACT_APP_KAKAO_AUTH_REDIRECT_URL;
+
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  };
+
   return (
     <Modal>
       <Overlay onClick={toggleModal} />
@@ -24,6 +31,7 @@ function LoginModal({ toggleModal }) {
               alt="구글 로그인 버튼"
             ></GoogleLoginBtn>
             <KakaoLoginBtn
+              onClick={handleKakaoLogin}
               src={kakaoLoginBtn}
               alt="카카오 로그인 버튼"
             ></KakaoLoginBtn>
