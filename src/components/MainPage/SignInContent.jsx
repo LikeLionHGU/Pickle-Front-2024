@@ -23,19 +23,59 @@ function SignInContent() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm({
-      ...form,
-      [name]: value,
-    });
+
+    if (name === "birthdate") {
+      const birthDate = new Date(value);
+      setForm({
+        ...form,
+        bornYear: birthDate.getFullYear(),
+        bornMonth: birthDate.getMonth() + 1,
+        bornDay: birthDate.getDate(),
+      });
+    } else if (name === "contactNumber" || name === "familyNumber") {
+      // 전화번호 입력값에서 '-'를 제거하고 상태 업데이트
+      const cleanedValue = value.replace(/-/g, "");
+      setForm({
+        ...form,
+        [name]: cleanedValue,
+      });
+    } else {
+      setForm({
+        ...form,
+        [name]: value,
+      });
+    }
+  };
+
+  const formatPhoneNumber = (value) => {
+    // 숫자만 남기기
+    const numbersOnly = value.replace(/\D/g, "");
+
+    // 3-4-4 형식 맞추기
+    const formatted = numbersOnly.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
+
+    return formatted.substring(0, 13); // 13자만 반환 (010-0000-0000)
+  };
+
+  const removeHyphens = (value) => {
+    return value.replace(/-/g, "");
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted:", form);
+
+    // '-'를 제거한 값으로 제출하기
+    const submittedForm = {
+      ...form,
+      contactNumber: removeHyphens(form.contactNumber),
+      familyNumber: removeHyphens(form.familyNumber),
+    };
+
+    console.log("Form submitted:", submittedForm);
   };
 
   console.log("location: ", form.location);
-
+  console.log("Form: ", form);
   return (
     <Wrapper>
       <BgImg>
@@ -138,8 +178,8 @@ function SignInContent() {
                 type="tel"
                 id="contactNumber"
                 name="contactNumber"
-                placeholder="연락처를 입력해주세요"
-                value={form.contactNumber}
+                placeholder="연락처를 입력해주세요."
+                value={formatPhoneNumber(form.contactNumber)}
                 onChange={handleChange}
                 required
               />
@@ -151,7 +191,7 @@ function SignInContent() {
                 id="familyNumber"
                 name="familyNumber"
                 placeholder="연락처를 입력해주세요"
-                value={form.familyNumber}
+                value={formatPhoneNumber(form.familyNumber)}
                 onChange={handleChange}
               />
             </Section>
