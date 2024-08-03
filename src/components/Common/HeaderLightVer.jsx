@@ -8,6 +8,7 @@ import LoginModal from "../MainPage/LoginModal";
 function HeaderLightVer() {
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
   const navigate = useNavigate();
+  const token = localStorage.getItem("jwtToken");
 
   const handleMenuClick = (url) => {
     navigate(url);
@@ -29,6 +30,12 @@ function HeaderLightVer() {
     navigate("/sign");
   };
 
+  const handleSignOutBtnClick = () => {
+    localStorage.removeItem("jwtToken");
+    window.location.reload();
+    navigate("/");
+  };
+
   return (
     <Wrapper>
       <Menus>
@@ -44,8 +51,14 @@ function HeaderLightVer() {
         </Logo>
       </Menus>
       <SignInSection>
-        <SignIn onClick={toggleLoginModal}>로그인</SignIn>
-        <SignIn onClick={handleSignInClick}>회원가입</SignIn>
+        {!token ? (
+          <>
+            <SignIn onClick={toggleLoginModal}>로그인</SignIn>
+            <SignIn onClick={handleSignInClick}>회원가입</SignIn>
+          </>
+        ) : (
+          <SignOut onClick={handleSignOutBtnClick}>로그아웃</SignOut>
+        )}
       </SignInSection>
       {isLoginModalOpen && <LoginModal toggleModal={toggleLoginModal} />}
       <SearchSection>
@@ -137,4 +150,12 @@ const SignIn = styled.div`
   color: #1997fc;
   font-size: 14px;
   cursor: pointer;
+`;
+
+const SignOut = styled.div`
+  color: #1997fc;
+  font-size: 14px;
+  cursor: pointer;
+  /* border: 1px solid red; */
+  margin-left: 70px;
 `;

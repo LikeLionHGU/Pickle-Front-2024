@@ -112,7 +112,7 @@ function LectureDetailContent() {
       <Wrapper>
         <CourseCard>
           <CourseImg>
-            <img src={defaultImg} alt="기본 강좌 이미지" />
+            <img src={data.imageURL} alt="기본 강좌 이미지" />
           </CourseImg>
           <CourseDetail>
             <Top>

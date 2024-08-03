@@ -26,7 +26,7 @@ function UserSavedLectureContent() {
   return (
     <Wrapper>
       <Content>
-        <Title>최예라 님! 찜한 강의들이에요</Title>
+        <Title>최예라 님! 찜한 강좌들이에요</Title>
         <CourseContainer>
           {data?.map((data, index) => (
             <React.Fragment key={data.courseId}>

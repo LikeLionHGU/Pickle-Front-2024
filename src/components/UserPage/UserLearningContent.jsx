@@ -8,7 +8,7 @@ function UserLearningContent() {
   return (
     <Wrapper>
       <Content>
-        <Title>최예라 님! 현재 수강 중인 강의에요</Title>
+        <Title>최예라 님! 현재 수강 중인 강좌에요</Title>
         <CourseContainer>
           {data.map((course, index) => (
             <React.Fragment key={course.courseId}>
