@@ -1,18 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import CourseCard from "../Common/CourseCard";
 import CourseDivideLine from "../Common/CourseDivideLine";
-import data from "../../components/Common/CourseDummyData";
+import axios from "axios";
+// import data from "../../components/Common/CourseDummyData";
 
 function UserSavedLectureContent() {
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_HOST_URL}/api/mypage/like`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setData(response.data);
+      });
+  }, []);
+
+  if (!data) return <div>Loading...</div>;
+
   return (
     <Wrapper>
       <Content>
         <Title>최예라 님! 찜한 강의들이에요</Title>
         <CourseContainer>
-          {data.map((course, index) => (
-            <React.Fragment key={course.courseId}>
-              <CourseCard course={course} />
+          {data?.map((data, index) => (
+            <React.Fragment key={data.courseId}>
+              <CourseCard course={data} />
               {index % 2 === 0 && <CourseDivideLine />}
             </React.Fragment>
           ))}
