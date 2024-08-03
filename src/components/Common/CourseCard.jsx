@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import StarRating from "./StarRating";
 import heartIcon from "../../assets/img/heart.svg";
-import defaultImg from "../../assets/img/defaultImg.jpg";
 
 function CourseCard({ course }) {
   const possibleDisabilityTypes = course.possibleDisabilityType?.map(
@@ -13,7 +12,7 @@ function CourseCard({ course }) {
   return (
     <Card>
       <CourseImg>
-        <img src={defaultImg} alt="기본 강좌 이미지" />
+        <img src={course.imageURL} alt="기본 강좌 이미지" />
       </CourseImg>
       <InfoSection>
         <Top>
