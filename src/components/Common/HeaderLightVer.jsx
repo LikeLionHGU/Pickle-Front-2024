@@ -30,7 +30,11 @@ function HeaderLightVer() {
     navigate("/sign");
   };
 
-  const handleSignOutBtnClick = () => {};
+  const handleSignOutBtnClick = () => {
+    localStorage.removeItem("jwtToken");
+    window.location.reload();
+    navigate("/");
+  };
 
   return (
     <Wrapper>

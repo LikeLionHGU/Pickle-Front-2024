@@ -18,7 +18,10 @@ function HeaderMain() {
     navigate("/sign");
   };
 
-  const handleSignOutBtnClick = () => {};
+  const handleSignOutBtnClick = () => {
+    localStorage.removeItem("jwtToken");
+    window.location.reload();
+  };
 
   useEffect(() => {
     document.body.style.overflow = isLoginModalOpen ? "hidden" : "auto";
