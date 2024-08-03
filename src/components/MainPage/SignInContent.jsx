@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import kakaoBtn from "../../assets/img/bigKakaoBtn.svg";
 import bgImg from "../../assets/img/signInBgImg.svg";
@@ -12,9 +12,9 @@ function SignInContent() {
     bornDay: "",
     sex: "",
     nickname: "",
-    description: "",
-    disabilityType: "",
-    disabilityLevel: "",
+    description: "기본 설명",
+    disabilityTypeList: "",
+    disabilityLevelList: "",
     contactNumber: "",
     familyNumber: "",
     location: "",
@@ -76,6 +76,17 @@ function SignInContent() {
 
   console.log("location: ", form.location);
   console.log("Form: ", form);
+
+  const handleKakaoLogin = () => {
+    const REST_API_KEY = process.env.REACT_APP_KAKAO_AUTH_CLIENT_ID;
+    const REDIRECT_URI = process.env.REACT_APP_KAKAO_AUTH_REDIRECT_URL;
+
+    // 폼 데이터를 로컬 스토리지에 저장
+    localStorage.setItem("form", JSON.stringify(form));
+
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  };
+
   return (
     <Wrapper>
       <BgImg>
@@ -196,14 +207,14 @@ function SignInContent() {
               />
             </Section>
             <SelectWrapper>
-              <Label htmlFor="disabilityType">
+              <Label htmlFor="disabilityTypeList">
                 장애 유형<Red>*</Red>
               </Label>
-              <label htmlFor="disabilityLevel"></label>
+              <label htmlFor="disabilityTypeList"></label>
               <Select
-                id="disabilityType"
-                name="disabilityType"
-                value={form.disabilityType}
+                id="disabilityTypeList"
+                name="disabilityTypeList"
+                value={form.disabilityTypeList}
                 onChange={handleChange}
                 $hasValue={!!form.disabilityType}
                 required
@@ -216,11 +227,11 @@ function SignInContent() {
                 <option value="기타">기타</option>
               </Select>
               <Select
-                id="disabilityLevel"
-                name="disabilityLevel"
-                value={form.disabilityLevel}
+                id="disabilityLevelList"
+                name="disabilityLevelList"
+                value={form.disabilityLevelList}
                 onChange={handleChange}
-                $hasValue={!!form.disabilityLevel}
+                $hasValue={!!form.disabilityLevelList}
                 required
               >
                 <option value="">등급</option>
@@ -233,7 +244,7 @@ function SignInContent() {
               </Select>
             </SelectWrapper>
           </Form>
-          <KakaoBtn>
+          <KakaoBtn onClick={handleKakaoLogin}>
             <img src={kakaoBtn} alt="카카오로 시작하기 버튼" />
           </KakaoBtn>
         </Content>
