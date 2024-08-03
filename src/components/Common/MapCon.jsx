@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Map, MapMarker, ZoomControl } from "react-kakao-maps-sdk";
+import {
+  Map,
+  MapMarker,
+  ZoomControl,
+  CustomOverlayMap,
+} from "react-kakao-maps-sdk";
 import MarkerImg from "../../assets/img/PickedCourse.svg";
+import styled from "styled-components";
 
 export default function MapCon() {
   const [currentPosition, setCurrentPosition] = useState({
@@ -30,30 +36,59 @@ export default function MapCon() {
       <Map
         center={currentPosition} // 현재 위치 불러오기
         style={{ width: "100%", height: "100%" }}
-        // draggable={false}
         zoomable={zoomable}
       >
         <MapMarker
-          position={{ lat: 37.54699, lng: 127.09598 }}
+          position={currentPosition}
           image={{
-            src: "https://raw.githubusercontent.com/LikeLionHGU/Pickle-Front-2024/master/src/assets/img/marker.svg",
+            src: MarkerImg,
             size: {
-              width: 40,
-              height: 50,
-            }, // 마커이미지 크기
+              width: 25,
+              height: 35,
+            },
             options: {
               offset: {
-                x: 20,
-                y: 50,
+                x: 25,
+                y: 35,
               },
             },
           }}
-        />
-        <MapMarker position={currentPosition}>
-          {/* <div style={{ color: "#000" }}>현재 위치</div>{" "} */}
-        </MapMarker>
+        ></MapMarker>
+        <CustomOverlayMap position={currentPosition} yAnchor={1}>
+          <OverlayWrapper>
+            <a
+              href={`https://map.kakao.com/link/map/${currentPosition.lat},${currentPosition.lng}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span className="title">클래스 위치 정보 자세히 보기</span>
+            </a>
+          </OverlayWrapper>
+        </CustomOverlayMap>
         <ZoomControl />
       </Map>
     </div>
   );
 }
+
+const OverlayWrapper = styled.div`
+  background-color: white;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  position: relative;
+  transform: translateY(-50px);
+
+  .title {
+    color: #333;
+    text-decoration: none;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  &:hover {
+    background-color: #4aabf9;
+  }
+`;

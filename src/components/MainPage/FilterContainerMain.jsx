@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import CalendarCom from "../Common/CalendarCom";
 import SliderCom from "../Common/SliderCom";
+import SelectedContentBox from "./SelectedContentBox";
 
 function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
   const [checked, setChecked] = useState({
@@ -21,7 +22,7 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
   const [selectedSport, setSelectedSport] = useState([]);
   const [selectedDisability, setSelectedDisability] = useState([]);
   const [selectedDate, setSelectedDate] = useState([]);
-  const [selectedPrice, setSelectedPrice] = useState([]);
+  const [selectedPrice, setSelectedPrice] = useState({ min: 0, max: 100000 });
 
   const regionRef = useRef();
   const sportsRef = useRef();
@@ -30,10 +31,10 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
   const priceRef = useRef();
 
   const regionOptions = [
-    { name: "강원", subOptions: ["강원원"] },
+    { name: "강원", subOptions: ["옥수수", "감자"] },
     { name: "경기", subOptions: ["과천시", "의왕시", "안양시"] },
     { name: "경남", subOptions: [] },
-    { name: "경북", subOptions: [] },
+    { name: "경북", subOptions: ["포항시"] },
     { name: "광주", subOptions: [] },
     {
       name: "대구",
@@ -49,7 +50,7 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
         "중구",
       ],
     },
-    { name: "대전", subOptions: [] },
+    { name: "대전", subOptions: ["노잼", "도시"] },
     { name: "부산", subOptions: [] },
     { name: "서울", subOptions: [] },
     { name: "세종", subOptions: [] },
@@ -184,31 +185,17 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
 
   const handleOptionClick = (option) => {
     if (option.subOptions && option.subOptions.length > 0) {
-      setSubOptions(
-        option.subOptions.filter(
-          (subOption) =>
-            !selectedRegion.includes(subOption) &&
-            !selectedSport.includes(subOption) &&
-            !selectedDisability.includes(subOption)
-        )
-      );
+      setSubOptions(option.subOptions);
       setSubDropdown(true);
     } else {
       setSubDropdown(false);
       if (regionDropdown) {
-        // Only add if not already selected
         if (!selectedRegion.includes(option.name)) {
           setSelectedRegion((prev) => [...prev, option.name]);
         }
       } else if (sportsDropdown) {
-        // Only add if not already selected
         if (!selectedSport.includes(option.name)) {
           setSelectedSport((prev) => [...prev, option.name]);
-        }
-      } else if (disDropdown) {
-        // Only add if not already selected
-        if (!selectedDisability.includes(option.name)) {
-          setSelectedDisability((prev) => [...prev, option.name]);
         }
       }
       setRegionDropdown(false);
@@ -221,17 +208,18 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
 
   const handleSubOptionClick = (subOption) => {
     if (regionDropdown) {
-      // Only add if not already selected
       if (!selectedRegion.includes(subOption)) {
         setSelectedRegion((prev) => [...prev, subOption]);
+      } else {
+        setSelectedRegion((prev) => prev.filter((item) => item !== subOption));
       }
     } else if (sportsDropdown) {
-      // Only add if not already selected
       if (!selectedSport.includes(subOption)) {
         setSelectedSport((prev) => [...prev, subOption]);
+      } else {
+        setSelectedSport((prev) => prev.filter((item) => item !== subOption));
       }
     }
-    setSubDropdown(false);
   };
 
   const handleClearSelection = (category, value) => {
@@ -254,51 +242,7 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
   const handlePriceChange = (min, max) => {
     setSelectedPrice({ min, max });
     setPriceDropdown(false);
-  };
-
-  const renderSelectedContent = () => {
-    return (
-      <>
-        {selectedRegion.map((item, index) => (
-          <SelectedContent key={index}>
-            <Hashtag>#</Hashtag>
-            {item}
-            <ClearButton onClick={() => handleClearSelection("region", item)}>
-              ×
-            </ClearButton>
-          </SelectedContent>
-        ))}
-        {selectedSport.map((item, index) => (
-          <SelectedContent key={index}>
-            <Hashtag>#</Hashtag>
-            {item}
-            <ClearButton onClick={() => handleClearSelection("sport", item)}>
-              ×
-            </ClearButton>
-          </SelectedContent>
-        ))}
-        {selectedDisability.map((item, index) => (
-          <SelectedContent key={index}>
-            <Hashtag>#</Hashtag>
-            {item}
-            <ClearButton
-              onClick={() => handleClearSelection("disability", item)}
-            >
-              ×
-            </ClearButton>
-          </SelectedContent>
-        ))}
-        {selectedDate.map((item, index) => (
-          <SelectedContent key={index}>
-            <Hashtag>#</Hashtag>
-            {item}
-            <ClearButton onClick={() => handleClearSelection("date", item)}>
-              ×
-            </ClearButton>
-          </SelectedContent>
-        ))}
-      </>
-    );
+    console.log(min, max);
   };
 
   return (
@@ -328,7 +272,17 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
           </CheckboxWrapper>
         </CheckboxContainer>
       </Container>
-      <SelectedContainer>{renderSelectedContent()}</SelectedContainer>
+      <SelectedContainer>
+        <SelectedContentBox
+          selectedRegion={selectedRegion}
+          selectedSport={selectedSport}
+          selectedDisability={selectedDisability}
+          selectedDate={selectedDate}
+          selectedPrice={selectedPrice}
+          handleClearSelection={handleClearSelection}
+          regionOptions={regionOptions}
+        />
+      </SelectedContainer>{" "}
       <FilterContainer>
         <FilterContent ref={regionRef}>
           <FilterTitle onClick={toggleRegionDropdown}>지역</FilterTitle>
@@ -355,7 +309,7 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
                       <DropdownItem
                         key={option.name}
                         onClick={() => handleOptionClick(option)}
-                        selected={selectedSport.includes(option.name)}
+                        selected={selectedRegion.includes(option.name)}
                       >
                         {option.name}
                       </DropdownItem>
@@ -372,8 +326,10 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
                       <DropdownItem
                         key={subOption}
                         onClick={() => handleSubOptionClick(subOption)}
-                        // selected={selectedDisability.includes(option.name)}
-                        selected={selectedDisability.includes(subOption)}
+                        selected={
+                          selectedRegion.includes(subOption) ||
+                          selectedSport.includes(subOption)
+                        }
                       >
                         {subOption}
                       </DropdownItem>
@@ -461,7 +417,7 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
             <PriceDropdown>
               <Slider>
                 <SliderCom
-                  selected={selectedDate}
+                  selectedPrice={selectedPrice}
                   onPriceChange={handlePriceChange}
                 />
               </Slider>
@@ -551,34 +507,6 @@ const SelectedContainer = styled.div`
   margin-left: 37px;
   display: flex;
   flex-wrap: wrap;
-`;
-const Hashtag = styled.div`
-  color: #4aabf9;
-  font-size: 13px;
-  margin-right: 5px;
-`;
-const SelectedContent = styled.div`
-  padding-left: 7px;
-  padding-right: 30px;
-  height: 20px;
-  border: 1px solid #4aabf9;
-  border-radius: 10px;
-  color: #4aabf9;
-  font-size: 13px;
-  margin-right: 22px;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-`;
-const ClearButton = styled.div`
-  position: absolute;
-  right: 5px;
-  cursor: pointer;
-  font-size: 15px;
-  margin-right: 4px;
-  color: #4aabf9;
 `;
 const FilterContainer = styled.div`
   display: flex;
@@ -687,16 +615,12 @@ const DisDropdownSections = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const Calendar = styled.div`
-  margin-top: 5px;
-  width: 328px;
-  height: 286px;
-`;
+
 const PriceDropdown = styled.div``;
 
 const Slider = styled.div`
   width: 325px;
-  height: 141px;
+  height: 170px;
   border-radius: 10px;
   background-color: white;
   border: 1px solid white;
