@@ -26,9 +26,7 @@ const LoginRedirection = () => {
           },
         })
         .then((response) => {
-          localStorage.setItem("kakaoId", response.data.kakaoId);
           // JWT 액세스 토큰을 로컬 스토리지에 저장
-          localStorage.setItem("accessToken", response.data.accessToken);
           localStorage.setItem("jwtToken", response.data.token);
 
           navigate("/");
