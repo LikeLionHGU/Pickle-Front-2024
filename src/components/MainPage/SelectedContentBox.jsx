@@ -3,12 +3,12 @@ import styled from "styled-components";
 
 const SelectedContentBox = ({
   selectedRegion,
-  selectedSport,
-  selectedDisability,
+  selectedSportType,
+  selectedDisabilityType,
   selectedDate,
   selectedPrice,
   handleClearSelection,
-  regionOptions = [], // 기본값을 빈 배열로 설정
+  regionOptions = [],
 }) => {
   const isSubOption = (item) => {
     return (
@@ -53,7 +53,7 @@ const SelectedContentBox = ({
           );
         }
       })}
-      {selectedSport.map((item, index) => (
+      {selectedSportType.map((item, index) => (
         <SelectedContent key={index}>
           <Hashtag>#</Hashtag>
           {item}
@@ -62,7 +62,7 @@ const SelectedContentBox = ({
           </ClearButton>
         </SelectedContent>
       ))}
-      {selectedDisability.map((item, index) => (
+      {selectedDisabilityType.map((item, index) => (
         <SelectedContent key={index}>
           <Hashtag>#</Hashtag>
           {item}

@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
 import styled from "styled-components";
 import CalendarCom from "../Common/CalendarCom";
 import SliderCom from "../Common/SliderCom";
@@ -19,8 +20,10 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
   const [subDropdown, setSubDropdown] = useState(false);
 
   const [selectedRegion, setSelectedRegion] = useState([]);
-  const [selectedSport, setSelectedSport] = useState([]);
-  const [selectedDisability, setSelectedDisability] = useState([]);
+  const [selectedCity, setSelectedCity] = useState([]);
+  const [selectedDistrict, setSelectedDistrict] = useState([]);
+  const [selectedSportType, setSelectedSportType] = useState([]);
+  const [selectedDisabilityType, setSelectedDisabilityType] = useState([]);
   const [selectedDate, setSelectedDate] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState({ min: 0, max: 100000 });
 
@@ -192,12 +195,18 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
       if (regionDropdown) {
         if (!selectedRegion.includes(option.name)) {
           setSelectedRegion((prev) => [...prev, option.name]);
+          setSelectedCity((prev) => [...prev, option.name]);
         }
       } else if (sportsDropdown) {
-        if (!selectedSport.includes(option.name)) {
-          setSelectedSport((prev) => [...prev, option.name]);
+        if (!selectedSportType.includes(option.name)) {
+          setSelectedSportType((prev) => [...prev, option.name]);
+        }
+      } else if (disDropdown) {
+        if (!selectedDisabilityType.includes(option.name)) {
+          setSelectedDisabilityType((prev) => [...prev, option.name]);
         }
       }
+
       setRegionDropdown(false);
       setSportsDropdown(false);
       setDisDropdown(false);
@@ -210,14 +219,20 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
     if (regionDropdown) {
       if (!selectedRegion.includes(subOption)) {
         setSelectedRegion((prev) => [...prev, subOption]);
+        setSelectedDistrict((prev) => [...prev, subOption]);
       } else {
         setSelectedRegion((prev) => prev.filter((item) => item !== subOption));
+        setSelectedDistrict((prev) =>
+          prev.filter((item) => item !== subOption)
+        );
       }
     } else if (sportsDropdown) {
-      if (!selectedSport.includes(subOption)) {
-        setSelectedSport((prev) => [...prev, subOption]);
+      if (!selectedSportType.includes(subOption)) {
+        setSelectedSportType((prev) => [...prev, subOption]);
       } else {
-        setSelectedSport((prev) => prev.filter((item) => item !== subOption));
+        setSelectedSportType((prev) =>
+          prev.filter((item) => item !== subOption)
+        );
       }
     }
   };
@@ -225,10 +240,14 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
   const handleClearSelection = (category, value) => {
     if (category === "region") {
       setSelectedRegion((prev) => prev.filter((item) => item !== value));
+      // setSelectedCity((prev) => prev.filter((item) => item !== value));
+      // setSelectedDistrict((prev) => prev.filter((item) => item !== value));
     } else if (category === "sport") {
-      setSelectedSport((prev) => prev.filter((item) => item !== value));
+      setSelectedSportType((prev) => prev.filter((item) => item !== value));
     } else if (category === "disability") {
-      setSelectedDisability((prev) => prev.filter((item) => item !== value));
+      setSelectedDisabilityType((prev) =>
+        prev.filter((item) => item !== value)
+      );
     } else if (category === "date") {
       setSelectedDate((prev) => prev.filter((item) => item !== value));
     }
@@ -244,6 +263,47 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
     setPriceDropdown(false);
     console.log(min, max);
   };
+
+  const [courses, setCourses] = useState([]);
+  const [error, setError] = useState(null);
+
+  const handleSearch = async () => {
+    try {
+      const response = await axios.get(
+        "http://15.164.88.154:8080/api/course?page=0&size=9&direction=DESC&city={city}&district={district}&sportType={sportType}&disabilityType={disabilityType}&date={date}&price={price}",
+        {
+          params: {
+            page: 0,
+            size: 9,
+            direction: "DESC",
+            sportType: selectedSportType,
+            city: selectedCity,
+            district: selectedDistrict,
+            disabilityType: selectedDisabilityType,
+            date: selectedDate,
+            minPrice: selectedPrice.min,
+            maxPrice: selectedPrice.max,
+          },
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzUxMiJ9.eyJrYWthb0lkIjoiMzY0ODMzODMyMCIsInN1YiI6IjM2NDgzMzgzMjAiLCJpYXQiOjE3MjI1OTg3NzgsImV4cCI6MTcyMzIwMzU3OH0.gDvOqzLgeXOlNpidfdfGQbxh8FblgJDHZ1I-0LQTnNE6vl-FW0hfqvD8lVxg2modyDsHKT1uSyszxm7QmIsfgA",
+          },
+        }
+      );
+      setCourses(response.data);
+      console.log("Search results:", response.data);
+    } catch (err) {
+      setError(err.message);
+      console.error("Error fetching courses:", err);
+    }
+  };
+  // , [
+  //   selectedSportType,
+  //   selectedCity,
+  //   selectedDisabilityType,
+  //   selectedDate,
+  //   selectedPrice,
+  // ]);
 
   return (
     <Wrapper absolute={absolute} marginTop={marginTop} marginLeft={marginLeft}>
@@ -275,8 +335,8 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
       <SelectedContainer>
         <SelectedContentBox
           selectedRegion={selectedRegion}
-          selectedSport={selectedSport}
-          selectedDisability={selectedDisability}
+          selectedSportType={selectedSportType}
+          selectedDisabilityType={selectedDisabilityType}
           selectedDate={selectedDate}
           selectedPrice={selectedPrice}
           handleClearSelection={handleClearSelection}
@@ -328,7 +388,7 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
                         onClick={() => handleSubOptionClick(subOption)}
                         selected={
                           selectedRegion.includes(subOption) ||
-                          selectedSport.includes(subOption)
+                          selectedSportType.includes(subOption)
                         }
                       >
                         {subOption}
@@ -341,7 +401,7 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
         </FilterContent>
         <FilterContent ref={sportsRef}>
           <FilterTitle
-            selected={selectedSport.length > 0}
+            selected={selectedSportType.length > 0}
             onClick={toggleSportsDropdown}
           >
             운동종목
@@ -358,7 +418,7 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
                         onClick={() =>
                           handleOptionClick({ name: subOption, subOptions: [] })
                         }
-                        selected={selectedSport.includes(subOption)}
+                        selected={selectedSportType.includes(subOption)}
                       >
                         {subOption}
                       </DropdownItem>
@@ -372,7 +432,7 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
 
         <FilterContent ref={disRef}>
           <FilterTitle
-            selected={selectedDisability.length > 0}
+            selected={selectedDisabilityType.length > 0}
             onClick={toggleDisDropdown}
           >
             장애유형
@@ -384,7 +444,7 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
                   <DropdownItem
                     key={option.name}
                     onClick={() => handleOptionClick(option)}
-                    selected={selectedDisability.includes(option.name)}
+                    selected={selectedDisabilityType.includes(option.name)}
                   >
                     {option.name}
                   </DropdownItem>
@@ -424,7 +484,7 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
             </PriceDropdown>
           )}
         </FilterContent>
-        <SearchBtn>
+        <SearchBtn onClick={handleSearch}>
           <SearchBtnTitle>검색</SearchBtnTitle>
         </SearchBtn>
       </FilterContainer>
