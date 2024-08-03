@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import defaultTeacherImg from "../../assets/img/defaultTeacherImg.svg";
+// import defaultTeacherImg from "../../assets/img/defaultTeacherImg.svg";
 import closeBtn from "../../assets/img/CloseBtn.svg";
 import star from "../../assets/img/star.svg";
 import { Link, useParams } from "react-router-dom";
@@ -26,6 +26,8 @@ function TeacherProfileModal({ toggleModal }) {
         setData(response.data);
       });
   }, [courseId]);
+
+  const careers = data?.teacher?.career?.split(",").map((item) => item.trim());
 
   if (!data) return <div>강사 정보 불러오는 중 ...</div>;
 
@@ -61,8 +63,9 @@ function TeacherProfileModal({ toggleModal }) {
             </TeacherDetail>
             <Certificate>
               <CertificateCategory>보유 자격증</CertificateCategory>
-              <CertificateDetail>• 생활 체육 지도사 1급</CertificateDetail>
-              <CertificateDetail>• 재활 치료사</CertificateDetail>
+              {careers?.map((career, index) => (
+                <CertificateDetail key={index}>• {career}</CertificateDetail>
+              ))}
             </Certificate>
           </Left>
           <DivisionLine></DivisionLine>
@@ -226,7 +229,9 @@ const CourseRate = styled.div`
 
 const Certificate = styled.div`
   /* border: 1px solid red; */
-  margin-top: 58px;
+  margin-top: 50px;
+  height: 140px;
+  overflow-y: auto;
 `;
 
 const CertificateCategory = styled.div`
@@ -272,10 +277,13 @@ const TeacherDiscription = styled.div`
   border-radius: 15px;
   margin-top: 30px;
   padding: 30px 28px;
+  overflow-y: auto;
+  /* border: 1px solid red; */
 `;
 
 const Discription = styled.div`
   font-size: 14px;
+  /* border: 1px solid red; */
 `;
 
 const AnotherCourse = styled.div`

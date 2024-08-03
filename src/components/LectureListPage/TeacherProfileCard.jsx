@@ -4,6 +4,13 @@ import StarRating from "../../components/Common/StarRating";
 import heartIcon from "../../assets/img/heart.svg";
 
 function TeacherProfileCard({ teacher, course }) {
+  const possibleDisabilityTypes = course.possibleDisabilityType?.map(
+    (item) => item.disabilityType
+  );
+  const disabilityTypesText = possibleDisabilityTypes?.join(", ");
+
+  if (!teacher) return <div>강사 정보 불러오는 중 ...</div>;
+
   return (
     <>
       <Card>
@@ -23,7 +30,7 @@ function TeacherProfileCard({ teacher, course }) {
             <Tag>{course.sportType}</Tag>
           </Tags>
           <Teacher>{teacher.name}</Teacher>
-          <DisabailityType>{course.disabilityType}</DisabailityType>
+          <DisabailityType>{disabilityTypesText}</DisabailityType>
           <Bottom>
             <Price>{course.price.toLocaleString()}원</Price>
             <Score>
