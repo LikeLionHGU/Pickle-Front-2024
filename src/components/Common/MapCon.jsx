@@ -28,9 +28,25 @@ export default function MapCon() {
         center={currentPosition} // 현재 위치 불러오기
         style={{ width: "100%", height: "100%" }}
       >
-        <MapMarker position={currentPosition}>
+        <MapMarker
+          position={{ lat: 37.54699, lng: 127.09598 }}
+          image={{
+            src: "https://github.com/LikeLionHGU/Pickle-Front-2024/blob/master/src/assets/img/marker.svg", // 마커이미지의 주소입니다
+            size: {
+              width: 30,
+              height: 40,
+            }, // 마커이미지의 크기
+            options: {
+              offset: {
+                x: 11,
+                y: 38,
+              },
+            },
+          }}
+        />
+        {/* <MapMarker position={currentPosition}>
           <div style={{ color: "#000" }}>현재 위치</div>{" "}
-        </MapMarker>
+        </MapMarker> */}
       </Map>
     </div>
   );
