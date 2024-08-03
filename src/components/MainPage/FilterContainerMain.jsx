@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import CalendarCom from "../Common/CalendarCom";
 import SliderCom from "../Common/SliderCom";
+import SelectedContentBox from "./SelectedContentBox";
 
 function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
   const [checked, setChecked] = useState({
@@ -30,10 +31,10 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
   const priceRef = useRef();
 
   const regionOptions = [
-    { name: "강원", subOptions: ["강원원"] },
+    { name: "강원", subOptions: ["옥수수", "감자"] },
     { name: "경기", subOptions: ["과천시", "의왕시", "안양시"] },
     { name: "경남", subOptions: [] },
-    { name: "경북", subOptions: [] },
+    { name: "경북", subOptions: ["포항시"] },
     { name: "광주", subOptions: [] },
     {
       name: "대구",
@@ -49,7 +50,7 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
         "중구",
       ],
     },
-    { name: "대전", subOptions: [] },
+    { name: "대전", subOptions: ["노잼", "도시"] },
     { name: "부산", subOptions: [] },
     { name: "서울", subOptions: [] },
     { name: "세종", subOptions: [] },
@@ -196,9 +197,11 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
     } else {
       setSubDropdown(false);
       if (regionDropdown) {
-        // Only add if not already selected
-        if (!selectedRegion.includes(option.name)) {
-          setSelectedRegion((prev) => [...prev, option.name]);
+        if (!selectedRegion.includes(`${option.name}:${subOptions}`)) {
+          setSelectedRegion((prev) => [
+            ...prev,
+            `${option.name}:${subOptions}`,
+          ]);
         }
       } else if (sportsDropdown) {
         // Only add if not already selected
@@ -256,51 +259,6 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
     setPriceDropdown(false);
   };
 
-  const renderSelectedContent = () => {
-    return (
-      <>
-        {selectedRegion.map((item, index) => (
-          <SelectedContent key={index}>
-            <Hashtag>#</Hashtag>
-            {item}
-            <ClearButton onClick={() => handleClearSelection("region", item)}>
-              ×
-            </ClearButton>
-          </SelectedContent>
-        ))}
-        {selectedSport.map((item, index) => (
-          <SelectedContent key={index}>
-            <Hashtag>#</Hashtag>
-            {item}
-            <ClearButton onClick={() => handleClearSelection("sport", item)}>
-              ×
-            </ClearButton>
-          </SelectedContent>
-        ))}
-        {selectedDisability.map((item, index) => (
-          <SelectedContent key={index}>
-            <Hashtag>#</Hashtag>
-            {item}
-            <ClearButton
-              onClick={() => handleClearSelection("disability", item)}
-            >
-              ×
-            </ClearButton>
-          </SelectedContent>
-        ))}
-        {selectedDate.map((item, index) => (
-          <SelectedContent key={index}>
-            <Hashtag>#</Hashtag>
-            {item}
-            <ClearButton onClick={() => handleClearSelection("date", item)}>
-              ×
-            </ClearButton>
-          </SelectedContent>
-        ))}
-      </>
-    );
-  };
-
   return (
     <Wrapper absolute={absolute} marginTop={marginTop} marginLeft={marginLeft}>
       <Container>
@@ -328,7 +286,15 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
           </CheckboxWrapper>
         </CheckboxContainer>
       </Container>
-      <SelectedContainer>{renderSelectedContent()}</SelectedContainer>
+      <SelectedContainer>
+        <SelectedContentBox
+          selectedRegion={selectedRegion}
+          selectedSport={selectedSport}
+          selectedDisability={selectedDisability}
+          selectedDate={selectedDate}
+          handleClearSelection={handleClearSelection}
+        />
+      </SelectedContainer>{" "}
       <FilterContainer>
         <FilterContent ref={regionRef}>
           <FilterTitle onClick={toggleRegionDropdown}>지역</FilterTitle>
@@ -551,34 +517,6 @@ const SelectedContainer = styled.div`
   margin-left: 37px;
   display: flex;
   flex-wrap: wrap;
-`;
-const Hashtag = styled.div`
-  color: #4aabf9;
-  font-size: 13px;
-  margin-right: 5px;
-`;
-const SelectedContent = styled.div`
-  padding-left: 7px;
-  padding-right: 30px;
-  height: 20px;
-  border: 1px solid #4aabf9;
-  border-radius: 10px;
-  color: #4aabf9;
-  font-size: 13px;
-  margin-right: 22px;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-`;
-const ClearButton = styled.div`
-  position: absolute;
-  right: 5px;
-  cursor: pointer;
-  font-size: 15px;
-  margin-right: 4px;
-  color: #4aabf9;
 `;
 const FilterContainer = styled.div`
   display: flex;
