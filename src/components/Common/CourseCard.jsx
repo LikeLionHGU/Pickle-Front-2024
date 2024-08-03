@@ -2,12 +2,18 @@ import React from "react";
 import styled from "styled-components";
 import StarRating from "./StarRating";
 import heartIcon from "../../assets/img/heart.svg";
+import defaultImg from "../../assets/img/defaultImg.jpg";
 
 function CourseCard({ course }) {
+  const possibleDisabilityTypes = course.possibleDisabilityType?.map(
+    (item) => item.disabilityType
+  );
+  const disabilityTypesText = possibleDisabilityTypes?.join(", ");
+
   return (
     <Card>
       <CourseImg>
-        <img src={course.imageURL} alt="기본 강좌 이미지"></img>
+        <img src={defaultImg} alt="기본 강좌 이미지" />
       </CourseImg>
       <InfoSection>
         <Top>
@@ -22,13 +28,13 @@ function CourseCard({ course }) {
           <Tag>{course.sportType}</Tag>
           <Tag>7월 17일</Tag>
         </Tags>
-        <Teacher>{course.name}</Teacher>
-        <DisabailityType>{course.disabilityType}</DisabailityType>
+        <Teacher>{course.teacherName}</Teacher>
+        <DisabailityType>{disabilityTypesText}</DisabailityType>
         <Bottom>
           <Price>{course.price.toLocaleString()}원</Price>
           <Score>
             <StarRating score={course.score} />
-            <StarRate>(45)</StarRate>
+            <StarRate>({course.reviewCount})</StarRate>
           </Score>
         </Bottom>
       </InfoSection>

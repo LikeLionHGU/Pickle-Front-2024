@@ -61,7 +61,7 @@ function LectureDetailContent() {
   const navigate = useNavigate();
 
   const handleCourseApplyBtnClick = () => {
-    navigate("/lecture/:courseId/:courseBlockId");
+    navigate(`/lecture/${courseId}/:courseBlockId`);
   };
 
   const toggleTeacherProfileModal = () => {
