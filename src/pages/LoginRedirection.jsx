@@ -1,10 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
 
 const LoginRedirection = () => {
-  // const code = window.location.search;
   const [form, setForm] = useState(null);
   const code = new URL(document.location.toString()).searchParams.get("code");
   const navigate = useNavigate();
@@ -29,6 +27,10 @@ const LoginRedirection = () => {
         })
         .then((response) => {
           localStorage.setItem("kakaoId", response.data.kakaoId);
+          // JWT 액세스 토큰을 로컬 스토리지에 저장
+          localStorage.setItem("accessToken", response.data.accessToken);
+          localStorage.setItem("jwtToken", response.data.token);
+
           navigate("/");
           console.log("Success:", response.data);
           alert("회원가입을 완료했습니다.");
