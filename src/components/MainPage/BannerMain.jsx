@@ -1,14 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import mainBannerImg from "../../assets/img/MainBanner.svg";
+import axios from "axios";
 
 function BannerMain() {
+  const [userData, setUserData] = useState();
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_HOST_URL}/api/mypage`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setUserData(response.data);
+      })
+      .catch(() => {
+        setUserData({});
+      });
+  }, []);
+
+  if (!userData) return <div>Loading..</div>;
+
   return (
     <Wrapper>
       <BannerBg>
         <Greeting>
-          <MainText>안녕하세요, 최예라 님</MainText>
-          <MainText>어떤 운동을 계획 중이세요 ?</MainText>
+          {userData.nickname ? (
+            <>
+              <MainText>안녕하세요, {userData.nickname} 님</MainText>
+            </>
+          ) : (
+            <MainText>안녕하세요!</MainText>
+          )}
+          <MainText>어떤 운동을 계획 중이세요?</MainText>
           <Rate>Lv.1</Rate>
         </Greeting>
       </BannerBg>
