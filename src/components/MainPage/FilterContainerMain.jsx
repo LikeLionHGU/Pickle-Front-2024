@@ -269,41 +269,58 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
 
   const handleSearch = async () => {
     try {
-      const response = await axios.get(
-        "http://15.164.88.154:8080/api/course?page=0&size=9&direction=DESC&city={city}&district={district}&sportType={sportType}&disabilityType={disabilityType}&date={date}&price={price}",
-        {
-          params: {
-            page: 0,
-            size: 9,
-            direction: "DESC",
-            sportType: selectedSportType,
-            city: selectedCity,
-            district: selectedDistrict,
-            disabilityType: selectedDisabilityType,
-            date: selectedDate,
-            minPrice: selectedPrice.min,
-            maxPrice: selectedPrice.max,
-          },
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzUxMiJ9.eyJrYWthb0lkIjoiMzY0ODMzODMyMCIsInN1YiI6IjM2NDgzMzgzMjAiLCJpYXQiOjE3MjI1OTg3NzgsImV4cCI6MTcyMzIwMzU3OH0.gDvOqzLgeXOlNpidfdfGQbxh8FblgJDHZ1I-0LQTnNE6vl-FW0hfqvD8lVxg2modyDsHKT1uSyszxm7QmIsfgA",
-          },
-        }
-      );
-      setCourses(response.data);
-      console.log("Search results:", response.data);
+      // 기본 파라미터 설정
+      const params = {
+        page: 0,
+        size: 9,
+        direction: "DESC",
+      };
+
+      if (selectedSportType && selectedSportType.length > 0) {
+        params["sportType"] = selectedSportType.join(",");
+      }
+      if (selectedCity && selectedCity.length > 0) {
+        params["city"] = selectedCity.join(",");
+      }
+      if (selectedDistrict && selectedDistrict.length > 0) {
+        params["district"] = selectedDistrict.join(",");
+      }
+      if (selectedDisabilityType && selectedDisabilityType.length > 0) {
+        params["disabilityType"] = selectedDisabilityType.join(",");
+      }
+      if (selectedDate && selectedDate.length > 0) {
+        params["date"] = selectedDate.join(",");
+      }
+      if (selectedPrice && selectedPrice.min != null) {
+        params.highestPrice = selectedPrice.min;
+      }
+      if (selectedPrice && selectedPrice.max != null) {
+        params.lowestPrice = selectedPrice.max;
+      }
+
+      const headers = {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJrYWthb0lkIjoiMzY0ODMzODMyMCIsInN1YiI6IjM2NDgzMzgzMjAiLCJpYXQiOjE3MjI2OTYzNzcsImV4cCI6MTcyMzMwMTE3N30.sxACHEVes1n8weY0EMoVg8oYoyHTE6dn6oIWdXaI6GODM7-ePfhkTW5ehkHdn5NY45N63Qz68bb98wIWvjkbiw",
+      };
+
+      console.log("Request params:", params);
+      // console.log("Request headers:", headers);
+
+      const response = await axios.get("http://15.164.88.154:8080/api/course", {
+        params: params,
+        headers: headers,
+      });
+
+      if (response.data.length === 0) {
+        alert("검색 결과가 없습니다.");
+      } else {
+        setCourses(response.data);
+        console.log("Search results:", response);
+      }
     } catch (err) {
-      setError(err.message);
       console.error("Error fetching courses:", err);
     }
   };
-  // , [
-  //   selectedSportType,
-  //   selectedCity,
-  //   selectedDisabilityType,
-  //   selectedDate,
-  //   selectedPrice,
-  // ]);
 
   return (
     <Wrapper absolute={absolute} marginTop={marginTop} marginLeft={marginLeft}>
