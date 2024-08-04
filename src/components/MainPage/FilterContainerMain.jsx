@@ -4,8 +4,11 @@ import styled from "styled-components";
 import CalendarCom from "../Common/CalendarCom";
 import SliderCom from "../Common/SliderCom";
 import SelectedContentBox from "./SelectedContentBox";
+import { useNavigate } from "react-router-dom";
 
 function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
+  const navigate = useNavigate();
+
   const [checked, setChecked] = useState({
     individual: false,
     group: false,
@@ -37,7 +40,7 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
     { name: "강원", subOptions: ["옥수수", "감자"] },
     { name: "경기", subOptions: ["과천시", "의왕시", "안양시"] },
     { name: "경남", subOptions: [] },
-    { name: "경북", subOptions: ["포항시"] },
+    { name: "경북", subOptions: ["포항시 북구"] },
     { name: "광주", subOptions: [] },
     {
       name: "대구",
@@ -107,10 +110,11 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
   ];
 
   const handleChange = (event) => {
-    setChecked({
-      ...checked,
-      [event.target.name]: event.target.checked,
-    });
+    const { name, checked } = event.target;
+    setChecked((prevChecked) => ({
+      ...prevChecked,
+      [name]: checked,
+    }));
   };
 
   const handleClickOutside = (event) => {
@@ -269,10 +273,9 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
 
   const handleSearch = async () => {
     try {
-      // 기본 파라미터 설정
       const params = {
         page: 0,
-        size: 9,
+        size: 100,
         direction: "DESC",
       };
 
@@ -291,11 +294,17 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
       if (selectedDate && selectedDate.length > 0) {
         params["date"] = selectedDate.join(",");
       }
-      if (selectedPrice && selectedPrice.min != null) {
-        params.highestPrice = selectedPrice.min;
-      }
       if (selectedPrice && selectedPrice.max != null) {
-        params.lowestPrice = selectedPrice.max;
+        params.highestPrice = selectedPrice.max;
+      }
+      if (selectedPrice && selectedPrice.min != null) {
+        params.lowestPrice = selectedPrice.min;
+      }
+      if (checked.group) {
+        params.onlyGroup = true;
+      }
+      if (checked.individual) {
+        params.onlyIndividual = true;
       }
 
       const headers = {
@@ -306,16 +315,28 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
       console.log("Request params:", params);
       // console.log("Request headers:", headers);
 
-      const response = await axios.get("http://15.164.88.154:8080/api/course", {
+      let response = await axios.get("http://15.164.88.154:8080/api/course", {
         params: params,
         headers: headers,
       });
 
       if (response.data.length === 0) {
-        alert("검색 결과가 없습니다.");
+        alert("검색 결과가 없습니다.\n전체 강좌입니다.");
+        response = await axios.get("http://15.164.88.154:8080/api/course", {
+          params: {
+            page: 0,
+            size: 100,
+            direction: "DESC",
+          },
+          headers: headers,
+        });
+        setCourses(response.data);
+        console.log("Search results (fallback):", response);
+        navigate("/lecture", { state: { courses: response.data } });
       } else {
         setCourses(response.data);
         console.log("Search results:", response);
+        navigate("/lecture", { state: { courses: response.data } });
       }
     } catch (err) {
       console.error("Error fetching courses:", err);

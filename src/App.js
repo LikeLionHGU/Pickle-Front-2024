@@ -14,6 +14,7 @@ import LectureDetailPage from "./pages/LectureDetailPage.jsx";
 import LecturePurchasePage from "./pages/LecturePurchasePage.jsx";
 import SignInPage from "./pages/SignInPage.jsx";
 import LoginRedirection from "./pages/LoginRedirection.jsx";
+import SearchLectureListPage from "./pages/SearchLectureListPage.jsx";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/sign" element={<SignInPage />}></Route>
         <Route path="/kakao/cb" element={<LoginRedirection />}></Route>
         <Route path="/lecture" element={<LectureListPage />}></Route>
+        <Route path="/search" element={<SearchLectureListPage />}></Route>
         <Route
           path="/lecture/:courseId"
           element={<LectureDetailPage />}

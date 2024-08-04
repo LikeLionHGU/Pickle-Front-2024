@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import BgColor from "../Common/BgColor";
 import FilterContainerMain from "../MainPage/FilterContainerMain";
 
-function LectureListContent({ courses }) {
+export default function SearchLectureListContent({ courses }) {
   const [limit, setlimit] = useState(8); // setlimit을 통해 화면에 표시될 콘텐츠 수 조절 가능.
   const [page, setPage] = useState(1); // 처음에 몇 번째 페이지를 보여줄 건지
   const offset = (page - 1) * limit;
@@ -56,8 +56,6 @@ function LectureListContent({ courses }) {
     </BgColor>
   );
 }
-
-export default LectureListContent;
 
 const Wrapper = styled.div`
   /* border: 3px solid red; */
