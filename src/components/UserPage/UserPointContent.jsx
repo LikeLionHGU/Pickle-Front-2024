@@ -11,6 +11,7 @@ import grayUserLevel0 from "../../assets/img/grayUserLevel0.svg";
 import grayUserLevel1 from "../../assets/img/grayUserLevel1.svg";
 import grayUserLevel2 from "../../assets/img/grayUserLevel2.svg";
 import grayUserLevel3 from "../../assets/img/grayUserLevel3.svg";
+import pickleImg from "../../assets/img/UserLevel0.svg";
 
 function UserPointContent() {
   const [userLevel, setUserLevel] = useState();
@@ -57,8 +58,14 @@ function UserPointContent() {
     }
   };
 
-  if (!userLevel) return <div>Loading..</div>;
-  if (!userData) return <div>Loading..</div>;
+  if (!userData)
+    return (
+      <LoadingWrapper>
+        <Pickle src={pickleImg} alt="기본 피클 이미지" />
+        <LoadingText>로딩 중..</LoadingText>
+      </LoadingWrapper>
+    );
+  if (!userLevel) return <div></div>;
 
   return (
     <>
@@ -296,4 +303,19 @@ const Text = styled.div`
     height: 25px;
     padding-bottom: 4px;
   }
+`;
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
+const Pickle = styled.img`
+  height: 200px;
+`;
+
+const LoadingText = styled.div`
+  margin-top: 30px;
+  font-size: 20px;
 `;

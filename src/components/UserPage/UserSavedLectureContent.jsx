@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import CourseCard from "../Common/CourseCard";
 import CourseDivideLine from "../Common/CourseDivideLine";
+import pickleImg from "../../assets/img/UserLevel0.svg";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -38,8 +39,14 @@ function UserSavedLectureContent() {
       });
   }, []);
 
-  if (!data) return <div>Loading...</div>;
-  if (!userData) return <div>Loading..</div>;
+  if (!data)
+    return (
+      <LoadingWrapper>
+        <Pickle src={pickleImg} alt="기본 피클 이미지" />
+        <LoadingText>로딩 중..</LoadingText>
+      </LoadingWrapper>
+    );
+  if (!userData) return <div></div>;
 
   return (
     <Wrapper>
@@ -93,4 +100,19 @@ const CourseContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
+`;
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
+const Pickle = styled.img`
+  height: 200px;
+`;
+
+const LoadingText = styled.div`
+  margin-top: 30px;
+  font-size: 20px;
 `;
