@@ -3,13 +3,19 @@ import styled from "styled-components";
 import exitBtn from "../../assets/img/exit.svg";
 import googleLoginBtn from "../../assets/img/googleLoginBtn.svg";
 import kakaoLoginBtn from "../../assets/img/kakaoLoginBtn.svg";
+import { useNavigate } from "react-router-dom";
 
 function LoginModal({ toggleModal }) {
+  const navigate = useNavigate();
   const handleKakaoLogin = () => {
     const REST_API_KEY = process.env.REACT_APP_KAKAO_AUTH_CLIENT_ID;
     const REDIRECT_URI = process.env.REACT_APP_KAKAO_AUTH_REDIRECT_URL;
 
     window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  };
+
+  const handleSignInClick = () => {
+    navigate("/sign");
   };
 
   return (
@@ -36,7 +42,7 @@ function LoginModal({ toggleModal }) {
               alt="카카오 로그인 버튼"
             ></KakaoLoginBtn>
           </Content>
-          <SignIn>회원가입</SignIn>
+          <SignIn onClick={handleSignInClick}>회원가입</SignIn>
         </ModalWrapper>
       </ModalContent>
     </Modal>
