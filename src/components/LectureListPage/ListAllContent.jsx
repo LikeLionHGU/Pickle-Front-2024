@@ -46,16 +46,6 @@ function LectureListContent() {
       <Wrapper>
         <Title>피클에 있는 강의들이에요</Title>
         <Text>총 {courses.length}개가 조회되었습니다</Text>
-        {location.state && (
-          <SelectedContentBox
-            selectedRegion={location.state.selectedRegion}
-            selectedSportType={location.state.selectedSportType}
-            selectedDisabilityType={location.state.selectedDisabilityType}
-            selectedDate={location.state.selectedDate}
-            selectedPrice={location.state.selectedPrice}
-            handleClearSelection={() => {}}
-          />
-        )}
         <Filter>
           <FilterContainerMain
             absolute={false}

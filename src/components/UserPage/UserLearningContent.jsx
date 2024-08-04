@@ -56,7 +56,7 @@ function UserLearningContent() {
   return (
     <Wrapper>
       <Content>
-        <Title>{userData.nickname} 님! 현재 수강 중인 강좌에요</Title>
+        <Title>{userData.nickname} 님! 현재 수강 중인 강좌예요</Title>
         <CourseContainer>
           {data.map((data, index) => (
             <Link
