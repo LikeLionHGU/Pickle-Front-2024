@@ -1,14 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import data from "../../components/Common/CourseDummyData";
 import CourseCard from "../Common/CourseCard";
 import CourseDivideLine from "../Common/CourseDivideLine";
+import axios from "axios";
 
 function UserLearningContent() {
+  const [userData, setUserData] = useState();
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_HOST_URL}/api/mypage`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setUserData(response.data);
+      })
+      .catch(() => {
+        setUserData({});
+      });
+  }, []);
+
+  if (!userData) return <div>Loading..</div>;
+
   return (
     <Wrapper>
       <Content>
-        <Title>최예라 님! 현재 수강 중인 강좌에요</Title>
+        <Title>{userData.nickname} 님! 현재 수강 중인 강좌에요</Title>
         <CourseContainer>
           {data.map((course, index) => (
             <React.Fragment key={course.courseId}>
