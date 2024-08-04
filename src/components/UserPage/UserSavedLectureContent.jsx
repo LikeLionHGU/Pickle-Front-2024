@@ -3,7 +3,6 @@ import styled from "styled-components";
 import CourseCard from "../Common/CourseCard";
 import CourseDivideLine from "../Common/CourseDivideLine";
 import axios from "axios";
-// import data from "../../components/Common/CourseDummyData";
 
 function UserSavedLectureContent() {
   const [data, setData] = useState();

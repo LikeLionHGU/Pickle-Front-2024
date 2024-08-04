@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-// import data from "../../components/Common/CourseDummyData";
 import CourseCard from "../Common/CourseCard";
 import CourseDivideLine from "../Common/CourseDivideLine";
 import axios from "axios";

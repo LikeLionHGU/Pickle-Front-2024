@@ -109,7 +109,11 @@ function UserPointContent() {
               <Category>다음 등급</Category>
               <TextContainer>
                 <Text>
-                  3번 이상 강의를 들을 시 <Blue> '씽씽이' </Blue> 달성
+                  3번 이상 강의를 들을 시{" "}
+                  <Blue style={{ paddingLeft: "5px", paddingRight: "5px" }}>
+                    '씽씽이'
+                  </Blue>{" "}
+                  달성
                   <img src={star} alt="별 아이콘" />
                 </Text>
               </TextContainer>
