@@ -1,16 +1,18 @@
 import React from "react";
 import HeaderLightVer from "../components/Common/HeaderLightVer";
-import SearchLectureListContent from "../components/LectureListPage/SearchLectureListContent";
+import ListAllContent from "../components/LectureListPage/ListAllContent";
 import { useLocation } from "react-router-dom";
 
-export default function SearchLectureListPage() {
+function ListAllPage() {
   const location = useLocation();
   const courses = location.state?.courses || [];
 
   return (
     <>
       <HeaderLightVer />
-      <SearchLectureListContent courses={courses} />{" "}
+      <ListAllContent courses={courses} />{" "}
     </>
   );
 }
+
+export default ListAllPage;
