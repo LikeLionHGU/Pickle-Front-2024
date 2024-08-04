@@ -4,6 +4,7 @@ import mainBannerImg from "../../assets/img/MainBanner.svg";
 import axios from "axios";
 
 function BannerMain() {
+  const [userLevel, setUserLevel] = useState();
   const [userData, setUserData] = useState();
 
   useEffect(() => {
@@ -22,7 +23,39 @@ function BannerMain() {
       });
   }, []);
 
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_HOST_URL}/api/mypage/exp`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setUserLevel(response.data);
+      })
+      .catch(() => {
+        setUserLevel({});
+      });
+  }, []);
+
   if (!userData) return <div>Loading..</div>;
+  if (!userLevel) return <div>Loading..</div>;
+
+  const getLevelText = (level) => {
+    switch (level) {
+      case 0:
+        return "씨클 Lv.1";
+      case 1:
+        return "비클 Lv.2";
+      case 2:
+        return "에이클 Lv.3";
+      case 3:
+        return "피클 Lv.4";
+      default:
+        return " ";
+    }
+  };
 
   return (
     <Wrapper>
@@ -36,7 +69,7 @@ function BannerMain() {
             <MainText>안녕하세요!</MainText>
           )}
           <MainText>어떤 운동을 계획 중이세요?</MainText>
-          <Rate>Lv.1</Rate>
+          <Rate>{getLevelText(userLevel.level)}</Rate>
         </Greeting>
       </BannerBg>
     </Wrapper>
