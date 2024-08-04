@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import CourseCard from "../Common/CourseCard";
 import CourseDivideLine from "../Common/CourseDivideLine";
@@ -7,17 +7,43 @@ import PaginationCom from "../Common/PaginationCom";
 import { Link } from "react-router-dom";
 import BgColor from "../Common/BgColor";
 import FilterContainerMain from "../MainPage/FilterContainerMain";
+import axios from "axios";
 
 function LectureListContent() {
   // const [posts, setPosts] = useState(tempdatas);
   const [limit, setlimit] = useState(4); // setlimit을 통해 화면에 표시될 콘텐츠 수 조절 가능.
   const [page, setPage] = useState(1); // 처음에 몇 번째 페이지를 보여줄 건지
   const offset = (page - 1) * limit;
+  const [userData, setUserData] = useState();
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_HOST_URL}/api/mypage`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setUserData(response.data);
+      })
+      .catch(() => {
+        setUserData({});
+      });
+  }, []);
+
+  if (!userData) return <div>Loading..</div>;
 
   return (
     <BgColor>
       <Wrapper>
-        <Title>최예라님의 검색 결과에요!</Title>
+        {userData.nickname ? (
+          <>
+            <Title>{userData.nickname}님의 검색 결과에요!</Title>
+          </>
+        ) : (
+          <Title>강좌 검색 결과에요!</Title>
+        )}
         <Filter>
           <FilterContainerMain
             absolute={false}
