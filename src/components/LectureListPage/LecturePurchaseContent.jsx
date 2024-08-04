@@ -53,7 +53,21 @@ function LecturePurchaseContent() {
 
   const handlePurchaseBtnClick = () => {
     if (window.confirm("이 강좌를 결제하시겠습니까?")) {
-      navigate("/user/learning");
+      axios
+        .post(
+          `${process.env.REACT_APP_HOST_URL}/api/course/detail?courseBlockId=${courseBlockId}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+          alert("수강신청이 완료되었습니다.");
+          navigate("/user/learning");
+        });
     }
   };
 
