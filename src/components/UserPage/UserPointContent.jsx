@@ -10,7 +10,7 @@ import axios from "axios";
 
 function UserPointContent() {
   const [userLevel, setUserLevel] = useState();
-  const [data, setData] = useState();
+  const [userData, setUserData] = useState();
 
   useEffect(() => {
     axios
@@ -34,18 +34,18 @@ function UserPointContent() {
       })
       .then((response) => {
         console.log(response.data);
-        setData(response.data);
+        setUserData(response.data);
       });
   }, []);
 
   if (!userLevel) return <div>Loading..</div>;
-  if (!data) return <div>Loading..</div>;
+  if (!userData) return <div>Loading..</div>;
 
   return (
     <>
       <Wrapper>
         <UserSection>
-          <Title>현재 {data.nickname}님의 등급이에요 !</Title>
+          <Title>현재 {userData.nickname}님의 등급이에요 !</Title>
           <UserImg>
             <img src={userLevel0} alt="0등급" />
           </UserImg>
