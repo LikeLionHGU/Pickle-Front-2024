@@ -3,6 +3,7 @@ import styled from "styled-components";
 import CourseDivideLine from "../Common/CourseDivideLine";
 import CourseCard from "../Common/CourseCard";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function UserCompleteLetureContent() {
   const [userData, setUserData] = useState();
@@ -55,10 +56,20 @@ function UserCompleteLetureContent() {
         <Count>총 {data.length}개를 수강했습니다</Count>
         <CourseContainer>
           {data.map((data, index) => (
-            <React.Fragment key={data.courseId}>
-              <CourseCard course={data} />
-              {index % 2 === 0 && <CourseDivideLine />}
-            </React.Fragment>
+            <Link
+              key={data.id}
+              style={{
+                textDecoration: "none",
+                color: "black",
+                display: "flex",
+              }}
+              to={`/lecture/${data.id}`}
+            >
+              <React.Fragment key={data.id}>
+                <CourseCard course={data} />
+                {index % 2 === 0 && <CourseDivideLine />}
+              </React.Fragment>
+            </Link>
           ))}
         </CourseContainer>
       </Content>
