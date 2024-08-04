@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import userLevel0 from "../../assets/img/UserLevel0.svg";
 import userLevel1 from "../../assets/img/UserLevel1.svg";
@@ -6,8 +6,26 @@ import userLevel2 from "../../assets/img/UserLevel2.svg";
 import userLevel3 from "../../assets/img/UserLevel3.svg";
 import star from "../../assets/img/rateStar.svg";
 import arrow from "../../assets/img/rateArrow.svg";
+import axios from "axios";
 
 function UserPointContent() {
+  const [userLevel, setUserLevel] = useState();
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_HOST_URL}/api/mypage/exp`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setUserLevel(response.data);
+      });
+  }, []);
+
+  if (!userLevel) return <div>Loading..</div>;
+
   return (
     <>
       <Wrapper>
@@ -57,7 +75,7 @@ function UserPointContent() {
               <Category>다음 등급</Category>
               <TextContainer>
                 <Text>
-                  3번 이상 강의를 들을 시 <Blue>'씽씽이'</Blue> 달성
+                  3번 이상 강의를 들을 시 <Blue> '씽씽이' </Blue> 달성
                   <img src={star} alt="별 아이콘" />
                 </Text>
               </TextContainer>
