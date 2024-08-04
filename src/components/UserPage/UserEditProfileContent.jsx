@@ -4,9 +4,23 @@ import BlueBtn from "../Common/CommonBtn/BlueBtn";
 import GrayInfoBox from "../Common/GrayInfoBox";
 import axios from "axios";
 import pickleImg from "../../assets/img/UserLevel0.svg";
+import DisabledBtn from "../Common/CommonBtn/DisabledBtn";
 
 function UserEditProfileContent() {
-  const [userData, setUserData] = useState();
+  const [userData, setUserData] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    nickname: "",
+    sex: "", // "남성" | "여성"
+    contactNumber: "",
+    familyNumber: "",
+    birthdate: "",
+    address: "",
+    detailAdress: "",
+    description: "",
+    disabilities: [],
+  });
 
   useEffect(() => {
     axios
@@ -16,30 +30,36 @@ function UserEditProfileContent() {
         },
       })
       .then((response) => {
-        console.log(response.data);
-        setUserData(response.data);
+        const data = response.data;
+        setUserData(data);
+        console.log("userData:", userData);
+
+        setFormData({
+          name: data.name,
+          nickname: data.nickname,
+          sex: "", // userData에 성별 정보가 없으므로 빈 문자열로 설정
+          contactNumber: data.contactNumber,
+          familyNumber: data.familyNumber,
+          birthdate: "", // userData에 생년월일 정보가 없으므로 빈 문자열로 설정
+          address: data.address,
+          detailAddress: data.detailAddress,
+          description: data.description,
+          disabilities: data.disabilityTypeList.map((type, index) => ({
+            type: type,
+            level: data.disabilityLevelList[index],
+          })),
+        });
       })
       .catch(() => {
         setUserData({});
       });
   }, []);
 
-  const [formData, setFormData] = useState({
-    name: "이빈치",
-    nickname: "다빈치",
-    sex: "남성", // "남성" | "여성"
-    contactNumber: "01012341234",
-    familyNumber: "01056785678",
-    birthdate: "1990-05-15",
-    address: "테스트 주소",
-    description: "저는 맥도날드를 좋아합니다",
-    disabilities: [{ type: "시각장애", level: 3 }],
-  });
-
   const [editableField, setEditableField] = useState(null);
 
   const handleFieldClick = (field) => {
     setEditableField(field);
+    setIsEditing(true);
   };
 
   const handleInputChange = (field, value, index = null) => {
@@ -51,6 +71,7 @@ function UserEditProfileContent() {
     } else {
       setFormData({ ...formData, [field]: value });
     }
+    setIsEditing(true);
   };
 
   const handleBlur = () => {
@@ -207,6 +228,22 @@ function UserEditProfileContent() {
                 </div>
               )}
             </GrayInfoBox>
+            <GrayInfoBox>
+              {editableField === "detailAddress" ? (
+                <Input
+                  type="text"
+                  value={formData.detailAddress}
+                  onChange={(e) =>
+                    handleInputChange("detailAddress", e.target.value)
+                  }
+                  onBlur={handleBlur}
+                />
+              ) : (
+                <div onClick={() => handleFieldClick("detailAddress")}>
+                  {formData.detailAddress}
+                </div>
+              )}
+            </GrayInfoBox>
             <UserInfo>특이사항</UserInfo>
             <GrayInfoBox>
               {editableField === "description" ? (
@@ -289,7 +326,11 @@ function UserEditProfileContent() {
         </Content>
       </Contents>
       <Btn>
-        <BlueBtn>수정하기</BlueBtn>
+        {!isEditing ? (
+          <DisabledBtn disabled>수정하기</DisabledBtn>
+        ) : (
+          <BlueBtn>수정하기</BlueBtn>
+        )}
       </Btn>
     </Wrapper>
   );

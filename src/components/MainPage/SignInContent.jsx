@@ -262,7 +262,7 @@ function SignInContent() {
     bornDay: "",
     sex: "",
     nickname: "",
-    description: "기본 설명",
+    description: "특이사항",
     disabilityTypeList: [], // 배열로 변경
     disabilityLevelList: [], // 배열로 변경
     contactNumber: "",
