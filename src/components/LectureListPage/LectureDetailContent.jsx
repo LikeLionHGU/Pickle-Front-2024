@@ -3,7 +3,6 @@ import styled from "styled-components";
 import MapCon from "../Common/MapCon";
 import BlueBtn from "../Common/CommonBtn/BlueBtn";
 import WhiteBtn from "../Common/CommonBtn/WhiteBtn";
-import defaultImg from "../../assets/img/defaultImg.jpg";
 import locationIcon from "../../assets/img/PickedCourse.svg";
 import heartIcon from "../../assets/img/heart.svg";
 import heartFalseIcon from "../../assets/img/heartFalse.svg";
@@ -21,6 +20,7 @@ function LectureDetailContent() {
 
   const [data, setData] = useState();
   const [isLike, setIsLike] = useState(false);
+  const [selectedCourseBlockId, setSelectedCourseBlockId] = useState(null);
 
   useEffect(() => {
     axios
@@ -39,29 +39,57 @@ function LectureDetailContent() {
       });
   }, [courseId]);
 
+  const handleCheckboxChange = (id) => {
+    setSelectedCourseBlockId(id);
+  };
+
   const possibleDisabilityTypes = data?.possibleDisabilityType.map(
     (item) => item.disabilityType
   );
   const disabilityTypesText = possibleDisabilityTypes?.join(", ");
 
+  // 카드 강좌 시간 나타내는 부분
   const FormatCourseTime = (courseBlock) => {
     if (!courseBlock) return "";
     // 강좌 시간 포맷팅
-    const lectureTimes = courseBlock.map((item) => {
-      const date = new Date(item.date);
-      const formattedDate = `${date.getMonth() + 1}/${date.getDate()}`;
-      const startTime = `${item.takenHour < 10 ? "0" : ""}${item.takenHour}:${
-        item.takenMinute < 10 ? "0" : ""
-      }${item.takenMinute}`;
-      return `${formattedDate}일 ${startTime}`;
-    });
+    const lectureTimes = courseBlock
+      .filter((item) => item.open)
+      .map((item) => {
+        const date = new Date(item.date);
+        const formattedDate = `${date.getMonth() + 1}/${date.getDate()}`;
+        const startTime = `${item.takenHour < 10 ? "0" : ""}${item.takenHour}:${
+          item.takenMinute < 10 ? "0" : ""
+        }${item.takenMinute}`;
+        return `${formattedDate}일 ${startTime}`;
+      });
     return lectureTimes.join(", ");
   };
+
+  // 강좌 블럭 선택을 위한 포맷팅
+  const formatCourseTime = (courseBlock) => {
+    if (!courseBlock) return [];
+    // 강좌 시간 포맷팅
+    return courseBlock
+      .filter((item) => item.open)
+      .map((item) => {
+        const date = new Date(item.date);
+        const formattedDate = `${date.getMonth() + 1}/${date.getDate()}`;
+        const startTime = `${item.takenHour < 10 ? "0" : ""}${item.takenHour}:${
+          item.takenMinute < 10 ? "0" : ""
+        }${item.takenMinute}`;
+        return {
+          id: item.id,
+          text: `${formattedDate}일 ${startTime}`,
+        };
+      });
+  };
+
+  const formattedCourseTimes = formatCourseTime(data?.courseBlock);
 
   const navigate = useNavigate();
 
   const handleCourseApplyBtnClick = () => {
-    navigate(`/lecture/${courseId}/:courseBlockId`);
+    navigate(`/lecture/${courseId}/${selectedCourseBlockId}`);
   };
 
   const toggleTeacherProfileModal = () => {
@@ -150,12 +178,37 @@ function LectureDetailContent() {
         <Map>
           <MapCon />
         </Map>
-        <CourseInfo>
-          <InfoTitle>개설 강좌정보</InfoTitle>
-          <InfoContent>
-            <InfoText>{data.description}</InfoText>
-          </InfoContent>
-        </CourseInfo>
+        <InfoContainer>
+          <CourseInfo>
+            <InfoTitle>개설 강좌정보</InfoTitle>
+            <InfoContent>
+              <InfoText>{data.description}</InfoText>
+            </InfoContent>
+          </CourseInfo>
+          <BlockInfo>
+            <InfoTitle>강좌시간 선택하기</InfoTitle>
+            <InfoContent>
+              <InfoText>
+                {formattedCourseTimes.map((time) => (
+                  <div key={time.id} style={{ marginBottom: "10px" }}>
+                    <input
+                      type="checkbox"
+                      checked={selectedCourseBlockId === time.id}
+                      onChange={() => handleCheckboxChange(time.id)}
+                      style={{
+                        width: "16px",
+                        height: "16px",
+                        border: "1px solid black",
+                        borderRadius: "0",
+                      }}
+                    />
+                    <label style={{ marginLeft: "30px" }}>{time.text}</label>
+                  </div>
+                ))}
+              </InfoText>
+            </InfoContent>
+          </BlockInfo>
+        </InfoContainer>
         <Btn>
           {isTeacherProfileModalOpen && (
             <TeacherProfileModal toggleModal={toggleTeacherProfileModal} />
@@ -264,9 +317,21 @@ const Map = styled.div`
   width: 995px;
 `;
 
+const InfoContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 const CourseInfo = styled.div`
   /* border: 1px solid green; */
   margin-top: 60px;
+  width: 488px;
+`;
+
+const BlockInfo = styled.div`
+  /* border: 1px solid green; */
+  margin-top: 60px;
+  width: 488px;
 `;
 
 const InfoTitle = styled.div`
