@@ -17,6 +17,7 @@ function UserEditProfileContent() {
     familyNumber: "",
     birthdate: "",
     address: "",
+    detailAdress: "",
     description: "",
     disabilities: [],
   });
@@ -31,6 +32,7 @@ function UserEditProfileContent() {
       .then((response) => {
         const data = response.data;
         setUserData(data);
+        console.log("userData:", userData);
 
         setFormData({
           name: data.name,
@@ -40,6 +42,7 @@ function UserEditProfileContent() {
           familyNumber: data.familyNumber,
           birthdate: "", // userData에 생년월일 정보가 없으므로 빈 문자열로 설정
           address: data.address,
+          detailAddress: data.detailAddress,
           description: data.description,
           disabilities: data.disabilityTypeList.map((type, index) => ({
             type: type,
@@ -222,6 +225,22 @@ function UserEditProfileContent() {
               ) : (
                 <div onClick={() => handleFieldClick("address")}>
                   {formData.address}
+                </div>
+              )}
+            </GrayInfoBox>
+            <GrayInfoBox>
+              {editableField === "detailAddress" ? (
+                <Input
+                  type="text"
+                  value={formData.detailAddress}
+                  onChange={(e) =>
+                    handleInputChange("detailAddress", e.target.value)
+                  }
+                  onBlur={handleBlur}
+                />
+              ) : (
+                <div onClick={() => handleFieldClick("detailAddress")}>
+                  {formData.detailAddress}
                 </div>
               )}
             </GrayInfoBox>
