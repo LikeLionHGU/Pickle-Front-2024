@@ -29,7 +29,7 @@ function TeacherProfileModal({ toggleModal }) {
 
   const careers = data?.teacher?.career?.split(",").map((item) => item.trim());
 
-  if (!data) return <div>강사 정보 불러오는 중 ...</div>;
+  if (!data) return <div></div>;
 
   return (
     <Modal>

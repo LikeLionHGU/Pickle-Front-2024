@@ -9,7 +9,7 @@ function TeacherProfileCard({ teacher, course }) {
   );
   const disabilityTypesText = possibleDisabilityTypes?.join(", ");
 
-  if (!teacher) return <div>강사 정보 불러오는 중 ...</div>;
+  if (!teacher) return <div></div>;
 
   return (
     <>
