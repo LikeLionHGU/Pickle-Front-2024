@@ -31,6 +31,16 @@ function HeaderMain() {
     navigate(url);
   };
 
+  const handleUserPageClick = (url) => {
+    const jwtToken = localStorage.getItem("jwtToken");
+    if (!jwtToken) {
+      alert("로그인이 필요합니다.");
+      navigate("/");
+    } else {
+      navigate(url);
+    }
+  };
+
   const handlePickleLogoClick = () => {
     navigate("/");
   };
@@ -40,7 +50,7 @@ function HeaderMain() {
       <Menus>
         <Menu onClick={() => handleMenuClick("/")}>홈</Menu>
         <Menu onClick={() => handleMenuClick("/lecture")}>강좌목록</Menu>
-        <Menu onClick={() => handleMenuClick("/user")}>마이페이지</Menu>
+        <Menu onClick={() => handleUserPageClick("/user")}>마이페이지</Menu>
         <Logo>
           <img
             onClick={handlePickleLogoClick}
