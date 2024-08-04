@@ -10,6 +10,7 @@ import axios from "axios";
 
 function UserPointContent() {
   const [userLevel, setUserLevel] = useState();
+  const [data, setData] = useState();
 
   useEffect(() => {
     axios
@@ -24,13 +25,27 @@ function UserPointContent() {
       });
   }, []);
 
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_HOST_URL}/api/mypage`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setData(response.data);
+      });
+  }, []);
+
   if (!userLevel) return <div>Loading..</div>;
+  if (!data) return <div>Loading..</div>;
 
   return (
     <>
       <Wrapper>
         <UserSection>
-          <Title>현재 예라님의 등급이에요 !</Title>
+          <Title>현재 {data.nickname}님의 등급이에요 !</Title>
           <UserImg>
             <img src={userLevel0} alt="0등급" />
           </UserImg>
