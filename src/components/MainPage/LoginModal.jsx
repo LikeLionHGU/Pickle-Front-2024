@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import exitBtn from "../../assets/img/exit.svg";
-import googleLoginBtn from "../../assets/img/googleLoginBtn.svg";
+// import googleLoginBtn from "../../assets/img/googleLoginBtn.svg";
 import kakaoLoginBtn from "../../assets/img/kakaoLoginBtn.svg";
 import { useNavigate } from "react-router-dom";
 
@@ -32,10 +32,10 @@ function LoginModal({ toggleModal }) {
           </Top>
           <Login>로그인</Login>
           <Content>
-            <GoogleLoginBtn
+            {/* <GoogleLoginBtn
               src={googleLoginBtn}
               alt="구글 로그인 버튼"
-            ></GoogleLoginBtn>
+            ></GoogleLoginBtn> */}
             <KakaoLoginBtn
               onClick={handleKakaoLogin}
               src={kakaoLoginBtn}
