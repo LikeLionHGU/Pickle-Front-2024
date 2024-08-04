@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import pickleImg from "../assets/img/UserLevel0.svg";
 
 const LoginRedirection = () => {
   const [form, setForm] = useState(null);
@@ -42,7 +44,28 @@ const LoginRedirection = () => {
   console.log("code :", code);
   console.log("saved form :", form);
 
-  return <div>로그인 중입니다.</div>;
+  return (
+    <Wrapper>
+      <Pickle src={pickleImg} alt="기본 피클 이미지" />
+      <Text>로그인 중입니다.</Text>
+    </Wrapper>
+  );
 };
 
 export default LoginRedirection;
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+
+const Pickle = styled.img`
+  height: 200px;
+`;
+
+const Text = styled.div`
+  margin-top: 30px;
+  font-size: 20px;
+`;
