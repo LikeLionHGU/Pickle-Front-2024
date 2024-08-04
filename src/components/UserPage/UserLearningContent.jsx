@@ -3,6 +3,7 @@ import styled from "styled-components";
 import CourseCard from "../Common/CourseCard";
 import CourseDivideLine from "../Common/CourseDivideLine";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function UserLearningContent() {
   const [userData, setUserData] = useState();
@@ -51,10 +52,20 @@ function UserLearningContent() {
         <Title>{userData.nickname} 님! 현재 수강 중인 강좌에요</Title>
         <CourseContainer>
           {data.map((data, index) => (
-            <React.Fragment key={data.courseId}>
-              <CourseCard course={data} />
-              {index % 2 === 0 && <CourseDivideLine />}
-            </React.Fragment>
+            <Link
+              key={data.id}
+              style={{
+                textDecoration: "none",
+                color: "black",
+                display: "flex",
+              }}
+              to={`/lecture/${data.id}`}
+            >
+              <React.Fragment key={data.id}>
+                <CourseCard course={data} />
+                {index % 2 === 0 && <CourseDivideLine />}
+              </React.Fragment>
+            </Link>
           ))}
         </CourseContainer>
       </Content>
