@@ -3,7 +3,14 @@ import styled from "styled-components";
 import heartIcon from "../../assets/img/heart.svg";
 import StarRating from "../Common/StarRating";
 
-function LecturePurchaseCard({ course }) {
+function LecturePurchaseCard({ course, selectedCourseBlockId }) {
+  const possibleDisabilityTypes = course.possibleDisabilityType?.map(
+    (item) => item.disabilityType
+  );
+  const disabilityTypesText = possibleDisabilityTypes?.join(", ");
+
+  console.log("selectedCourseBlockId :", selectedCourseBlockId);
+
   return (
     <>
       <Card>
@@ -21,22 +28,21 @@ function LecturePurchaseCard({ course }) {
           <Tags>
             <Tag>#{course.location}</Tag>
             <Tag>{course.sportType}</Tag>
-            <Tag>7월 17일</Tag>
           </Tags>
-          <Teacher>{course.name}</Teacher>
-          <DisabailityType>{course.disabilityType}</DisabailityType>
+          <Teacher>{course.teacher.name}</Teacher>
+          <DisabailityType>{disabilityTypesText}</DisabailityType>
           <Bottom>
             <Price>{course.price}원</Price>
             <Score>
-              <StarRating score={course.score} />
-              <StarRate>(45)</StarRate>
+              <StarRating score={course.teacher.score} />
+              <StarRate>({course.teacher.reviewCount})</StarRate>
             </Score>
           </Bottom>
         </InfoSection>
       </Card>
       <BottomInfo>
-        <DetailInfo>• 7월 17일 월요일 오후 6시</DetailInfo>
-        <DetailInfo>• 포항시 남구 포스플렉스 수영장</DetailInfo>
+        <DetailInfo>• 강좌시간 연결 필요</DetailInfo>
+        <DetailInfo>• {course.location}</DetailInfo>
       </BottomInfo>
     </>
   );
@@ -48,7 +54,6 @@ const Card = styled.div`
   width: 460px;
   height: 130px;
   display: flex;
-  cursor: pointer;
   /* border: 1px solid red; */
 `;
 
