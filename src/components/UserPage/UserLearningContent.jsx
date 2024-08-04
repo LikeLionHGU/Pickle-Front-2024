@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import data from "../../components/Common/CourseDummyData";
+// import data from "../../components/Common/CourseDummyData";
 import CourseCard from "../Common/CourseCard";
 import CourseDivideLine from "../Common/CourseDivideLine";
 import axios from "axios";
 
 function UserLearningContent() {
   const [userData, setUserData] = useState();
+  const [data, setData] = useState();
 
   useEffect(() => {
     axios
@@ -24,16 +25,35 @@ function UserLearningContent() {
       });
   }, []);
 
-  if (!userData) return <div>Loading..</div>;
+  useEffect(() => {
+    axios
+      .get(
+        `${
+          process.env.REACT_APP_HOST_URL
+        }/api/mypage/course?isCompleted=${false}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log("data: ", response.data);
+        setData(response.data);
+      });
+  }, []);
+
+  if (!data) return <div>Loading...</div>;
+  if (!userData) return <div></div>;
 
   return (
     <Wrapper>
       <Content>
         <Title>{userData.nickname} 님! 현재 수강 중인 강좌에요</Title>
         <CourseContainer>
-          {data.map((course, index) => (
-            <React.Fragment key={course.courseId}>
-              <CourseCard course={course} />
+          {data.map((data, index) => (
+            <React.Fragment key={data.courseId}>
+              <CourseCard course={data} />
               {index % 2 === 0 && <CourseDivideLine />}
             </React.Fragment>
           ))}
