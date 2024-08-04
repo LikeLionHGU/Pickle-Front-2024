@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import data from "../../components/Common/CourseDummyData";
 import CourseDivideLine from "../Common/CourseDivideLine";
 import CourseCard from "../Common/CourseCard";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import pickleImg from "../../assets/img/UserLevel0.svg";
 
 function UserCompleteLetureContent() {
   const [userData, setUserData] = useState();
+  const [data, setData] = useState();
 
   useEffect(() => {
     axios
@@ -24,19 +26,57 @@ function UserCompleteLetureContent() {
       });
   }, []);
 
-  if (!userData) return <div>Loading..</div>;
+  useEffect(() => {
+    axios
+      .get(
+        `${
+          process.env.REACT_APP_HOST_URL
+        }/api/mypage/course?isCompleted=${true}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log("data: ", response.data);
+        setData(response.data);
+      })
+      .catch(() => {
+        setData({});
+      });
+  }, []);
+
+  if (!data)
+    return (
+      <LoadingWrapper>
+        <Pickle src={pickleImg} alt="기본 피클 이미지" />
+        <LoadingText>로딩 중..</LoadingText>
+      </LoadingWrapper>
+    );
+  if (!userData) return <div></div>;
 
   return (
     <Wrapper>
       <Content>
         <Title>{userData.nickname} 님! 지금까지 수강했던 강좌들이에요</Title>
-        <Count>총 10개를 수강했습니다</Count>
+        <Count>총 {data.length}개를 수강했습니다</Count>
         <CourseContainer>
-          {data.map((course, index) => (
-            <React.Fragment key={course.courseId}>
-              <CourseCard course={course} />
-              {index % 2 === 0 && <CourseDivideLine />}
-            </React.Fragment>
+          {data.map((data, index) => (
+            <Link
+              key={data.id}
+              style={{
+                textDecoration: "none",
+                color: "black",
+                display: "flex",
+              }}
+              to={`/lecture/${data.id}`}
+            >
+              <React.Fragment key={data.id}>
+                <CourseCard course={data} />
+                {index % 2 === 0 && <CourseDivideLine />}
+              </React.Fragment>
+            </Link>
           ))}
         </CourseContainer>
       </Content>
@@ -75,4 +115,19 @@ const CourseContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
+`;
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
+const Pickle = styled.img`
+  height: 200px;
+`;
+
+const LoadingText = styled.div`
+  margin-top: 30px;
+  font-size: 20px;
 `;

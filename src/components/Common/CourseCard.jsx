@@ -28,7 +28,7 @@ function CourseCard({ course }) {
           <Tag>7월 17일</Tag>
         </Tags>
         <Teacher>{course.teacherName}</Teacher>
-        <DisabailityType>{disabilityTypesText}</DisabailityType>
+        <DisabailityType>{disabilityTypesText} 장애 가능</DisabailityType>
         <Bottom>
           <Price>{course.price.toLocaleString()}원</Price>
           <Score>

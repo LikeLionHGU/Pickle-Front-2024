@@ -30,7 +30,7 @@ function LecturePurchaseCard({ course, selectedCourseBlockId }) {
             <Tag>{course.sportType}</Tag>
           </Tags>
           <Teacher>{course.teacher.name}</Teacher>
-          <DisabailityType>{disabilityTypesText}</DisabailityType>
+          <DisabailityType>{disabilityTypesText} 장애 가능</DisabailityType>
           <Bottom>
             <Price>{course.price}원</Price>
             <Score>

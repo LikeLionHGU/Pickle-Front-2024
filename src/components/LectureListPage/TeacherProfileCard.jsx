@@ -30,7 +30,7 @@ function TeacherProfileCard({ teacher, course }) {
             <Tag>{course.sportType}</Tag>
           </Tags>
           <Teacher>{teacher.name}</Teacher>
-          <DisabailityType>{disabilityTypesText}</DisabailityType>
+          <DisabailityType>{disabilityTypesText} 장애 가능</DisabailityType>
           <Bottom>
             <Price>{course.price.toLocaleString()}원</Price>
             <Score>

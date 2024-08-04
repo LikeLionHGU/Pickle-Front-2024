@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import CourseCard from "../Common/CourseCard";
 import CourseDivideLine from "../Common/CourseDivideLine";
+import pickleImg from "../../assets/img/UserLevel0.svg";
 import axios from "axios";
-// import data from "../../components/Common/CourseDummyData";
+import { Link } from "react-router-dom";
 
 function UserSavedLectureContent() {
   const [data, setData] = useState();
@@ -38,8 +39,14 @@ function UserSavedLectureContent() {
       });
   }, []);
 
-  if (!data) return <div>Loading...</div>;
-  if (!userData) return <div>Loading..</div>;
+  if (!data)
+    return (
+      <LoadingWrapper>
+        <Pickle src={pickleImg} alt="기본 피클 이미지" />
+        <LoadingText>로딩 중..</LoadingText>
+      </LoadingWrapper>
+    );
+  if (!userData) return <div></div>;
 
   return (
     <Wrapper>
@@ -47,10 +54,20 @@ function UserSavedLectureContent() {
         <Title>{userData.nickname} 님! 찜한 강좌들이에요</Title>
         <CourseContainer>
           {data?.map((data, index) => (
-            <React.Fragment key={data.courseId}>
-              <CourseCard course={data} />
-              {index % 2 === 0 && <CourseDivideLine />}
-            </React.Fragment>
+            <Link
+              key={data.id}
+              style={{
+                textDecoration: "none",
+                color: "black",
+                display: "flex",
+              }}
+              to={`/lecture/${data.id}`}
+            >
+              <React.Fragment key={data.id}>
+                <CourseCard course={data} />
+                {index % 2 === 0 && <CourseDivideLine />}
+              </React.Fragment>
+            </Link>
           ))}
         </CourseContainer>
       </Content>
@@ -83,4 +100,19 @@ const CourseContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
+`;
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
+const Pickle = styled.img`
+  height: 200px;
+`;
+
+const LoadingText = styled.div`
+  margin-top: 30px;
+  font-size: 20px;
 `;

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import BlueBtn from "../Common/CommonBtn/BlueBtn";
 import GrayInfoBox from "../Common/GrayInfoBox";
 import axios from "axios";
+import pickleImg from "../../assets/img/UserLevel0.svg";
 
 function UserEditProfileContent() {
   const [userData, setUserData] = useState();
@@ -75,7 +76,13 @@ function UserEditProfileContent() {
     });
   };
 
-  if (!userData) return <div>Loading..</div>;
+  if (!userData)
+    return (
+      <LoadingWrapper>
+        <Pickle src={pickleImg} alt="기본 피클 이미지" />
+        <LoadingText>로딩 중..</LoadingText>
+      </LoadingWrapper>
+    );
 
   return (
     <Wrapper>
@@ -404,4 +411,19 @@ const Select = styled.select`
   &:focus {
     outline: none;
   }
+`;
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
+const Pickle = styled.img`
+  height: 200px;
+`;
+
+const LoadingText = styled.div`
+  margin-top: 30px;
+  font-size: 20px;
 `;
