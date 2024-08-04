@@ -38,10 +38,10 @@ function LectureListContent({ courses }) {
       <Wrapper>
         {userData.nickname ? (
           <>
-            <Title>{userData.nickname} 님의 검색 결과에요!</Title>
+            <Title>{userData.nickname} 님의 검색 결과예요!</Title>
           </>
         ) : (
-          <Title>강좌 검색 결과에요!</Title>
+          <Title>강좌 검색 결과예요!</Title>
         )}
         <Filter>
           <FilterContainerMain

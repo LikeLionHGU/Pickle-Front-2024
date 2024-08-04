@@ -332,7 +332,7 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
       });
 
       if (response.data.length === 0) {
-        alert("검색 결과가 없습니다.\n전체 강좌입니다.");
+        alert("검색 결과가 없습니다.\n전체 강좌를 보여드리겠습니다.");
         response = await axios.get("http://15.164.88.154:8080/api/course", {
           params: {
             page: 0,
@@ -343,7 +343,7 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
         });
         setCourses(response.data);
         console.log("Search results (fallback):", response);
-        navigate("/lecture", { state: { courses: response.data } });
+        navigate("/listall", { state: { courses: response.data } });
       } else {
         setCourses(response.data);
         console.log("Search results:", response);
