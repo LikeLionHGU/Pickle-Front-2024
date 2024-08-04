@@ -1,10 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
 import styled from "styled-components";
 import CalendarCom from "../Common/CalendarCom";
 import SliderCom from "../Common/SliderCom";
 import SelectedContentBox from "./SelectedContentBox";
+import { useNavigate } from "react-router-dom";
 
 function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
+  const navigate = useNavigate();
+
   const [checked, setChecked] = useState({
     individual: false,
     group: false,
@@ -19,8 +23,10 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
   const [subDropdown, setSubDropdown] = useState(false);
 
   const [selectedRegion, setSelectedRegion] = useState([]);
-  const [selectedSport, setSelectedSport] = useState([]);
-  const [selectedDisability, setSelectedDisability] = useState([]);
+  const [selectedCity, setSelectedCity] = useState([]);
+  const [selectedDistrict, setSelectedDistrict] = useState([]);
+  const [selectedSportType, setSelectedSportType] = useState([]);
+  const [selectedDisabilityType, setSelectedDisabilityType] = useState([]);
   const [selectedDate, setSelectedDate] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState({ min: 0, max: 100000 });
 
@@ -34,7 +40,7 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
     { name: "강원", subOptions: ["옥수수", "감자"] },
     { name: "경기", subOptions: ["과천시", "의왕시", "안양시"] },
     { name: "경남", subOptions: [] },
-    { name: "경북", subOptions: ["포항시"] },
+    { name: "경북", subOptions: ["포항시 북구"] },
     { name: "광주", subOptions: [] },
     {
       name: "대구",
@@ -104,10 +110,11 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
   ];
 
   const handleChange = (event) => {
-    setChecked({
-      ...checked,
-      [event.target.name]: event.target.checked,
-    });
+    const { name, checked } = event.target;
+    setChecked((prevChecked) => ({
+      ...prevChecked,
+      [name]: checked,
+    }));
   };
 
   const handleClickOutside = (event) => {
@@ -192,12 +199,18 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
       if (regionDropdown) {
         if (!selectedRegion.includes(option.name)) {
           setSelectedRegion((prev) => [...prev, option.name]);
+          setSelectedCity((prev) => [...prev, option.name]);
         }
       } else if (sportsDropdown) {
-        if (!selectedSport.includes(option.name)) {
-          setSelectedSport((prev) => [...prev, option.name]);
+        if (!selectedSportType.includes(option.name)) {
+          setSelectedSportType((prev) => [...prev, option.name]);
+        }
+      } else if (disDropdown) {
+        if (!selectedDisabilityType.includes(option.name)) {
+          setSelectedDisabilityType((prev) => [...prev, option.name]);
         }
       }
+
       setRegionDropdown(false);
       setSportsDropdown(false);
       setDisDropdown(false);
@@ -210,14 +223,20 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
     if (regionDropdown) {
       if (!selectedRegion.includes(subOption)) {
         setSelectedRegion((prev) => [...prev, subOption]);
+        setSelectedDistrict((prev) => [...prev, subOption]);
       } else {
         setSelectedRegion((prev) => prev.filter((item) => item !== subOption));
+        setSelectedDistrict((prev) =>
+          prev.filter((item) => item !== subOption)
+        );
       }
     } else if (sportsDropdown) {
-      if (!selectedSport.includes(subOption)) {
-        setSelectedSport((prev) => [...prev, subOption]);
+      if (!selectedSportType.includes(subOption)) {
+        setSelectedSportType((prev) => [...prev, subOption]);
       } else {
-        setSelectedSport((prev) => prev.filter((item) => item !== subOption));
+        setSelectedSportType((prev) =>
+          prev.filter((item) => item !== subOption)
+        );
       }
     }
   };
@@ -225,10 +244,14 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
   const handleClearSelection = (category, value) => {
     if (category === "region") {
       setSelectedRegion((prev) => prev.filter((item) => item !== value));
+      // setSelectedCity((prev) => prev.filter((item) => item !== value));
+      // setSelectedDistrict((prev) => prev.filter((item) => item !== value));
     } else if (category === "sport") {
-      setSelectedSport((prev) => prev.filter((item) => item !== value));
+      setSelectedSportType((prev) => prev.filter((item) => item !== value));
     } else if (category === "disability") {
-      setSelectedDisability((prev) => prev.filter((item) => item !== value));
+      setSelectedDisabilityType((prev) =>
+        prev.filter((item) => item !== value)
+      );
     } else if (category === "date") {
       setSelectedDate((prev) => prev.filter((item) => item !== value));
     }
@@ -243,6 +266,81 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
     setSelectedPrice({ min, max });
     setPriceDropdown(false);
     console.log(min, max);
+  };
+
+  const [courses, setCourses] = useState([]);
+  const [error, setError] = useState(null);
+
+  const handleSearch = async () => {
+    try {
+      const params = {
+        page: 0,
+        size: 100,
+        direction: "DESC",
+      };
+
+      if (selectedSportType && selectedSportType.length > 0) {
+        params["sportType"] = selectedSportType.join(",");
+      }
+      if (selectedCity && selectedCity.length > 0) {
+        params["city"] = selectedCity.join(",");
+      }
+      if (selectedDistrict && selectedDistrict.length > 0) {
+        params["district"] = selectedDistrict.join(",");
+      }
+      if (selectedDisabilityType && selectedDisabilityType.length > 0) {
+        params["disabilityType"] = selectedDisabilityType.join(",");
+      }
+      if (selectedDate && selectedDate.length > 0) {
+        params["date"] = selectedDate.join(",");
+      }
+      if (selectedPrice && selectedPrice.max != null) {
+        params.highestPrice = selectedPrice.max;
+      }
+      if (selectedPrice && selectedPrice.min != null) {
+        params.lowestPrice = selectedPrice.min;
+      }
+      if (checked.group) {
+        params.onlyGroup = true;
+      }
+      if (checked.individual) {
+        params.onlyIndividual = true;
+      }
+
+      const headers = {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJrYWthb0lkIjoiMzY0ODMzODMyMCIsInN1YiI6IjM2NDgzMzgzMjAiLCJpYXQiOjE3MjI2OTYzNzcsImV4cCI6MTcyMzMwMTE3N30.sxACHEVes1n8weY0EMoVg8oYoyHTE6dn6oIWdXaI6GODM7-ePfhkTW5ehkHdn5NY45N63Qz68bb98wIWvjkbiw",
+      };
+
+      console.log("Request params:", params);
+      // console.log("Request headers:", headers);
+
+      let response = await axios.get("http://15.164.88.154:8080/api/course", {
+        params: params,
+        headers: headers,
+      });
+
+      if (response.data.length === 0) {
+        alert("검색 결과가 없습니다.\n전체 강좌입니다.");
+        response = await axios.get("http://15.164.88.154:8080/api/course", {
+          params: {
+            page: 0,
+            size: 100,
+            direction: "DESC",
+          },
+          headers: headers,
+        });
+        setCourses(response.data);
+        console.log("Search results (fallback):", response);
+        navigate("/lecture", { state: { courses: response.data } });
+      } else {
+        setCourses(response.data);
+        console.log("Search results:", response);
+        navigate("/lecture", { state: { courses: response.data } });
+      }
+    } catch (err) {
+      console.error("Error fetching courses:", err);
+    }
   };
 
   return (
@@ -275,8 +373,8 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
       <SelectedContainer>
         <SelectedContentBox
           selectedRegion={selectedRegion}
-          selectedSport={selectedSport}
-          selectedDisability={selectedDisability}
+          selectedSportType={selectedSportType}
+          selectedDisabilityType={selectedDisabilityType}
           selectedDate={selectedDate}
           selectedPrice={selectedPrice}
           handleClearSelection={handleClearSelection}
@@ -328,7 +426,7 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
                         onClick={() => handleSubOptionClick(subOption)}
                         selected={
                           selectedRegion.includes(subOption) ||
-                          selectedSport.includes(subOption)
+                          selectedSportType.includes(subOption)
                         }
                       >
                         {subOption}
@@ -341,7 +439,7 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
         </FilterContent>
         <FilterContent ref={sportsRef}>
           <FilterTitle
-            selected={selectedSport.length > 0}
+            selected={selectedSportType.length > 0}
             onClick={toggleSportsDropdown}
           >
             운동종목
@@ -358,7 +456,7 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
                         onClick={() =>
                           handleOptionClick({ name: subOption, subOptions: [] })
                         }
-                        selected={selectedSport.includes(subOption)}
+                        selected={selectedSportType.includes(subOption)}
                       >
                         {subOption}
                       </DropdownItem>
@@ -372,7 +470,7 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
 
         <FilterContent ref={disRef}>
           <FilterTitle
-            selected={selectedDisability.length > 0}
+            selected={selectedDisabilityType.length > 0}
             onClick={toggleDisDropdown}
           >
             장애유형
@@ -384,7 +482,7 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
                   <DropdownItem
                     key={option.name}
                     onClick={() => handleOptionClick(option)}
-                    selected={selectedDisability.includes(option.name)}
+                    selected={selectedDisabilityType.includes(option.name)}
                   >
                     {option.name}
                   </DropdownItem>
@@ -424,7 +522,7 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
             </PriceDropdown>
           )}
         </FilterContent>
-        <SearchBtn>
+        <SearchBtn onClick={handleSearch}>
           <SearchBtnTitle>검색</SearchBtnTitle>
         </SearchBtn>
       </FilterContainer>
