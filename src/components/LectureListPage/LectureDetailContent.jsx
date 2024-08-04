@@ -89,7 +89,11 @@ function LectureDetailContent() {
   const navigate = useNavigate();
 
   const handleCourseApplyBtnClick = () => {
-    navigate(`/lecture/${courseId}/${selectedCourseBlockId}`);
+    if (selectedCourseBlockId === null) {
+      alert("강좌 시간을 선택하세요.");
+    } else {
+      navigate(`/lecture/${courseId}/${selectedCourseBlockId}`);
+    }
   };
 
   const toggleTeacherProfileModal = () => {
