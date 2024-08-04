@@ -5,12 +5,14 @@ import MapCon from "../Common/MapCon";
 import LecturePurchaseCard from "./LecturePurchaseCard";
 import BgColor from "../Common/BgColor";
 import couponArrow from "../../assets/img/couponArrow.svg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 function LecturePurchaseContent() {
   const [selectedOption, setSelectedOpiton] = useState("creditCard");
   const navigate = useNavigate();
+  const { courseId, courseBlockId } = useParams();
+  const [data, setData] = useState();
   const [userData, setUserData] = useState();
 
   useEffect(() => {
@@ -29,7 +31,21 @@ function LecturePurchaseContent() {
       });
   }, []);
 
-  if (!userData) return <div></div>;
+  useEffect(() => {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST_URL}/api/course/detail?courseId=${courseId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log("data: ", response.data);
+        setData(response.data);
+      });
+  }, []);
 
   const handleOptionChange = (event) => {
     setSelectedOpiton(event.target.value);
@@ -37,25 +53,22 @@ function LecturePurchaseContent() {
 
   const handlePurchaseBtnClick = () => {
     if (window.confirm("이 강좌를 결제하시겠습니까?")) {
-      navigate("/user/learning");
+      axios
+        .post(
+          `${process.env.REACT_APP_HOST_URL}/api/course/detail?courseBlockId=${courseBlockId}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+          alert("수강신청이 완료되었습니다.");
+          navigate("/user/learning");
+        });
     }
-  };
-
-  const course = {
-    courseId: 1,
-    title: "건강한 피트니스 루틴",
-    name: "이다빈 강사님",
-    sportType: "수영",
-    location: "경북 포항시 북구",
-    score: 3.5,
-    disabilityType: "뇌병변 / 시, 청각 장애 가능",
-    price: 30000,
-    likeCount: 100,
-    isLike: true,
-    isGroup: false,
-    teacherName: "이다빈 강사님",
-    imageURL:
-      "https://cdn.pixabay.com/photo/2019/07/01/10/44/water-4309678_1280.jpg",
   };
 
   const formatPhoneNumber = (value) => {
@@ -67,6 +80,9 @@ function LecturePurchaseContent() {
   const handleCouponClick = () => {
     alert("사용 가능한 쿠폰이 없습니다.");
   };
+
+  if (!data) return <div>Loading...</div>;
+  if (!userData) return <div></div>;
 
   return (
     <BgColor>
@@ -118,7 +134,10 @@ function LecturePurchaseContent() {
         <Right>
           <Blue>강좌정보</Blue>
           <CourseInfo>
-            <LecturePurchaseCard course={course} />
+            <LecturePurchaseCard
+              course={data}
+              selectedCourseBlockId={courseBlockId}
+            />
           </CourseInfo>
           <Map>
             <MapCon />
@@ -127,7 +146,7 @@ function LecturePurchaseContent() {
             <PriceContent>
               <div style={{ display: "flex", justifyContent: "space-Between" }}>
                 <SelectedPrice>선택상품 금액</SelectedPrice>
-                <SelectedPrice>50,000원</SelectedPrice>
+                <SelectedPrice>{data.price.toLocaleString()}원</SelectedPrice>
               </div>
               <div style={{ display: "flex", justifyContent: "space-Between" }}>
                 <DiscountedPrice>할인금액</DiscountedPrice>
@@ -141,7 +160,7 @@ function LecturePurchaseContent() {
                 }}
               >
                 <TotalPrice>총 결제금액</TotalPrice>
-                <TotalPrice>45,000원</TotalPrice>
+                <TotalPrice>{data.price.toLocaleString()}원</TotalPrice>
               </div>
             </PriceContent>
           </Price>
