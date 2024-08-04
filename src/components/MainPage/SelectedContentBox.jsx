@@ -1,15 +1,23 @@
 import React from "react";
 import styled from "styled-components";
+import { useRecoilState } from "recoil";
+import { selectedRegionState } from "../../atom";
+import { selectedSportTypeState } from "../../atom";
+import { selectedDisabilityTypeState } from "../../atom";
+import { selectedDateState } from "../../atom";
+import { selectedPriceState } from "../../atom";
 
-const SelectedContentBox = ({
-  selectedRegion,
-  selectedSportType,
-  selectedDisabilityType,
-  selectedDate,
-  selectedPrice,
-  handleClearSelection,
-  regionOptions = [],
-}) => {
+const SelectedContentBox = ({ handleClearSelection, regionOptions = [] }) => {
+  const [selectedRegion, setsSlectedRegion] =
+    useRecoilState(selectedRegionState);
+  const [selectedSportType, setSelectedSportType] = useRecoilState(
+    selectedSportTypeState
+  );
+  const [selectedDisabilityType, setSelectedDisabilityType] = useRecoilState(
+    selectedDisabilityTypeState
+  );
+  const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState);
+  const [selectedPrice, setSelectedPrice] = useRecoilState(selectedPriceState);
   const isSubOption = (item) => {
     return (
       regionOptions &&

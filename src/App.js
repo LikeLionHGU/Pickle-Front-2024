@@ -10,41 +10,44 @@ import UserLearningPage from "./pages/UserLearningPage.jsx";
 import UserCompleteLecturePage from "./pages/UserCompleteLecturePage.jsx";
 import UserEditProfilePage from "./pages/UserEditProfilePage.jsx";
 import LectureListPage from "./pages/LectureListPage.jsx";
+import ListAllPage from "./pages/ListAllPage.jsx";
 import LectureDetailPage from "./pages/LectureDetailPage.jsx";
 import LecturePurchasePage from "./pages/LecturePurchasePage.jsx";
 import SignInPage from "./pages/SignInPage.jsx";
 import LoginRedirection from "./pages/LoginRedirection.jsx";
-import SearchLectureListPage from "./pages/SearchLectureListPage.jsx";
+import { RecoilRoot } from "recoil";
 
 function App() {
   return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<Main />}></Route>
-        <Route path="/sign" element={<SignInPage />}></Route>
-        <Route path="/kakao/cb" element={<LoginRedirection />}></Route>
-        <Route path="/lecture" element={<LectureListPage />}></Route>
-        <Route path="/search" element={<SearchLectureListPage />}></Route>
-        <Route
-          path="/lecture/:courseId"
-          element={<LectureDetailPage />}
-        ></Route>
-        <Route
-          path="/lecture/:courseId/:courseBlockId"
-          element={<LecturePurchasePage />}
-        ></Route>
-        <Route path="/user" element={<UserPage />}></Route>
-        <Route path="/user/saved" element={<UserSavedLecturePage />}></Route>
-        <Route path="/user/learning" element={<UserLearningPage />}></Route>
-        <Route
-          path="/user/complete"
-          element={<UserCompleteLecturePage />}
-        ></Route>
-        <Route path="/user/edit" element={<UserEditProfilePage />}></Route>
-        <Route path="/map" element={<Map />}></Route>
-      </Routes>
-    </BrowserRouter>
+    <RecoilRoot>
+      <BrowserRouter>
+        <ScrollToTop />
+        <Routes>
+          <Route path="/" element={<Main />}></Route>
+          <Route path="/sign" element={<SignInPage />}></Route>
+          <Route path="/kakao/cb" element={<LoginRedirection />}></Route>
+          <Route path="/lecture" element={<LectureListPage />}></Route>
+          <Route path="/listall" element={<ListAllPage />}></Route>
+          <Route
+            path="/lecture/:courseId"
+            element={<LectureDetailPage />}
+          ></Route>
+          <Route
+            path="/lecture/:courseId/:courseBlockId"
+            element={<LecturePurchasePage />}
+          ></Route>
+          <Route path="/user" element={<UserPage />}></Route>
+          <Route path="/user/saved" element={<UserSavedLecturePage />}></Route>
+          <Route path="/user/learning" element={<UserLearningPage />}></Route>
+          <Route
+            path="/user/complete"
+            element={<UserCompleteLecturePage />}
+          ></Route>
+          <Route path="/user/edit" element={<UserEditProfilePage />}></Route>
+          <Route path="/map" element={<Map />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </RecoilRoot>
   );
 }
 

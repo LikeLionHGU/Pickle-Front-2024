@@ -50,7 +50,7 @@ function HeaderLightVer() {
     <Wrapper>
       <Menus>
         <Menu onClick={() => handleMenuClick("/")}>홈</Menu>
-        <Menu onClick={() => handleMenuClick("/lecture")}>강좌목록</Menu>
+        <Menu onClick={() => handleMenuClick("/listall")}>강좌목록</Menu>
         <Menu onClick={() => handleUserPageClick("/user")}>마이페이지</Menu>
         <Logo>
           <img

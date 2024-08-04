@@ -5,6 +5,12 @@ import CalendarCom from "../Common/CalendarCom";
 import SliderCom from "../Common/SliderCom";
 import SelectedContentBox from "./SelectedContentBox";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { selectedRegionState } from "../../atom";
+import { selectedSportTypeState } from "../../atom";
+import { selectedDisabilityTypeState } from "../../atom";
+import { selectedDateState } from "../../atom";
+import { selectedPriceState } from "../../atom";
 
 function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
   const navigate = useNavigate();
@@ -22,13 +28,18 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
   const [subOptions, setSubOptions] = useState([]);
   const [subDropdown, setSubDropdown] = useState(false);
 
-  const [selectedRegion, setSelectedRegion] = useState([]);
+  const [selectedRegion, setSelectedRegion] =
+    useRecoilState(selectedRegionState);
   const [selectedCity, setSelectedCity] = useState([]);
   const [selectedDistrict, setSelectedDistrict] = useState([]);
-  const [selectedSportType, setSelectedSportType] = useState([]);
-  const [selectedDisabilityType, setSelectedDisabilityType] = useState([]);
-  const [selectedDate, setSelectedDate] = useState([]);
-  const [selectedPrice, setSelectedPrice] = useState({ min: 0, max: 100000 });
+  const [selectedSportType, setSelectedSportType] = useRecoilState(
+    selectedSportTypeState
+  );
+  const [selectedDisabilityType, setSelectedDisabilityType] = useRecoilState(
+    selectedDisabilityTypeState
+  );
+  const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState);
+  const [selectedPrice, setSelectedPrice] = useRecoilState(selectedPriceState);
 
   const regionRef = useRef();
   const sportsRef = useRef();
