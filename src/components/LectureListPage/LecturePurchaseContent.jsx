@@ -1,14 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import GrayInfoBox from "../Common/GrayInfoBox";
 import MapCon from "../Common/MapCon";
 import LecturePurchaseCard from "./LecturePurchaseCard";
 import BgColor from "../Common/BgColor";
+import couponArrow from "../../assets/img/couponArrow.svg";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function LecturePurchaseContent() {
   const [selectedOption, setSelectedOpiton] = useState("creditCard");
   const navigate = useNavigate();
+  const [userData, setUserData] = useState();
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_HOST_URL}/api/mypage`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setUserData(response.data);
+      })
+      .catch(() => {
+        setUserData({});
+      });
+  }, []);
+
+  if (!userData) return <div></div>;
 
   const handleOptionChange = (event) => {
     setSelectedOpiton(event.target.value);
@@ -37,20 +58,32 @@ function LecturePurchaseContent() {
       "https://cdn.pixabay.com/photo/2019/07/01/10/44/water-4309678_1280.jpg",
   };
 
+  const formatPhoneNumber = (value) => {
+    const numbersOnly = value.replace(/\D/g, "");
+    const formatted = numbersOnly.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
+    return formatted.substring(0, 13);
+  };
+
+  const handleCouponClick = () => {
+    alert("사용 가능한 쿠폰이 없습니다.");
+  };
+
   return (
     <BgColor>
       <Wrapper>
         <Left>
           <Blue>신청자 정보</Blue>
           <UserInfo>이름</UserInfo>
-          <GrayInfoBox>최예라</GrayInfoBox>
+          <GrayInfoBox>{userData.name}</GrayInfoBox>
           <UserInfo>생년월일</UserInfo>
           <GrayInfoBox>2002.08.16</GrayInfoBox>
           <UserInfo>전화번호</UserInfo>
-          <GrayInfoBox>010-1234-1234</GrayInfoBox>
+          <GrayInfoBox>{formatPhoneNumber(userData.contactNumber)}</GrayInfoBox>
           <Coupon>
             <Blue>할인쿠폰 선택</Blue>
-            <CouponDropDown>컴포넌트로 추가 예정</CouponDropDown>
+            <CouponDropDown onClick={handleCouponClick}>
+              <img src={couponArrow} alt="쿠폰 화살표" />
+            </CouponDropDown>
           </Coupon>
           <PaymentInfo>
             <Payment>결제 정보</Payment>
@@ -98,7 +131,7 @@ function LecturePurchaseContent() {
               </div>
               <div style={{ display: "flex", justifyContent: "space-Between" }}>
                 <DiscountedPrice>할인금액</DiscountedPrice>
-                <DiscountedPrice>5,000원</DiscountedPrice>
+                <DiscountedPrice>0원</DiscountedPrice>
               </div>
               <div
                 style={{
@@ -169,6 +202,12 @@ const CouponDropDown = styled.div`
   color: #939393;
   display: flex;
   align-items: center;
+  justify-content: end;
+  cursor: pointer;
+
+  img {
+    margin-right: 15px;
+  }
 `;
 
 const PaymentInfo = styled.div`
