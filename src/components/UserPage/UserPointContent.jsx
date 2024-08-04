@@ -7,6 +7,10 @@ import userLevel3 from "../../assets/img/UserLevel3.svg";
 import star from "../../assets/img/rateStar.svg";
 import arrow from "../../assets/img/rateArrow.svg";
 import axios from "axios";
+import grayUserLevel0 from "../../assets/img/grayUserLevel0.svg";
+import grayUserLevel1 from "../../assets/img/grayUserLevel1.svg";
+import grayUserLevel2 from "../../assets/img/grayUserLevel2.svg";
+import grayUserLevel3 from "../../assets/img/grayUserLevel3.svg";
 
 function UserPointContent() {
   const [userLevel, setUserLevel] = useState();
@@ -38,6 +42,21 @@ function UserPointContent() {
       });
   }, []);
 
+  const getImageSrc = (level) => {
+    switch (level) {
+      case 0:
+        return userLevel.level === 0 ? userLevel0 : grayUserLevel0;
+      case 1:
+        return userLevel.level === 1 ? userLevel1 : grayUserLevel1;
+      case 2:
+        return userLevel.level === 2 ? userLevel2 : grayUserLevel2;
+      case 3:
+        return userLevel.level === 3 ? userLevel3 : grayUserLevel3;
+      default:
+        return null;
+    }
+  };
+
   if (!userLevel) return <div>Loading..</div>;
   if (!userData) return <div>Loading..</div>;
 
@@ -47,7 +66,7 @@ function UserPointContent() {
         <UserSection>
           <Title>현재 {userData.nickname}님의 등급이에요 !</Title>
           <UserImg>
-            <img src={userLevel0} alt="0등급" />
+            <img src={getImageSrc(userLevel.level)} alt="등급이미지" />
           </UserImg>
           <UserDetail>
             운동에 맛 들린 <Blue>뚜벅이</Blue>
@@ -57,22 +76,22 @@ function UserPointContent() {
           <RateContainer>
             <CharacterContainer>
               <Character className="level0">
-                <img src={userLevel0} alt="0등급" />
+                <img src={getImageSrc(0)} alt="0등급" />
                 <RateText>씨클 등급</RateText>
               </Character>
               <Arrow src={arrow} alt="화살표" />
               <Character className="level1">
-                <img src={userLevel1} alt="1등급" />
+                <img src={getImageSrc(1)} alt="1등급" />
                 <RateText className="level1">비클 등급</RateText>
               </Character>
               <Arrow src={arrow} alt="화살표" />
               <Character className="level2">
-                <img src={userLevel2} alt="2등급" />
+                <img src={getImageSrc(2)} alt="2등급" />
                 <RateText className="level2">에이클 등급</RateText>
               </Character>
               <Arrow src={arrow} alt="화살표" />
               <Character className="level3">
-                <img src={userLevel3} alt="3등급" />
+                <img src={getImageSrc(3)} alt="3등급" />
                 <RateText className="level3">피클 등급</RateText>
               </Character>
             </CharacterContainer>
