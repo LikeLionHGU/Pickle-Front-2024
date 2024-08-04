@@ -1,9 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import BlueBtn from "../Common/CommonBtn/BlueBtn";
 import GrayInfoBox from "../Common/GrayInfoBox";
+import axios from "axios";
 
 function UserEditProfileContent() {
+  const [userData, setUserData] = useState();
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_HOST_URL}/api/mypage`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setUserData(response.data);
+      })
+      .catch(() => {
+        setUserData({});
+      });
+  }, []);
+
   const [formData, setFormData] = useState({
     name: "이빈치",
     nickname: "다빈치",
@@ -56,10 +75,12 @@ function UserEditProfileContent() {
     });
   };
 
+  if (!userData) return <div>Loading..</div>;
+
   return (
     <Wrapper>
       <Contents>
-        <Title>최예라 님의 프로필 정보에요</Title>
+        <Title>{userData.nickname} 님의 프로필 정보에요</Title>
         <Content>
           <InfoLeft>
             <UserInfo>이름</UserInfo>

@@ -8,9 +8,20 @@ import LoginModal from "../MainPage/LoginModal";
 function HeaderLightVer() {
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
   const navigate = useNavigate();
+  const token = localStorage.getItem("jwtToken");
 
   const handleMenuClick = (url) => {
     navigate(url);
+  };
+
+  const handleUserPageClick = (url) => {
+    const jwtToken = localStorage.getItem("jwtToken");
+    if (!jwtToken) {
+      alert("로그인이 필요합니다.");
+      navigate("/");
+    } else {
+      navigate(url);
+    }
   };
 
   const handlePickleLogoClick = () => {
@@ -29,12 +40,18 @@ function HeaderLightVer() {
     navigate("/sign");
   };
 
+  const handleSignOutBtnClick = () => {
+    localStorage.removeItem("jwtToken");
+    // window.location.reload();
+    navigate("/");
+  };
+
   return (
     <Wrapper>
       <Menus>
         <Menu onClick={() => handleMenuClick("/")}>홈</Menu>
         <Menu onClick={() => handleMenuClick("/lecture")}>강좌목록</Menu>
-        <Menu onClick={() => handleMenuClick("/user")}>마이페이지</Menu>
+        <Menu onClick={() => handleUserPageClick("/user")}>마이페이지</Menu>
         <Logo>
           <img
             onClick={handlePickleLogoClick}
@@ -44,8 +61,14 @@ function HeaderLightVer() {
         </Logo>
       </Menus>
       <SignInSection>
-        <SignIn onClick={toggleLoginModal}>로그인</SignIn>
-        <SignIn onClick={handleSignInClick}>회원가입</SignIn>
+        {!token ? (
+          <>
+            <SignIn onClick={toggleLoginModal}>로그인</SignIn>
+            <SignIn onClick={handleSignInClick}>회원가입</SignIn>
+          </>
+        ) : (
+          <SignOut onClick={handleSignOutBtnClick}>로그아웃</SignOut>
+        )}
       </SignInSection>
       {isLoginModalOpen && <LoginModal toggleModal={toggleLoginModal} />}
       <SearchSection>
@@ -137,4 +160,12 @@ const SignIn = styled.div`
   color: #1997fc;
   font-size: 14px;
   cursor: pointer;
+`;
+
+const SignOut = styled.div`
+  color: #1997fc;
+  font-size: 14px;
+  cursor: pointer;
+  /* border: 1px solid red; */
+  margin-left: 70px;
 `;

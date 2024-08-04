@@ -1,46 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import defaultTeacherImg from "../../assets/img/defaultTeacherImg.svg";
+// import defaultTeacherImg from "../../assets/img/defaultTeacherImg.svg";
 import closeBtn from "../../assets/img/CloseBtn.svg";
 import star from "../../assets/img/star.svg";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import TeacherProfileCard from "./TeacherProfileCard";
+import axios from "axios";
 
 function TeacherProfileModal({ toggleModal }) {
-  const data = [
-    {
-      courseId: 1,
-      title: "하루 30분: 건강한 피트니스 루틴",
-      name: "이다빈 강사님",
-      sportType: "수영",
-      location: "경북 포항시 북구",
-      score: 3.5,
-      disabilityType: "뇌병변 / 시, 청각 장애 가능",
-      price: 30000,
-      likeCount: 100,
-      isLike: true,
-      isGroup: false,
-      teacherName: "이다빈 강사님",
-      imageURL:
-        "https://cdn.pixabay.com/photo/2019/07/01/10/44/water-4309678_1280.jpg",
-    },
-    {
-      courseId: 2,
-      title: "유연한 몸: 요가와 스트레칭 클래스",
-      name: "김예지 강사님",
-      sportType: "수영",
-      location: "경북 포항시 북구",
-      score: 3.5,
-      disabilityType: "뇌병변 / 시, 청각 장애 가능",
-      price: 30000,
-      likeCount: 100,
-      isLike: true,
-      isGroup: false,
-      teacherName: "이다빈 강사님",
-      imageURL:
-        "https://cdn.pixabay.com/photo/2019/07/01/10/44/water-4309678_1280.jpg",
-    },
-  ];
+  const { courseId } = useParams();
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST_URL}/api/course/detail?courseId=${courseId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+        setData(response.data);
+      });
+  }, [courseId]);
+
+  const careers = data?.teacher?.career?.split(",").map((item) => item.trim());
+
+  if (!data) return <div>강사 정보 불러오는 중 ...</div>;
 
   return (
     <Modal>
@@ -49,33 +38,34 @@ function TeacherProfileModal({ toggleModal }) {
         <ModalWrapper>
           <Left>
             <TeacherImg>
-              <img src={defaultTeacherImg} alt="기본 강사 이미지"></img>
+              <img src={data.teacher.imageURL} alt="기본 강사 이미지"></img>
             </TeacherImg>
             <Teacher>
-              <TeacherName>최예라</TeacherName>
+              <TeacherName>{data.teacher.name}</TeacherName>
               <TeacherText>강사님</TeacherText>
             </Teacher>
             <TeacherDetail>
               <StudentNum>
                 <DetailCategory>수강생 수</DetailCategory>
-                <DetailContent>87</DetailContent>
+                <DetailContent>{data.teacher.studentCount}</DetailContent>
               </StudentNum>
               <CourseReview>
                 <DetailCategory>수강평수</DetailCategory>
-                <DetailContent>12</DetailContent>
+                <DetailContent>{data.teacher.reviewCount}</DetailContent>
               </CourseReview>
               <CourseRate>
-                <DetailCategory>강의평점</DetailCategory>
+                <DetailCategory>강좌평점</DetailCategory>
                 <div style={{ display: "flex" }}>
                   <img src={star} alt="별 이미지"></img>
-                  <DetailContent>5.0</DetailContent>
+                  <DetailContent>{data.teacher.score}</DetailContent>
                 </div>
               </CourseRate>
             </TeacherDetail>
             <Certificate>
               <CertificateCategory>보유 자격증</CertificateCategory>
-              <CertificateDetail>• 생활 체육 지도사 1급</CertificateDetail>
-              <CertificateDetail>• 재활 치료사</CertificateDetail>
+              {careers?.map((career, index) => (
+                <CertificateDetail key={index}>• {career}</CertificateDetail>
+              ))}
             </Certificate>
           </Left>
           <DivisionLine></DivisionLine>
@@ -88,22 +78,22 @@ function TeacherProfileModal({ toggleModal }) {
               ></img>
             </CloseBtn>
             <TeacherDiscription>
-              <Discription>자기소개란</Discription>
+              <Discription>{data.teacher.description}</Discription>
             </TeacherDiscription>
-            <AnotherCourse>최예라 강사님의 강좌</AnotherCourse>
+            <AnotherCourse>{data.teacher.name} 강사님의 강좌</AnotherCourse>
             <CourseContainer>
-              {data.map((course) => (
+              {data.teacher.courseList?.map((course) => (
                 <Link
-                  key={course.courseId}
+                  key={course.id}
                   style={{
                     textDecoration: "none",
                     color: "black",
                     display: "flex",
                   }}
-                  to={`/lecture/${course.courseId}`}
+                  to={`/lecture/${course.id}`}
                   onClick={toggleModal}
                 >
-                  <TeacherProfileCard course={course} />
+                  <TeacherProfileCard teacher={data.teacher} course={course} />
                 </Link>
               ))}
             </CourseContainer>
@@ -239,7 +229,9 @@ const CourseRate = styled.div`
 
 const Certificate = styled.div`
   /* border: 1px solid red; */
-  margin-top: 58px;
+  margin-top: 50px;
+  height: 140px;
+  overflow-y: auto;
 `;
 
 const CertificateCategory = styled.div`
@@ -285,10 +277,13 @@ const TeacherDiscription = styled.div`
   border-radius: 15px;
   margin-top: 30px;
   padding: 30px 28px;
+  overflow-y: auto;
+  /* border: 1px solid red; */
 `;
 
 const Discription = styled.div`
   font-size: 14px;
+  /* border: 1px solid red; */
 `;
 
 const AnotherCourse = styled.div`
@@ -299,4 +294,8 @@ const AnotherCourse = styled.div`
 const CourseContainer = styled.div`
   /* border: 1px solid red; */
   margin-top: 20px;
+  height: 300px;
+  width: 500px;
+  padding-right: 10px;
+  overflow-y: auto;
 `;

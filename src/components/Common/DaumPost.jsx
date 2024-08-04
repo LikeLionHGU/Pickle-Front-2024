@@ -10,7 +10,7 @@ const DaumPost = ({ setForm }) => {
   const handleComplete = (data) => {
     let fullAddress = data.address;
     let extraAddress = "";
-    let localAddress = data.sido + " " + data.sigungu;
+    // let localAddress = data.sido + " " + data.sigungu;
 
     if (data.addressType === "R") {
       if (data.bname !== "") {
@@ -20,7 +20,7 @@ const DaumPost = ({ setForm }) => {
         extraAddress +=
           extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
       }
-      fullAddress = fullAddress.replace(localAddress, "");
+      // fullAddress = fullAddress.replace(localAddress, "");
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
 

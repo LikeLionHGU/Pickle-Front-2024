@@ -7,6 +7,23 @@ import axios from "axios";
 
 function UserSavedLectureContent() {
   const [data, setData] = useState();
+  const [userData, setUserData] = useState();
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_HOST_URL}/api/mypage`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setUserData(response.data);
+      })
+      .catch(() => {
+        setUserData({});
+      });
+  }, []);
 
   useEffect(() => {
     axios
@@ -22,11 +39,12 @@ function UserSavedLectureContent() {
   }, []);
 
   if (!data) return <div>Loading...</div>;
+  if (!userData) return <div>Loading..</div>;
 
   return (
     <Wrapper>
       <Content>
-        <Title>최예라 님! 찜한 강의들이에요</Title>
+        <Title>{userData.nickname} 님! 찜한 강좌들이에요</Title>
         <CourseContainer>
           {data?.map((data, index) => (
             <React.Fragment key={data.courseId}>
