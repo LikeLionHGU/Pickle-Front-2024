@@ -5,6 +5,7 @@ import CourseDivideLine from "../Common/CourseDivideLine";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import pickleImg from "../../assets/img/UserLevel0.svg";
+import grayPickle from "../../assets/img/grayUserLevel0.svg";
 
 function UserLearningContent() {
   const [userData, setUserData] = useState();
@@ -56,25 +57,36 @@ function UserLearningContent() {
   return (
     <Wrapper>
       <Content>
-        <Title>{userData.nickname} 님! 현재 수강 중인 강좌예요</Title>
-        <CourseContainer>
-          {data.map((data, index) => (
-            <Link
-              key={data.id}
-              style={{
-                textDecoration: "none",
-                color: "black",
-                display: "flex",
-              }}
-              to={`/lecture/${data.id}`}
-            >
-              <React.Fragment key={data.id}>
-                <CourseCard course={data} />
-                {index % 2 === 0 && <CourseDivideLine />}
-              </React.Fragment>
-            </Link>
-          ))}
-        </CourseContainer>
+        <Title>{userData.nickname} 님! 현재 수강 중인 강좌에요</Title>
+        {data.length === 0 ? (
+          <CourseContainer>
+            <NoCourse>
+              <div>
+                <img src={grayPickle} alt="회색 피클 이미지" />
+                <NoCourseText>아직 수강 중인 강좌가 없습니다.</NoCourseText>
+              </div>
+            </NoCourse>
+          </CourseContainer>
+        ) : (
+          <CourseContainer>
+            {data.map((data, index) => (
+              <Link
+                key={data.id}
+                style={{
+                  textDecoration: "none",
+                  color: "black",
+                  display: "flex",
+                }}
+                to={`/lecture/${data.id}`}
+              >
+                <React.Fragment key={data.id}>
+                  <CourseCard course={data} />
+                  {index % 2 === 0 && <CourseDivideLine />}
+                </React.Fragment>
+              </Link>
+            ))}
+          </CourseContainer>
+        )}
       </Content>
     </Wrapper>
   );
@@ -120,4 +132,25 @@ const Pickle = styled.img`
 const LoadingText = styled.div`
   margin-top: 30px;
   font-size: 20px;
+`;
+
+const NoCourse = styled.div`
+  display: flex;
+  margin-left: 350px;
+  margin-top: 90px;
+  height: 500px;
+  width: 1040px;
+  /* border: 1px solid red; */
+
+  img {
+    height: 200px;
+    padding-left: 50px;
+    /* border: 1px solid red; */
+  }
+`;
+
+const NoCourseText = styled.div`
+  font-size: 20px;
+  margin-top: 10px;
+  color: #9c9c9c;
 `;

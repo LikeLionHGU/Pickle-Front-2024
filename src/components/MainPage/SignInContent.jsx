@@ -136,8 +136,8 @@ function SignInContent() {
                   type="radio"
                   id="male"
                   name="sex"
-                  value={false}
-                  checked={form.sex === false}
+                  value={true}
+                  checked={form.sex === true}
                   onChange={handleChange}
                 />
                 <GenderLabel htmlFor="male">남성</GenderLabel>
@@ -145,8 +145,8 @@ function SignInContent() {
                   type="radio"
                   id="female"
                   name="sex"
-                  value={true}
-                  checked={form.sex === true}
+                  value={false}
+                  checked={form.sex === false}
                   onChange={handleChange}
                 />
                 <GenderLabel htmlFor="female">여성</GenderLabel>
