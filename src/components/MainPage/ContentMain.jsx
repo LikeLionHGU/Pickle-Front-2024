@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import PaginationCom from "../Common/PaginationCom.jsx";
 import CourseCard from "../Common/CourseCard";
 import CourseDivideLine from "../Common/CourseDivideLine";
-import data from "../../components/Common/CourseDummyData";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -43,17 +42,20 @@ const ArrowContainer = styled.div`
 
 const NextArrow = ({ onClick }) => (
   <button className="arrow nextArrow" onClick={onClick} type="button">
-    <img src={RightArrowImg} alt="Prev Arrow" />
+    <img src={RightArrowImg} alt="Next Arrow" />
   </button>
 );
 
 const PrevArrow = ({ onClick }) => (
   <button className="arrow prevArrow" onClick={onClick} type="button">
-    <img src={LeftArrowImg} alt="Next Arrow" />
+    <img src={LeftArrowImg} alt="Prev Arrow" />
   </button>
 );
 
 function ContentMain() {
+  const [adCourses, setAdCourses] = useState([]);
+  const [hotCourses, setHotCourses] = useState([]);
+
   const settings = {
     dots: true,
     infinite: true,
@@ -69,28 +71,57 @@ function ContentMain() {
   const [limit, setLimit] = useState(4); // Number of courses per page
   const [page, setPage] = useState(1); // Current page
 
-  // Calculate offset and slice data for current page
+  // Calculate offset and slice data for current page for adCourses
   const offset = (page - 1) * limit;
-  const paginatedData = data.slice(offset, offset + limit);
+  const paginatedAdCourses = adCourses.slice(offset, offset + limit);
+
+  const handleAdData = async () => {
+    try {
+      const response = await axios.get(
+        "http://15.164.88.154:8080/api/course/recommend"
+      );
+      console.log("ad : ", response);
+      setAdCourses(response.data.adCourse || []); // Update state with adCourse data
+    } catch (err) {
+      console.error("Error fetching adCourses:", err);
+    }
+  };
+
+  const handleHotData = async () => {
+    try {
+      const response = await axios.get(
+        "http://15.164.88.154:8080/api/course/recommend"
+      );
+      console.log("hot : ", response);
+      setHotCourses(response.data.hotCourse || []); // Update state with hotCourse data
+    } catch (err) {
+      console.error("Error fetching hotCourses:", err);
+    }
+  };
+
+  useEffect(() => {
+    handleAdData();
+    handleHotData();
+  }, []);
 
   return (
     <Wrapper>
-      {/* Slider for displaying featured courses or ads */}
+      {/* Slider for displaying featured adCourses or ads */}
       <AdCourse>
         이런 강좌는 어떠세요?
         <AdContainer>
           <CourseContainer>
-            {paginatedData.map((course, index) => (
+            {paginatedAdCourses.map((course, index) => (
               <Link
-                key={course.courseId}
+                key={course.id}
                 style={{
                   textDecoration: "none",
                   color: "black",
                   display: "flex",
                 }}
-                to={`/lecture/${course.courseId}`}
+                to={`/lecture/${course.id}`}
               >
-                <React.Fragment key={course.courseId}>
+                <React.Fragment key={course.id}>
                   <CourseCard course={course} />
                   {index % 2 === 0 && <CourseDivideLine />}
                 </React.Fragment>
@@ -105,18 +136,17 @@ function ContentMain() {
         <PopularContainer>
           <ArrowContainer>
             <StyledSlider {...settings}>
-              {paginatedData.map((course, index) => (
-                <div key={course.courseId}>
+              {hotCourses.map((course, index) => (
+                <div key={course.id}>
                   <Link
-                    key={course.courseId}
                     style={{
                       textDecoration: "none",
                       color: "black",
                     }}
-                    to={`/lecture/${course.courseId}`}
+                    to={`/lecture/${course.id}`}
                   >
                     <PopCourseCon>
-                      <React.Fragment key={course.courseId}>
+                      <React.Fragment key={course.id}>
                         <CourseCard course={course} />
                         {index % 4 === 0 && <CourseDivideLine />}
                         {index % 4 === 1 && <CourseDivideLine />}
@@ -150,21 +180,20 @@ const StyledSlider = styled(Slider)`
     justify-content: center;
     align-items: center;
   }
+
   .slick-dots li button {
   }
 
   .slick-dots {
     button {
-      /* width: 100px;
-      height: 100px; */
     }
     .slick-active {
       button::before {
-        color: #4aabf9; //선택된 점의 색상 설정
+        color: #4aabf9; // 선택된 점의 색상 설정
       }
     }
     button::before {
-      color: #d9d9d9; //선택 안된 점의 색상 설정
+      color: #d9d9d9; // 선택 안된 점의 색상 설정
     }
   }
 `;
@@ -182,6 +211,7 @@ const Wrapper = styled.div`
 
 const AdCourse = styled.div`
   margin-bottom: 63px;
+  padding-top: 75px;
 `;
 
 const AdContainer = styled.div`
