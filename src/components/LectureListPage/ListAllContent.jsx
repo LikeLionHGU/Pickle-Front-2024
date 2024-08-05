@@ -60,13 +60,13 @@ function LectureListContent() {
           {courses.length > 0 ? (
             courses.slice(offset, offset + limit).map((course, index) => (
               <Link
-                key={course.courseId}
+                key={course.id}
                 style={{
                   textDecoration: "none",
                   color: "black",
                   display: "flex",
                 }}
-                to={`/lecture/${course.courseId}`}
+                to={`/lecture/${course.id}`}
               >
                 <CourseCard course={course} />
                 {index % 2 === 0 && <CourseDivideLine />}
@@ -90,6 +90,7 @@ function LectureListContent() {
 export default LectureListContent;
 
 const Wrapper = styled.div`
+  /* border: 1px solid red; */
   width: 1000px;
   margin: auto;
   padding-top: 97px;
