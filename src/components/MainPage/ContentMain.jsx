@@ -119,7 +119,7 @@ function ContentMain() {
       });
   }, []);
 
-  if (!userData) return <div>Loading..</div>;
+  if (!userData) return <CourseContainer></CourseContainer>;
 
   return (
     <Wrapper>
