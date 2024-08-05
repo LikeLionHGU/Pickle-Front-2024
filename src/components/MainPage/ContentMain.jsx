@@ -242,7 +242,7 @@ const Wrapper = styled.div`
   /* width: 1160px; */
   width: 1000px;
   margin: auto;
-  margin-top: 175px;
+  margin-top: 135px;
   font-size: 20px;
   padding-bottom: 40px;
   justify-content: center;
@@ -301,10 +301,11 @@ const PopCourseCon = styled.div`
 const CourseContainer = styled.div`
   width: 1040px;
   margin-top: 40px;
-  margin-bottom: 40px;
+  /* margin-bottom: 40px; */
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
+  /* border: 1px solid red; */
 `;
 
 const CName = styled.div``;
