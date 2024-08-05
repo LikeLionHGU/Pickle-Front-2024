@@ -2,6 +2,7 @@ import React from "react";
 import HeaderLightVer from "../components/Common/HeaderLightVer";
 import ListAllContent from "../components/LectureListPage/ListAllContent";
 import { useLocation } from "react-router-dom";
+import Footer from "../components/Common/Footer";
 
 function ListAllPage() {
   const location = useLocation();
@@ -10,7 +11,8 @@ function ListAllPage() {
   return (
     <>
       <HeaderLightVer />
-      <ListAllContent courses={courses} />{" "}
+      <ListAllContent courses={courses} />
+      <Footer backgroundColor="#fafafa" />
     </>
   );
 }

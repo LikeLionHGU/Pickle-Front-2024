@@ -2,6 +2,7 @@ import React from "react";
 import HeaderLightVer from "../components/Common/HeaderLightVer";
 import LectureListContent from "../components/LectureListPage/LectureListContent";
 import { useLocation } from "react-router-dom";
+import Footer from "../components/Common/Footer";
 
 function LectureListPage() {
   const location = useLocation();
@@ -10,7 +11,7 @@ function LectureListPage() {
   return (
     <>
       <HeaderLightVer />
-      <LectureListContent courses={courses} />{" "}
+      <LectureListContent courses={courses} /> <Footer />
     </>
   );
 }
