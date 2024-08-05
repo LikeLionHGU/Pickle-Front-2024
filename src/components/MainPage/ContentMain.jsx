@@ -189,9 +189,11 @@ function ContentMain() {
 export default ContentMain;
 
 const StyledSlider = styled(Slider)`
-  width: 100%;
+  /* width: 100%; */
+  width: 1000px;
   height: 100%;
   position: relative;
+  /* border: 1px solid green; */
 
   .slick-prev::before,
   .slick-next::before {
@@ -237,14 +239,16 @@ const StyledSlider = styled(Slider)`
 `;
 
 const Wrapper = styled.div`
-  width: 1160px;
+  /* width: 1160px; */
+  width: 1000px;
   margin: auto;
   margin-top: 175px;
   font-size: 20px;
   padding-bottom: 40px;
   justify-content: center;
   align-items: center;
-  margin-left: 240px;
+  /* margin-left: 240px; */
+  /* border: 1px solid red; */
 `;
 
 const AdCon = styled.div`
