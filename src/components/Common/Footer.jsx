@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import pickleLogo from "../../assets/logo/PickleLogo.svg";
 
-function Footer() {
+function Footer({ backgroundColor }) {
   return (
-    <Wrapper>
+    <Wrapper backgroundColor={backgroundColor}>
       <AboutPickle>
         <PickleLogo>
           <img src={pickleLogo} alt="피클 로고" />
@@ -37,6 +37,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background-color: ${(props) => props.backgroundColor || "white"};
 `;
 
 const AboutPickle = styled.div`
