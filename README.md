@@ -1,19 +1,57 @@
-# Pickle
-### Pick Abilities, Empower Disabled Persons
+# 장애인 스포츠 강좌 선택 수강 플랫폼, Pickle 🥇
+
+![Pickle](https://github.com/user-attachments/assets/e7035763-50a6-4f2c-9e4b-a4ee8acfe938)
+
+- 배포 URL : https://pickle-pickle.netlify.app
+
+<br>
 
 ## 프로젝트 소개
-피클은 장애인의 운동 기회를 위한 스포츠 강좌 선택 수강 플랫폼입니다 !
 
-## 배포 주소
+- Pick Abilities, Empower Disabled Persons
+- 피클은 장애인의 운동 기회를 위한 스포츠 강좌 선택 수강 플랫폼입니다.
+- 상세한 필터링을 통한 맞춤형 강좌를 선택할 수 있습니다.
+- 강사 프로필 확인을 통해 강좌 개설 내역을 확인하고 신뢰도를 높였습니다.
+
+<br>
 
 ## 프로젝트 기간
-* 24.07.05 ~ 24.08.06
 
-## 프론트 개발자
+24.07.05 ~ 24.08.06
 
-|  YearaChoi   |     skwldwld     |
-|   :--------:   |    :--------:    |
-|   <a href="https://github.com/YearaChoi"><img src="https://github.com/LikeLionHGU/12th-frontend/blob/main/img/%EC%9E%A5%ED%95%9C%EC%84%B1.jpg?raw=true" width="300" height="300"></a>  |  <a href="https://github.com/skwldwld"><img src="https://github.com/LikeLionHGU/L-wenfoto/blob/master/src/img/%EC%8B%AC%EC%84%B1%ED%99%98.jpg?raw=true" width="300" height="300"></a>    |
+<br>
+
+## Pickle 팀원 구성
+
+| 기획자 | 디자이너 | 프론트엔드 개발자 | 프론트엔드 개발자 | 백엔드 개발자 | 백엔드 개발자 |
+| :----: | :------: | :---------------: | :---------------: | :-----------: | :-----------: |
+| 김예지 |  석예슬  |      최예라       |      김예지       |    이다빈     |    장유진     |
+
+<br />
+
+## 프론트엔드 개발자들의 개인 깃허브
+
+|                                                                                        **최예라**                                                                                        |                                                                                         **김예지**                                                                                         |
+| :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| [<img src="https://github.com/user-attachments/assets/24ac9407-972d-4ebd-a7d5-a4c0787f9dce" height=160 width=160> <br/> @YearaChoi](https://github.com/YearaChoi) | [<img src="https://github.com/user-attachments/assets/bc729a7c-8f65-41c0-86bb-9287e123477f" height=160 width=160> <br/> @yeji](https://github.com/skwldwld) |
+
+
+</div>
+
+<br>
+
+## 1. 개발 환경
+
+- Front : HTML, React, styled-components, prettier
+- 버전 및 이슈관리 : Github, Github Issues
+- 협업 툴 : Discord, Notion
+- 서비스 배포 환경 : Netlify
+
+<br>
+
+## 2. 개발 가이드라인
+
+### 이슈 작성
 
 ✹ **Git Issue**
 
@@ -29,7 +67,7 @@
 ✹ **Git Branch**
 
 - 각자 생성한 브랜치에서만 작업합니다.
-- 브랜치 이름 구조는 <**/#이슈번호/본인파트/-본인이름**> 입니다. (ex. #1/MainPage-최예라)
+- 브랜치 이름 구조는 <**/#이슈번호/본인파트/-본인이름**> 입니다. (ex. #1/MainPage-Yeara)
   <br />
 
 ### Commit 메시지 작성법
@@ -55,3 +93,80 @@
 | version  | 버전 업                               | version : 버전(2.0.0) 업데이트                          |
 
 <br />
+
+## 3. 프로젝트 구조
+
+```
+
+src
+ ┣ assets
+ ┃ ┣ fonts
+ ┃ ┃ ┣ PretendardTTF
+ ┃ ┃ ┗ GlobalStyle.jsx
+ ┃ ┣ img
+ ┃ ┗ logo
+ ┃ ┃ ┣ PickleLogo.svg
+ ┃ ┃ ┗ PickleWhiteLogo.svg
+ ┣ components
+ ┃ ┣ Common
+ ┃ ┃ ┣ CommonBtn
+ ┃ ┃ ┃ ┣ BlueBtn.jsx
+ ┃ ┃ ┃ ┣ DisabledBtn.jsx
+ ┃ ┃ ┃ ┗ WhiteBtn.jsx
+ ┃ ┃ ┣ BgColor.jsx
+ ┃ ┃ ┣ CalendarCom.jsx
+ ┃ ┃ ┣ CourseCard.jsx
+ ┃ ┃ ┣ CourseDivideLine.jsx
+ ┃ ┃ ┣ DaumPost.jsx
+ ┃ ┃ ┣ Footer.jsx
+ ┃ ┃ ┣ GrayInfoBox.jsx
+ ┃ ┃ ┣ HeaderLightVer.jsx
+ ┃ ┃ ┣ HeaderSearchBar.jsx
+ ┃ ┃ ┣ MapCon.jsx
+ ┃ ┃ ┣ PaginationCom.jsx
+ ┃ ┃ ┣ ScrollToTop.jsx
+ ┃ ┃ ┣ SliderCom.jsx
+ ┃ ┃ ┗ StarRating.jsx
+ ┃ ┣ LectureListPage
+ ┃ ┃ ┣ LectureDetailContent.jsx
+ ┃ ┃ ┣ LectureListContent.jsx
+ ┃ ┃ ┣ LecturePurchaseCard.jsx
+ ┃ ┃ ┣ LecturePurchaseContent.jsx
+ ┃ ┃ ┣ ListAllContent.jsx
+ ┃ ┃ ┣ TeacherProfileCard.jsx
+ ┃ ┃ ┗ TeacherProfileModal.jsx
+ ┃ ┣ MainPage
+ ┃ ┃ ┣ BannerMain.jsx
+ ┃ ┃ ┣ ContentMain.jsx
+ ┃ ┃ ┣ CustomArrows.jsx
+ ┃ ┃ ┣ FilterContainerMain.jsx
+ ┃ ┃ ┣ HeaderMain.jsx
+ ┃ ┃ ┣ LoginModal.jsx
+ ┃ ┃ ┣ SelectedContentBox.jsx
+ ┃ ┃ ┗ SignInContent.jsx
+ ┃ ┗ UserPage
+ ┃ ┃ ┣ SideBar.jsx
+ ┃ ┃ ┣ UserCompleteLetureContent.jsx
+ ┃ ┃ ┣ UserEditProfileContent.jsx
+ ┃ ┃ ┣ UserLearningContent.jsx
+ ┃ ┃ ┣ UserPointContent.jsx
+ ┃ ┃ ┗ UserSavedLectureContent.jsx
+ ┣ pages
+ ┃ ┣ LectureDetailPage.jsx
+ ┃ ┣ LectureListPage.jsx
+ ┃ ┣ LecturePurchasePage.jsx
+ ┃ ┣ ListAllPage.jsx
+ ┃ ┣ LoginRedirection.jsx
+ ┃ ┣ MainPage.jsx
+ ┃ ┣ SignInPage.jsx
+ ┃ ┣ UserCompleteLecturePage.jsx
+ ┃ ┣ UserEditProfilePage.jsx
+ ┃ ┣ UserLearningPage.jsx
+ ┃ ┣ UserPage.jsx
+ ┃ ┗ UserSavedLecturePage.jsx
+
+ ```
+
+<br />
+
+## 4. 주요 기능 소개
