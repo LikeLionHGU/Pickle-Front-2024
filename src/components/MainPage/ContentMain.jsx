@@ -78,7 +78,7 @@ function ContentMain() {
   const handleAdData = async () => {
     try {
       const response = await axios.get(
-        "http://15.164.88.154:8080/api/course/recommend"
+        `${process.env.REACT_APP_HOST_URL}/api/course/recommend`
       );
       console.log("ad : ", response);
       setAdCourses(response.data.adCourse || []); // Update state with adCourse data
@@ -90,7 +90,7 @@ function ContentMain() {
   const handleHotData = async () => {
     try {
       const response = await axios.get(
-        "http://15.164.88.154:8080/api/course/recommend"
+        `${process.env.REACT_APP_HOST_URL}/api/course/recommend`
       );
       console.log("hot : ", response);
       setHotCourses(response.data.hotCourse || []); // Update state with hotCourse data

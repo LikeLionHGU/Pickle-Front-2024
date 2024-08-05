@@ -28,9 +28,12 @@ function LectureListContent() {
 
       console.log("Request params:", params);
 
-      let response = await axios.get("http://15.164.88.154:8080/api/course", {
-        params: params,
-      });
+      let response = await axios.get(
+        `${process.env.REACT_APP_HOST_URL}/api/course`,
+        {
+          params: params,
+        }
+      );
       setCourses(response.data); // Ensuring content is an array
     } catch (err) {
       console.error("Error fetching courses:", err);
