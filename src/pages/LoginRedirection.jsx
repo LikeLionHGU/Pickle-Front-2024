@@ -37,6 +37,9 @@ const handleSignup = (savedForm, code, navigate) => {
     })
     .catch((error) => {
       console.error("Error:", error);
+      localStorage.clear();
+      alert("이미 존재하는 회원입니다. 로그인 해 주세요.");
+      navigate("/");
     });
 };
 
