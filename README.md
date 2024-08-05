@@ -169,4 +169,41 @@ src
 
 <br />
 
-## 4. 주요 기능 소개
+## 4. 서비스 핵심 기능 및 페이지 소개
+
+### 맞춤형 강좌 선택
+
+![image.jpg1](https://github.com/user-attachments/assets/9ba0dc8f-834e-47eb-9e89-407460981084) |![image.jpg2](https://github.com/user-attachments/assets/3a32bda9-1cef-4b60-9d97-e21cfecf9306)
+--- | --- | 
+
+- 지역, 운동종목, 장애유형, 날짜, 가격, 개인/그룹 항목별 필터링이 제공됩니다.
+
+<br>
+
+### 신뢰도 있는 강사
+
+![image.jpg1](https://github.com/user-attachments/assets/05b609e9-b792-497f-8e58-d66df3fdb7eb)|![image.jpg2](https://github.com/user-attachments/assets/2dbc6122-a5a7-4717-b539-3f1697b4461d) 
+--- | --- | 
+
+- 강사 프로플 확인을 통해 강좌 개설 내역을 확인할 수 있습니다.
+- 강사의 보유 자격증 및 강좌 평점이 표시됩니다.
+
+  <br>
+
+### 사용자 동기부여
+
+![image.jpg1](https://github.com/user-attachments/assets/a3a57018-4f59-4927-8733-abd0c9df946c)
+--- | 
+- 등급제를 통한 혜택 지급으로 사용자가 운동을 지속할 수 있도록 동기부여 합니다.
+
+<br>
+
+### 강좌 수강 
+
+![image.jpg1](https://github.com/user-attachments/assets/ce31f676-89d5-4f24-9f2e-6f63f416ead3)|![image.jpg2](https://github.com/user-attachments/assets/e6cd06bf-013e-4b86-a551-c6019d799856) 
+--- | --- | 
+
+- 해당 강좌의 시간을 선택하여 수강신청 할 수 있습니다.
+- 사용자가 찜한 강좌, 수강한 강좌, 수강 완료한 강좌는 유저 페이지에서 확인할 수 있습니다.
+
+
