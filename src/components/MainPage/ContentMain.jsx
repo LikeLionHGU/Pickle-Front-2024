@@ -119,7 +119,7 @@ function ContentMain() {
       });
   }, []);
 
-  if (!userData) return <div>Loading..</div>;
+  if (!userData) return <NoData></NoData>;
 
   return (
     <Wrapper>
@@ -308,4 +308,6 @@ const CourseContainer = styled.div`
   /* border: 1px solid red; */
 `;
 
-const CName = styled.div``;
+const NoData = styled.div`
+  height: 100vh;
+`;

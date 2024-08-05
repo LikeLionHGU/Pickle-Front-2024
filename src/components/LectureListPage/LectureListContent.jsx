@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import BgColor from "../Common/BgColor";
 import FilterContainerMain from "../MainPage/FilterContainerMain";
 import axios from "axios";
+import pickleImg from "../../assets/img/UserLevel0.svg";
 
 function LectureListContent({ courses }) {
   const [limit, setlimit] = useState(8); // setlimit을 통해 화면에 표시될 콘텐츠 수 조절 가능.
@@ -31,7 +32,13 @@ function LectureListContent({ courses }) {
       });
   }, []);
 
-  if (!userData) return <div>Loading..</div>;
+  if (!userData)
+    return (
+      <LoadingWrapper>
+        <Pickle src={pickleImg} alt="기본 피클 이미지" />
+        <LoadingText>강좌 정보 불러오는 중..</LoadingText>
+      </LoadingWrapper>
+    );
 
   return (
     <BgColor>
@@ -69,7 +76,7 @@ function LectureListContent({ courses }) {
               </Link>
             ))
           ) : (
-            <p>강좌가 없습니다</p>
+            <p>강좌 정보 불러오는 중..</p>
           )}
         </CourseContainer>
         <PaginationCom
@@ -111,4 +118,19 @@ const CourseContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
+`;
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+const Pickle = styled.img`
+  height: 200px;
+`;
+
+const LoadingText = styled.div`
+  margin-top: 30px;
+  font-size: 20px;
 `;

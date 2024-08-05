@@ -39,8 +39,13 @@ function BannerMain() {
       });
   }, []);
 
-  if (!userData) return <div>Loading..</div>;
-  if (!userLevel) return <div>Loading..</div>;
+  if (!userData)
+    return (
+      <Wrapper>
+        <BannerBg />
+      </Wrapper>
+    );
+  if (!userLevel) return <div></div>;
 
   const getLevelText = (level) => {
     switch (level) {
