@@ -38,10 +38,10 @@ function LectureListContent({ courses }) {
       <Wrapper>
         {userData.nickname ? (
           <>
-            <Title>{userData.nickname} 님의 검색 결과예요!</Title>
+            <Title>{userData.nickname} 님의 검색 결과예요 !</Title>
           </>
         ) : (
-          <Title>강좌 검색 결과예요!</Title>
+          <Title>강좌 검색 결과예요 !</Title>
         )}
         <Filter>
           <FilterContainerMain
@@ -69,7 +69,7 @@ function LectureListContent({ courses }) {
               </Link>
             ))
           ) : (
-            <p>강좌가 없습니다.</p>
+            <p>강좌가 없습니다</p>
           )}
         </CourseContainer>
         <PaginationCom
