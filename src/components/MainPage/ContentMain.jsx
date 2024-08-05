@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import CourseCard from "../Common/CourseCard";
 import CourseDivideLine from "../Common/CourseDivideLine";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import LeftArrowImg from "../../assets/img/leftArrow.svg";
 import RightArrowImg from "../../assets/img/rightArrow.svg";
+import axios from "axios";
 
 const ArrowContainer = styled.div`
   position: relative;
@@ -98,17 +98,36 @@ function ContentMain() {
       console.error("Error fetching hotCourses:", err);
     }
   };
+  const [userData, setUserData] = useState();
 
   useEffect(() => {
     handleAdData();
     handleHotData();
+
+    axios
+      .get(`${process.env.REACT_APP_HOST_URL}/api/mypage`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setUserData(response.data);
+      })
+      .catch(() => {
+        setUserData({});
+      });
   }, []);
+
+  if (!userData) return <div>Loading..</div>;
 
   return (
     <Wrapper>
-      {/* Slider for displaying featured adCourses or ads */}
       <AdCourse>
-        이런 강좌는 어떠세요?
+        <AdCon>
+          <AdText>이런 강좌는 어떠세요 ?</AdText>
+          <AdBox>광고</AdBox>
+        </AdCon>
         <AdContainer>
           <CourseContainer>
             {paginatedAdCourses.map((course, index) => (
@@ -132,7 +151,11 @@ function ContentMain() {
       </AdCourse>
 
       <PopularCourse>
-        최예라 님과 가까운 곳의 인기 강좌예요 !
+        {userData.nickname ? (
+          <>{userData.nickname} 님과 가까운 곳의 인기 강좌예요 !</>
+        ) : (
+          <>가까운 곳의 인기 강좌예요 !</>
+        )}
         <PopularContainer>
           <ArrowContainer>
             <StyledSlider {...settings}>
@@ -181,18 +204,33 @@ const StyledSlider = styled(Slider)`
     align-items: center;
   }
 
-  .slick-dots li button {
+  .slick-dots {
+    li {
+      button {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: #d9d9d9;
+        opacity: 1;
+        padding: 0;
+        margin: 0 4px;
+      }
+
+      &.slick-active button {
+        background: #4aabf9; /* Color for the active dot */
+      }
+    }
   }
 
   .slick-dots {
-    button {
-    }
     .slick-active {
       button::before {
-        color: #4aabf9; // 선택된 점의 색상 설정
+        display: none;
+        /* color: #4aabf9; // 선택된 점의 색상 설정 */
       }
     }
     button::before {
+      display: none;
       color: #d9d9d9; // 선택 안된 점의 색상 설정
     }
   }
@@ -209,9 +247,32 @@ const Wrapper = styled.div`
   margin-left: 240px;
 `;
 
+const AdCon = styled.div`
+  display: flex;
+`;
+
 const AdCourse = styled.div`
   margin-bottom: 63px;
   padding-top: 75px;
+`;
+
+const AdText = styled.div`
+  display: flex;
+`;
+
+const AdBox = styled.div`
+  display: flex;
+  width: 30px;
+  height: 20px;
+  background-color: #e8e8e8;
+  color: #747474;
+  border-radius: 3px;
+  text-align: center;
+  align-items: center; /* Center text vertically */
+  justify-content: center; /* Center text horizontally */
+  font-size: 12px;
+  margin-left: 13px;
+  margin-top: 2px;
 `;
 
 const AdContainer = styled.div`

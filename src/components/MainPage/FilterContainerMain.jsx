@@ -332,7 +332,7 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
       });
 
       if (response.data.length === 0) {
-        alert("검색 결과가 없습니다.\n전체 강좌를 보여드리겠습니다.");
+        alert("검색 결과가 없습니다\n전체 강좌를 보여드릴게요");
         response = await axios.get("http://15.164.88.154:8080/api/course", {
           params: {
             page: 0,

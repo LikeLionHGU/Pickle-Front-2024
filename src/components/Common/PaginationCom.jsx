@@ -40,33 +40,28 @@ const Nav = styled.nav`
 
 const Button = styled.button`
   border: none;
-  padding: 8px;
+  padding: 10px;
   margin: 0;
   background-color: #fafafa;
-  /* background: black;
-    border-radius: 8px;
-    color: white; */
-  color: #444;
-  font-size: 1rem;
+  font-size: 13px;
+  font-weight: bold;
 
   &:hover {
-    /* background: tomato; */
-    color: darkcyan;
+    font-weight: bold;
+    color: #4aabf9;
     font-weight: bolder;
     cursor: pointer;
     transform: translateY(-2px);
   }
 
   &[disabled] {
-    /* background: grey; */
     cursor: revert;
     transform: revert;
   }
 
   &[aria-current] {
-    /* background: deeppink; */
-    font-weight: bold;
-    color: darkcyan;
+    color: #4aabf9;
+    font-weight: bolder;
     cursor: revert;
     transform: revert;
   }
