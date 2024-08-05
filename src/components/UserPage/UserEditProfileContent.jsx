@@ -143,6 +143,10 @@ function UserEditProfileContent() {
     }
   };
 
+  const handleNoEditField = () => {
+    alert("수정이 불가한 항목입니다.");
+  };
+
   if (!userData)
     return (
       <LoadingWrapper>
@@ -159,7 +163,7 @@ function UserEditProfileContent() {
           <InfoLeft>
             <UserInfo>이름</UserInfo>
             <GrayInfoBox>
-              <div>{formData.name}</div>
+              <div onClick={handleNoEditField}>{formData.name}</div>
             </GrayInfoBox>
             <UserInfo>닉네임</UserInfo>
             <GrayInfoBox>
@@ -180,7 +184,9 @@ function UserEditProfileContent() {
             </GrayInfoBox>
             <UserInfo>성별</UserInfo>
             <GrayInfoBox>
-              <div>{formData.sex ? "여성" : "남성"}</div>
+              <div onClick={handleNoEditField}>
+                {formData.sex ? "여성" : "남성"}
+              </div>
             </GrayInfoBox>
             <UserInfo>전화번호</UserInfo>
             <GrayInfoBox>
@@ -220,7 +226,7 @@ function UserEditProfileContent() {
           <InfoRight>
             <UserInfo>생년월일</UserInfo>
             <GrayInfoBox>
-              <div>
+              <div onClick={handleNoEditField}>
                 {`${formData.bornYear}-${formData.bornMonth}-${formData.bornDay}`}
               </div>
             </GrayInfoBox>
