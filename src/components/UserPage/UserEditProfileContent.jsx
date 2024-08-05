@@ -11,15 +11,18 @@ function UserEditProfileContent() {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
+    bornYear: "",
+    bornMonth: "",
+    bornDay: "",
+    sex: false,
     nickname: "",
-    sex: "", // "남성" | "여성"
+    description: "특이사항",
+    disabilityTypeList: [],
+    disabilityLevelList: [],
     contactNumber: "",
     familyNumber: "",
-    birthdate: "",
     address: "",
-    detailAdress: "",
-    description: "",
-    disabilities: [],
+    detailAddress: "",
   });
 
   useEffect(() => {
@@ -32,22 +35,30 @@ function UserEditProfileContent() {
       .then((response) => {
         const data = response.data;
         setUserData(data);
-        console.log("userData:", userData);
+
+        const birthdate = data.birthdate ? new Date(data.birthdate) : null;
+        const bornYear = birthdate ? birthdate.getFullYear().toString() : "";
+        const bornMonth = birthdate
+          ? (birthdate.getMonth() + 1).toString().padStart(2, "0")
+          : "";
+        const bornDay = birthdate
+          ? birthdate.getDate().toString().padStart(2, "0")
+          : "";
 
         setFormData({
           name: data.name,
+          bornYear: bornYear,
+          bornMonth: bornMonth,
+          bornDay: bornDay,
+          sex: data.sex || "",
           nickname: data.nickname,
-          sex: "", // userData에 성별 정보가 없으므로 빈 문자열로 설정
+          description: data.description,
+          disabilityTypeList: data.disabilityTypeList,
+          disabilityLevelList: data.disabilityLevelList,
           contactNumber: data.contactNumber,
           familyNumber: data.familyNumber,
-          birthdate: "", // userData에 생년월일 정보가 없으므로 빈 문자열로 설정
           address: data.address,
           detailAddress: data.detailAddress,
-          description: data.description,
-          disabilities: data.disabilityTypeList.map((type, index) => ({
-            type: type,
-            level: data.disabilityLevelList[index],
-          })),
         });
       })
       .catch(() => {
@@ -55,22 +66,34 @@ function UserEditProfileContent() {
       });
   }, []);
 
+  console.log("form data: ", formData);
+
+  const handleInputChange = (field, value, index = null) => {
+    if (field === "disabilityTypeList" || field === "disabilityLevelList") {
+      const newList = [...formData[field]];
+      newList[index] =
+        field === "disabilityLevelList" ? parseInt(value, 10) : value;
+      setFormData({ ...formData, [field]: newList });
+    } else if (field === "birthdate") {
+      const birthdate = new Date(value);
+      setFormData({
+        ...formData,
+        bornYear: birthdate.getFullYear().toString(),
+        bornMonth: (birthdate.getMonth() + 1).toString().padStart(2, "0"),
+        bornDay: birthdate.getDate().toString().padStart(2, "0"),
+      });
+    } else if (field === "sex") {
+      setFormData({ ...formData, [field]: value });
+    } else {
+      setFormData({ ...formData, [field]: value });
+    }
+    setIsEditing(true);
+  };
+
   const [editableField, setEditableField] = useState(null);
 
   const handleFieldClick = (field) => {
     setEditableField(field);
-    setIsEditing(true);
-  };
-
-  const handleInputChange = (field, value, index = null) => {
-    if (index !== null) {
-      const newDisabilities = formData.disabilities.map((disability, i) =>
-        i === index ? { ...disability, [field]: value } : disability
-      );
-      setFormData({ ...formData, disabilities: newDisabilities });
-    } else {
-      setFormData({ ...formData, [field]: value });
-    }
     setIsEditing(true);
   };
 
@@ -90,10 +113,8 @@ function UserEditProfileContent() {
   const addDisability = () => {
     setFormData({
       ...formData,
-      disabilities: [
-        ...formData.disabilities,
-        { type: "장애유형", level: "등급" },
-      ],
+      disabilityTypeList: [...formData.disabilityTypeList, "장애유형"],
+      disabilityLevelList: [...formData.disabilityLevelList, "등급"],
     });
   };
 
@@ -147,16 +168,18 @@ function UserEditProfileContent() {
             <GrayInfoBox>
               {editableField === "sex" ? (
                 <Select
-                  value={formData.sex}
-                  onChange={(e) => handleInputChange("sex", e.target.value)}
+                  value={formData.sex ? "true" : "false"}
+                  onChange={(e) =>
+                    handleInputChange("sex", e.target.value === "true")
+                  }
                   onBlur={handleBlur}
                 >
-                  <option value="남성">남성</option>
-                  <option value="여성">여성</option>
+                  <option value="false">남성</option>
+                  <option value="true">여성</option>
                 </Select>
               ) : (
                 <div onClick={() => handleFieldClick("sex")}>
-                  {formData.sex}
+                  {formData.sex ? "여성" : "남성"}
                 </div>
               )}
             </GrayInfoBox>
@@ -201,7 +224,7 @@ function UserEditProfileContent() {
               {editableField === "birthdate" ? (
                 <Input
                   type="date"
-                  value={formData.birthdate}
+                  value={`${formData.bornYear}-${formData.bornMonth}-${formData.bornDay}`}
                   onChange={(e) =>
                     handleInputChange("birthdate", e.target.value)
                   }
@@ -209,7 +232,7 @@ function UserEditProfileContent() {
                 />
               ) : (
                 <div onClick={() => handleFieldClick("birthdate")}>
-                  {formData.birthdate}
+                  {`${formData.bornYear}-${formData.bornMonth}-${formData.bornDay}`}
                 </div>
               )}
             </GrayInfoBox>
@@ -261,23 +284,27 @@ function UserEditProfileContent() {
                 </div>
               )}
             </GrayInfoBox>
-            {formData.disabilities.map((disability, index) => (
+            {formData.disabilityTypeList.map((type, index) => (
               <HalfInfo key={index}>
                 <HalfContent>
                   {index === 0 && <UserInfo>장애 유형</UserInfo>}
                   <GrayInfoBox>
                     {editableField === `disabilityType-${index}` ? (
                       <Select
-                        value={disability.type}
+                        value={type}
                         onChange={(e) =>
-                          handleInputChange("type", e.target.value, index)
+                          handleInputChange(
+                            "disabilityTypeList",
+                            e.target.value,
+                            index
+                          )
                         }
                         onBlur={handleBlur}
                       >
-                        <option value="시각장애">시각장애</option>
-                        <option value="청각장애">청각장애</option>
-                        <option value="지체장애">지체장애</option>
-                        <option value="지적장애">지적장애</option>
+                        <option value="시각">시각장애</option>
+                        <option value="청각">청각장애</option>
+                        <option value="지체">지체장애</option>
+                        <option value="지적">지적장애</option>
                         <option value="기타">기타</option>
                       </Select>
                     ) : (
@@ -286,7 +313,7 @@ function UserEditProfileContent() {
                           handleFieldClick(`disabilityType-${index}`)
                         }
                       >
-                        {disability.type}
+                        {type}
                       </div>
                     )}
                   </GrayInfoBox>
@@ -296,9 +323,13 @@ function UserEditProfileContent() {
                   <GrayInfoBox>
                     {editableField === `disabilityLevel-${index}` ? (
                       <Select
-                        value={disability.level}
+                        value={formData.disabilityLevelList[index]}
                         onChange={(e) =>
-                          handleInputChange("level", e.target.value, index)
+                          handleInputChange(
+                            "disabilityLevelList",
+                            e.target.value,
+                            index
+                          )
                         }
                         onBlur={handleBlur}
                       >
@@ -314,7 +345,7 @@ function UserEditProfileContent() {
                           handleFieldClick(`disabilityLevel-${index}`)
                         }
                       >
-                        {disability.level}
+                        {formData.disabilityLevelList[index]}
                       </div>
                     )}
                   </GrayInfoBox>
