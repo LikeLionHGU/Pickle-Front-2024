@@ -44,11 +44,13 @@ const LoginRedirection = () => {
   const [form, setForm] = useState(null);
   const code = new URL(document.location.toString()).searchParams.get("code");
   const navigate = useNavigate();
+  const [isSignup, setIsSignup] = useState(false);
 
   useEffect(() => {
     const savedForm = JSON.parse(localStorage.getItem("form"));
     if (savedForm) {
       setForm(savedForm);
+      setIsSignup(true);
       console.log("Loaded form from local storage:", savedForm);
     } else {
       console.log("No form data found in local storage.");
@@ -66,7 +68,7 @@ const LoginRedirection = () => {
   return (
     <Wrapper>
       <Pickle src={pickleImg} alt="기본 피클 이미지" />
-      <Text>로그인 중입니다.</Text>
+      {isSignup ? "회원가입을 진행하고 있습니다.." : "로그인 중입니다.."}
     </Wrapper>
   );
 };
