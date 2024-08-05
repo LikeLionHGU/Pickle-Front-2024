@@ -72,9 +72,12 @@ export default function MapCon() {
 }
 
 const OverlayWrapper = styled.div`
-  background-color: white;
-  border-radius: 5px;
-  padding: 10px;
+  background-color: #4aabf9;
+  color: white;
+  width: 191px;
+  height: 44px;
+  border-radius: 10px;
+  padding: 11px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   position: relative;
   transform: translateY(-50px);

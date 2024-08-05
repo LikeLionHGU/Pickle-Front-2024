@@ -4,9 +4,27 @@ import pickleLogo from "../../assets/logo/PickleLogo.svg";
 import { useNavigate } from "react-router-dom";
 import HeaderSearchBar from "./HeaderSearchBar";
 import LoginModal from "../MainPage/LoginModal";
+import { useRecoilState } from "recoil";
+import { selectedRegionState } from "../../atom";
+import { selectedSportTypeState } from "../../atom";
+import { selectedDisabilityTypeState } from "../../atom";
+import { selectedDateState } from "../../atom";
+import { selectedPriceState } from "../../atom";
 
 function HeaderLightVer() {
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
+
+  const [selectedRegion, setSelectedRegion] =
+    useRecoilState(selectedRegionState);
+  const [selectedSportType, setSelectedSportType] = useRecoilState(
+    selectedSportTypeState
+  );
+  const [selectedDisabilityType, setSelectedDisabilityType] = useRecoilState(
+    selectedDisabilityTypeState
+  );
+  const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState);
+  const [selectedPrice, setSelectedPrice] = useRecoilState(selectedPriceState);
+
   const navigate = useNavigate();
   const token = localStorage.getItem("jwtToken");
 
@@ -26,6 +44,11 @@ function HeaderLightVer() {
 
   const handlePickleLogoClick = () => {
     navigate("/");
+    setSelectedRegion([]);
+    setSelectedSportType([]);
+    setSelectedDisabilityType([]);
+    setSelectedDate([]);
+    setSelectedPrice({ min: 0, max: 100000 });
   };
 
   const toggleLoginModal = () => {
@@ -49,8 +72,30 @@ function HeaderLightVer() {
   return (
     <Wrapper>
       <Menus>
-        <Menu onClick={() => handleMenuClick("/")}>홈</Menu>
-        <Menu onClick={() => handleMenuClick("/lecture")}>강좌목록</Menu>
+        <Menu
+          onClick={() => {
+            handleMenuClick("/");
+            setSelectedRegion([]);
+            setSelectedSportType([]);
+            setSelectedDisabilityType([]);
+            setSelectedDate([]);
+            setSelectedPrice({ min: 0, max: 100000 });
+          }}
+        >
+          홈
+        </Menu>
+        <Menu
+          onClick={() => {
+            handleMenuClick("/listall");
+            setSelectedRegion([]);
+            setSelectedSportType([]);
+            setSelectedDisabilityType([]);
+            setSelectedDate([]);
+            setSelectedPrice({ min: 0, max: 100000 });
+          }}
+        >
+          강좌목록
+        </Menu>
         <Menu onClick={() => handleUserPageClick("/user")}>마이페이지</Menu>
         <Logo>
           <img

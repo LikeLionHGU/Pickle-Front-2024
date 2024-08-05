@@ -1,48 +1,51 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import CourseCard from "../Common/CourseCard";
 import CourseDivideLine from "../Common/CourseDivideLine";
-import data from "../../components/Common/CourseDummyData";
+import axios from "axios";
 import PaginationCom from "../Common/PaginationCom";
 import { Link } from "react-router-dom";
 import BgColor from "../Common/BgColor";
 import FilterContainerMain from "../MainPage/FilterContainerMain";
-import axios from "axios";
+import SelectedContentBox from "../MainPage/SelectedContentBox";
 
-function LectureListContent({ courses }) {
-  const [limit, setlimit] = useState(8); // setlimit을 통해 화면에 표시될 콘텐츠 수 조절 가능.
-  const [page, setPage] = useState(1); // 처음에 몇 번째 페이지를 보여줄 건지
+function LectureListContent() {
+  const [courses, setCourses] = useState([]);
+  const [limit, setLimit] = useState(8);
+  const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
-  const [userData, setUserData] = useState();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleData = async () => {
+    try {
+      const params = {
+        page: 0,
+        size: 100,
+        direction: "DESC",
+      };
+
+      console.log("Request params:", params);
+
+      let response = await axios.get("http://15.164.88.154:8080/api/course", {
+        params: params,
+      });
+      setCourses(response.data); // Ensuring content is an array
+    } catch (err) {
+      console.error("Error fetching courses:", err);
+    }
+  };
 
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_HOST_URL}/api/mypage`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
-        setUserData(response.data);
-      })
-      .catch(() => {
-        setUserData({});
-      });
+    handleData();
   }, []);
-
-  if (!userData) return <div>Loading..</div>;
 
   return (
     <BgColor>
       <Wrapper>
-        {userData.nickname ? (
-          <>
-            <Title>{userData.nickname} 님의 검색 결과예요 !</Title>
-          </>
-        ) : (
-          <Title>강좌 검색 결과예요 !</Title>
-        )}
+        <Title>피클에 있는 강의들이에요</Title>
+        <Text>총 {courses.length}개가 조회되었습니다</Text>
         <Filter>
           <FilterContainerMain
             absolute={false}
@@ -62,14 +65,12 @@ function LectureListContent({ courses }) {
                 }}
                 to={`/lecture/${course.courseId}`}
               >
-                <React.Fragment key={course.courseId}>
-                  <CourseCard course={course} />
-                  {index % 2 === 0 && <CourseDivideLine />}
-                </React.Fragment>
+                <CourseCard course={course} />
+                {index % 2 === 0 && <CourseDivideLine />}
               </Link>
             ))
           ) : (
-            <p>강좌가 없습니다</p>
+            <p>강좌가 없습니다.</p>
           )}
         </CourseContainer>
         <PaginationCom
@@ -86,7 +87,6 @@ function LectureListContent({ courses }) {
 export default LectureListContent;
 
 const Wrapper = styled.div`
-  /* border: 3px solid red; */
   width: 1000px;
   margin: auto;
   padding-top: 97px;
@@ -95,16 +95,20 @@ const Wrapper = styled.div`
 
 const Title = styled.div`
   font-size: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 14px;
+`;
+
+const Text = styled.div`
+  font-size: 15px;
+  color: #989898;
+  margin-bottom: 40px;
 `;
 
 const Filter = styled.div`
-  /* border: 1px solid red; */
   width: 100%;
 `;
 
 const CourseContainer = styled.div`
-  /* border: 2px solid green; */
   width: 1000px;
   margin-top: 59px;
   margin-bottom: 40px;

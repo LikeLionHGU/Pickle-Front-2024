@@ -158,7 +158,7 @@ function UserEditProfileContent() {
   return (
     <Wrapper>
       <Contents>
-        <Title>{userData.nickname} 님의 프로필 정보에요</Title>
+        <Title>{userData.nickname} 님의 프로필 정보예요</Title>
         <Content>
           <InfoLeft>
             <UserInfo>이름</UserInfo>

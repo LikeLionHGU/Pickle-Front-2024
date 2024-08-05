@@ -1,15 +1,23 @@
 import React from "react";
 import styled from "styled-components";
+import { useRecoilState } from "recoil";
+import { selectedRegionState } from "../../atom";
+import { selectedSportTypeState } from "../../atom";
+import { selectedDisabilityTypeState } from "../../atom";
+import { selectedDateState } from "../../atom";
+import { selectedPriceState } from "../../atom";
 
-const SelectedContentBox = ({
-  selectedRegion,
-  selectedSport,
-  selectedDisability,
-  selectedDate,
-  selectedPrice,
-  handleClearSelection,
-  regionOptions = [], // 기본값을 빈 배열로 설정
-}) => {
+const SelectedContentBox = ({ handleClearSelection, regionOptions = [] }) => {
+  const [selectedRegion, setsSlectedRegion] =
+    useRecoilState(selectedRegionState);
+  const [selectedSportType, setSelectedSportType] = useRecoilState(
+    selectedSportTypeState
+  );
+  const [selectedDisabilityType, setSelectedDisabilityType] = useRecoilState(
+    selectedDisabilityTypeState
+  );
+  const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState);
+  const [selectedPrice, setSelectedPrice] = useRecoilState(selectedPriceState);
   const isSubOption = (item) => {
     return (
       regionOptions &&
@@ -53,7 +61,7 @@ const SelectedContentBox = ({
           );
         }
       })}
-      {selectedSport.map((item, index) => (
+      {selectedSportType.map((item, index) => (
         <SelectedContent key={index}>
           <Hashtag>#</Hashtag>
           {item}
@@ -62,7 +70,7 @@ const SelectedContentBox = ({
           </ClearButton>
         </SelectedContent>
       ))}
-      {selectedDisability.map((item, index) => (
+      {selectedDisabilityType.map((item, index) => (
         <SelectedContent key={index}>
           <Hashtag>#</Hashtag>
           {item}
