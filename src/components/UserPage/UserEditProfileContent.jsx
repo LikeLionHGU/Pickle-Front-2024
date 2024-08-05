@@ -185,7 +185,7 @@ function UserEditProfileContent() {
             <UserInfo>성별</UserInfo>
             <GrayInfoBox>
               <div onClick={handleNoEditField}>
-                {formData.sex ? "여성" : "남성"}
+                {formData.sex ? "남성" : "여성"}
               </div>
             </GrayInfoBox>
             <UserInfo>전화번호</UserInfo>
