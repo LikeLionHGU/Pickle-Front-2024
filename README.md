@@ -1,6 +1,19 @@
-## 개발 가이드라인
+# Pickle
+### Pick Abilities, Empower Disabled Persons
 
-### 이슈 작성
+## 프로젝트 소개
+피클은 장애인의 운동 기회를 위한 스포츠 강좌 선택 수강 플랫폼입니다 !
+
+## 배포 주소
+
+## 프로젝트 기간
+* 24.07.05 ~ 24.08.06
+
+## 프론트 개발자
+
+|  YearaChoi   |     skwldwld     |
+|   :--------:   |    :--------:    |
+|   <a href="https://github.com/YearaChoi"><img src="https://github.com/LikeLionHGU/12th-frontend/blob/main/img/%EC%9E%A5%ED%95%9C%EC%84%B1.jpg?raw=true" width="300" height="300"></a>  |  <a href="https://github.com/skwldwld"><img src="https://github.com/LikeLionHGU/L-wenfoto/blob/master/src/img/%EC%8B%AC%EC%84%B1%ED%99%98.jpg?raw=true" width="300" height="300"></a>    |
 
 ✹ **Git Issue**
 
