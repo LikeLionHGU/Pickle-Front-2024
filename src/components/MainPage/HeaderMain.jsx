@@ -36,7 +36,7 @@ function HeaderMain() {
   };
 
   const handleSignOutBtnClick = () => {
-    localStorage.removeItem("jwtToken");
+    localStorage.clear();
     window.location.reload();
   };
 

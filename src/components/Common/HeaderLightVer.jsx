@@ -64,8 +64,7 @@ function HeaderLightVer() {
   };
 
   const handleSignOutBtnClick = () => {
-    localStorage.removeItem("jwtToken");
-    // window.location.reload();
+    localStorage.clear();
     navigate("/");
   };
 
