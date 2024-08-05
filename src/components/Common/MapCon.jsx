@@ -7,13 +7,39 @@ import {
 } from "react-kakao-maps-sdk";
 import MarkerImg from "../../assets/img/PickedCourse.svg";
 import styled from "styled-components";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 export default function MapCon() {
+  const { courseId } = useParams();
+
   const [currentPosition, setCurrentPosition] = useState({
     lat: 33.450701,
     lng: 126.570667,
   });
   const [zoomable, setZoomable] = useState(false);
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST_URL}/api/course/detail?courseId=${courseId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+        setData(response.data);
+
+        const { latitude, longitude } = response.data;
+        if (latitude && longitude) {
+          setCurrentPosition({ lat: latitude, lng: longitude });
+        }
+      });
+  }, [courseId]);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -43,13 +69,13 @@ export default function MapCon() {
           image={{
             src: MarkerImg,
             size: {
-              width: 25,
-              height: 35,
+              width: 35,
+              height: 45,
             },
             options: {
               offset: {
                 x: 25,
-                y: 35,
+                y: 45,
               },
             },
           }}
@@ -73,17 +99,19 @@ export default function MapCon() {
 
 const OverlayWrapper = styled.div`
   background-color: #4aabf9;
-  color: white;
   width: 191px;
-  height: 44px;
+  height: 34px;
   border-radius: 10px;
   padding: 11px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   position: relative;
-  transform: translateY(-50px);
+  transform: translateX(130px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   .title {
-    color: #333;
+    color: white;
     text-decoration: none;
   }
 
@@ -92,6 +120,10 @@ const OverlayWrapper = styled.div`
   }
 
   &:hover {
-    background-color: #4aabf9;
+    background-color: white;
+    border: 1px solid #4aabf9;
+    .title {
+      color: #4aabf9;
+    }
   }
 `;
