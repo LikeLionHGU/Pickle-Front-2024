@@ -54,15 +54,15 @@ function LectureListContent({ courses }) {
           {courses.length > 0 ? (
             courses.slice(offset, offset + limit).map((course, index) => (
               <Link
-                key={course.courseId}
+                key={course.id}
                 style={{
                   textDecoration: "none",
                   color: "black",
                   display: "flex",
                 }}
-                to={`/lecture/${course.courseId}`}
+                to={`/lecture/${course.id}`}
               >
-                <React.Fragment key={course.courseId}>
+                <React.Fragment key={course.id}>
                   <CourseCard course={course} />
                   {index % 2 === 0 && <CourseDivideLine />}
                 </React.Fragment>
