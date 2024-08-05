@@ -10,6 +10,26 @@ function LecturePurchaseCard({ course, selectedCourseBlockId }) {
   const disabilityTypesText = possibleDisabilityTypes?.join(", ");
 
   console.log("selectedCourseBlockId :", selectedCourseBlockId);
+  console.log("course :", course);
+
+  const FormatCourseTime = (courseBlock) => {
+    if (!courseBlock) return "";
+    // 강좌 시간 포맷팅
+    const lectureTimes = courseBlock
+      .filter((item) => item.id.toString() === selectedCourseBlockId)
+      .map((item) => {
+        console.log(">>>>>>>>", item);
+        const date = new Date(item.date);
+        const formattedDate = `${date.getMonth() + 1}/${date.getDate()}`;
+        const startTime = `${item.takenHour < 10 ? "0" : ""}${item.takenHour}:${
+          item.takenMinute < 10 ? "0" : ""
+        }${item.takenMinute}`;
+        return `${formattedDate}일 ${startTime}`;
+      });
+    return lectureTimes.join(", ");
+  };
+
+  const formattedTime = FormatCourseTime(course.courseBlock);
 
   return (
     <>
@@ -41,7 +61,7 @@ function LecturePurchaseCard({ course, selectedCourseBlockId }) {
         </InfoSection>
       </Card>
       <BottomInfo>
-        <DetailInfo>• 강좌시간 연결 필요</DetailInfo>
+        <DetailInfo>• {formattedTime}</DetailInfo>
         <DetailInfo>• {course.location}</DetailInfo>
       </BottomInfo>
     </>
