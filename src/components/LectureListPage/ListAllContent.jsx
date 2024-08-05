@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import BgColor from "../Common/BgColor";
 import FilterContainerMain from "../MainPage/FilterContainerMain";
 import SelectedContentBox from "../MainPage/SelectedContentBox";
+import pickleImg from "../../assets/img/UserLevel0.svg";
 
 function LectureListContent() {
   const [courses, setCourses] = useState([]);
@@ -73,7 +74,10 @@ function LectureListContent() {
               </Link>
             ))
           ) : (
-            <p>강좌가 없습니다.</p>
+            <LoadingWrapper>
+              <Pickle src={pickleImg} alt="기본 피클 이미지" />
+              <span>강좌 정보 불러오는 중..</span>
+            </LoadingWrapper>
           )}
         </CourseContainer>
         <PaginationCom
@@ -119,4 +123,14 @@ const CourseContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
+`;
+
+const Pickle = styled.img`
+  height: 100px;
+`;
+
+const LoadingWrapper = styled.div`
+  /* border: 1px solid red; */
+  display: flex;
+  align-items: center;
 `;
