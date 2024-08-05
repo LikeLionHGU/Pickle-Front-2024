@@ -23,19 +23,25 @@ function HeaderSearchBar({ borderColor, placeholderColor }) {
       };
       console.log("Request params:", params);
 
-      let response = await axios.get("http://15.164.88.154:8080/api/course", {
-        params: params,
-      });
+      let response = await axios.get(
+        `${process.env.REACT_APP_HOST_URL}/api/course`,
+        {
+          params: params,
+        }
+      );
 
       if (response.data.length === 0) {
         alert("검색 결과가 없습니다\n전체 강좌를 보여드릴게요");
-        response = await axios.get("http://15.164.88.154:8080/api/course", {
-          params: {
-            page: 0,
-            size: 100,
-            direction: "DESC",
-          },
-        });
+        response = await axios.get(
+          `${process.env.REACT_APP_HOST_URL}/api/course`,
+          {
+            params: {
+              page: 0,
+              size: 100,
+              direction: "DESC",
+            },
+          }
+        );
         setCourses(response.data);
         console.log("Search results (fallback):", response);
         navigate("/listall", { state: { courses: response.data } });

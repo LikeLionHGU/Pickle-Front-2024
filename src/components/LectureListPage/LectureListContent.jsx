@@ -23,7 +23,7 @@ function LectureListContent({ courses }) {
         },
       })
       .then((response) => {
-        console.log(response.data);
+        console.log("userData: ", response.data);
         setUserData(response.data);
       })
       .catch(() => {
