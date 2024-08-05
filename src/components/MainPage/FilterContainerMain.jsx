@@ -501,6 +501,13 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
   const [error, setError] = useState(null);
 
   const handleSearch = async () => {
+    const getMainRegion = (subOption) => {
+      if (!regionOptions) return null;
+      const mainRegion = regionOptions.find(
+        (option) => option.subOptions && option.subOptions.includes(subOption)
+      );
+      return mainRegion ? mainRegion.name : null;
+    };
     try {
       const params = {
         page: 0,
@@ -511,8 +518,10 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
       if (selectedSportType && selectedSportType.length > 0) {
         params["sportType"] = selectedSportType.join(",");
       }
-      if (selectedCity && selectedCity.length > 0) {
-        params["city"] = selectedCity.join(",");
+      if (selectedRegion?.length > 0) {
+        params["city"] = selectedRegion
+          .map((region) => getMainRegion(region))
+          .join(",");
       }
       if (selectedDistrict && selectedDistrict.length > 0) {
         params["district"] = selectedDistrict.join(",");
