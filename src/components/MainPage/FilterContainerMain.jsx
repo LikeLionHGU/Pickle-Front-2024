@@ -773,7 +773,7 @@ const Wrapper = styled.div`
   justify-content: center;
   width: 1000px;
   height: auto;
-  margin-top: ${(props) => props.marginTop || "350px"};
+  margin-top: ${(props) => props.marginTop || "320px"};
   margin-left: ${(props) => props.marginLeft || "220px"};
   /* left: 40%; */
   /* transform: translateX(-50%); */
