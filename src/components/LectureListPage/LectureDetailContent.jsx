@@ -11,6 +11,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import StarRating from "../Common/StarRating";
 import BgColor from "../Common/BgColor";
 import axios from "axios";
+import pickleImg from "../../assets/img/UserLevel0.svg";
 
 function LectureDetailContent() {
   const { courseId } = useParams();
@@ -137,7 +138,13 @@ function LectureDetailContent() {
   console.log("is modal open: ", isTeacherProfileModalOpen);
   console.log("isLike : ", isLike);
 
-  if (!data) return <div>Loading...</div>;
+  if (!data)
+    return (
+      <LoadingWrapper>
+        <Pickle src={pickleImg} alt="기본 피클 이미지" />
+        <LoadingText>강좌 정보 로딩 중..</LoadingText>
+      </LoadingWrapper>
+    );
 
   return (
     <BgColor>
@@ -363,4 +370,19 @@ const Btn = styled.div`
   display: flex;
   justify-content: space-between;
   margin: auto;
+`;
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+const Pickle = styled.img`
+  height: 200px;
+`;
+
+const LoadingText = styled.div`
+  margin-top: 30px;
+  font-size: 20px;
 `;

@@ -7,6 +7,7 @@ import BgColor from "../Common/BgColor";
 import couponArrow from "../../assets/img/couponArrow.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import pickleImg from "../../assets/img/UserLevel0.svg";
 
 function LecturePurchaseContent() {
   const [selectedOption, setSelectedOpiton] = useState("creditCard");
@@ -81,7 +82,13 @@ function LecturePurchaseContent() {
     alert("사용 가능한 쿠폰이 없습니다.");
   };
 
-  if (!data) return <div>Loading...</div>;
+  if (!data)
+    return (
+      <LoadingWrapper>
+        <Pickle src={pickleImg} alt="기본 피클 이미지" />
+        <LoadingText>결제 정보 로딩 중..</LoadingText>
+      </LoadingWrapper>
+    );
   if (!userData) return <div></div>;
 
   return (
@@ -310,4 +317,19 @@ const PurchaseBtn = styled.div`
   font-size: 20px;
   border-radius: 8px;
   cursor: pointer;
+`;
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+const Pickle = styled.img`
+  height: 200px;
+`;
+
+const LoadingText = styled.div`
+  margin-top: 30px;
+  font-size: 20px;
 `;
