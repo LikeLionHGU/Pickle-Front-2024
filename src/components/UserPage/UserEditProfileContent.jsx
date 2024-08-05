@@ -37,15 +37,6 @@ function UserEditProfileContent() {
         setUserData(data);
         console.log(data);
 
-        // const birthdate = data.birthdate ? new Date(data.birthdate) : null;
-        // const bornYear = birthdate ? birthdate.getFullYear().toString() : "";
-        // const bornMonth = birthdate
-        //   ? (birthdate.getMonth() + 1).toString().padStart(2, "0")
-        //   : "";
-        // const bornDay = birthdate
-        //   ? birthdate.getDate().toString().padStart(2, "0")
-        //   : "";
-
         setFormData((prev) => ({
           ...prev,
           name: data.name,
@@ -120,6 +111,38 @@ function UserEditProfileContent() {
     });
   };
 
+  const handleEditBtnClick = async () => {
+    const formToSubmit = {
+      nickname: formData.nickname,
+      description: formData.description,
+      disabilityTypeList: formData.disabilityTypeList,
+      disabilityLevelList: formData.disabilityLevelList,
+      contactNumber: formData.contactNumber,
+      familyNumber: formData.familyNumber,
+      address: formData.address,
+      detailAddress: formData.detailAddress,
+    };
+
+    console.log("form to submit : ", formToSubmit);
+
+    try {
+      const response = await axios.patch(
+        `${process.env.REACT_APP_HOST_URL}/api/mypage`,
+        formToSubmit,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+          },
+        }
+      );
+      console.log("Success:", response.data);
+      alert("수정이 완료되었습니다.");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      alert("수정 중 오류가 발생했습니다.");
+    }
+  };
+
   if (!userData)
     return (
       <LoadingWrapper>
@@ -136,18 +159,6 @@ function UserEditProfileContent() {
           <InfoLeft>
             <UserInfo>이름</UserInfo>
             <GrayInfoBox>
-              {/* {editableField === "name" ? (
-                <Input
-                  type="text"
-                  value={formData.name}
-                  onChange={(e) => handleInputChange("name", e.target.value)}
-                  onBlur={handleBlur}
-                />
-              ) : (
-                <div onClick={() => handleFieldClick("name")}>
-                  {formData.name}
-                </div>
-              )} */}
               <div>{formData.name}</div>
             </GrayInfoBox>
             <UserInfo>닉네임</UserInfo>
@@ -169,22 +180,6 @@ function UserEditProfileContent() {
             </GrayInfoBox>
             <UserInfo>성별</UserInfo>
             <GrayInfoBox>
-              {/* {editableField === "sex" ? (
-                <Select
-                  value={formData.sex ? "true" : "false"}
-                  onChange={(e) =>
-                    handleInputChange("sex", e.target.value === "true")
-                  }
-                  onBlur={handleBlur}
-                >
-                  <option value="false">남성</option>
-                  <option value="true">여성</option>
-                </Select>
-              ) : (
-                <div onClick={() => handleFieldClick("sex")}>
-                  {formData.sex ? "여성" : "남성"}
-                </div>
-              )} */}
               <div>{formData.sex ? "여성" : "남성"}</div>
             </GrayInfoBox>
             <UserInfo>전화번호</UserInfo>
@@ -225,20 +220,6 @@ function UserEditProfileContent() {
           <InfoRight>
             <UserInfo>생년월일</UserInfo>
             <GrayInfoBox>
-              {/* {editableField === "birthdate" ? (
-                <Input
-                  type="date"
-                  value={`${formData.bornYear}-${formData.bornMonth}-${formData.bornDay}`}
-                  onChange={(e) =>
-                    handleInputChange("birthdate", e.target.value)
-                  }
-                  onBlur={handleBlur}
-                />
-              ) : (
-                <div onClick={() => handleFieldClick("birthdate")}>
-                  {`${formData.bornYear}-${formData.bornMonth}-${formData.bornDay}`}
-                </div>
-              )} */}
               <div>
                 {`${formData.bornYear}-${formData.bornMonth}-${formData.bornDay}`}
               </div>
@@ -367,7 +348,7 @@ function UserEditProfileContent() {
         {!isEditing ? (
           <DisabledBtn disabled>수정하기</DisabledBtn>
         ) : (
-          <BlueBtn>수정하기</BlueBtn>
+          <BlueBtn onClick={handleEditBtnClick}>수정하기</BlueBtn>
         )}
       </Btn>
     </Wrapper>
