@@ -77,6 +77,7 @@ function SignInContent() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const submittedForm = {
       ...form,
       contactNumber: removeHyphens(form.contactNumber),
@@ -86,6 +87,31 @@ function SignInContent() {
   };
 
   const handleKakaoLogin = () => {
+    const {
+      name,
+      nickname,
+      sex,
+      address,
+      detailAddress,
+      contactNumber,
+      disabilityTypeList,
+      disabilityLevelList,
+    } = form;
+
+    if (
+      !name ||
+      !nickname ||
+      sex === undefined ||
+      !address ||
+      !detailAddress ||
+      !contactNumber ||
+      !disabilityTypeList ||
+      !disabilityLevelList
+    ) {
+      alert("필수 입력사항을 채워주세요.");
+      return;
+    }
+
     const REST_API_KEY = process.env.REACT_APP_KAKAO_AUTH_CLIENT_ID;
     const REDIRECT_URI = process.env.REACT_APP_KAKAO_AUTH_REDIRECT_URL;
     localStorage.setItem("form", JSON.stringify(form));
@@ -130,7 +156,10 @@ function SignInContent() {
               />
             </Section>
             <Section>
-              <Label>성별</Label>
+              <Label>
+                성별<Red>*</Red>
+              </Label>
+
               <Gender>
                 <input
                   type="radio"
