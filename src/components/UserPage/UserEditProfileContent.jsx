@@ -11,12 +11,12 @@ function UserEditProfileContent() {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
-    bornYear: "0000",
-    bornMonth: "00",
-    bornDay: "00",
+    bornYear: "",
+    bornMonth: "",
+    bornDay: "",
     sex: false,
     nickname: "",
-    description: "특이사항",
+    description: "",
     disabilityTypeList: [],
     disabilityLevelList: [],
     contactNumber: "",
