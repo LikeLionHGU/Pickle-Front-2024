@@ -20,5 +20,6 @@ export const selectedDateState = atom({
 });
 export const selectedPriceState = atom({
   key: "selectedPrice",
-  default: { min: 0, max: 100000 },
+  default: {},
+  // default: { min: 0, max: 100000 },
 });
