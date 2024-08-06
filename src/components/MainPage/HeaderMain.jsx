@@ -137,12 +137,14 @@ function HeaderMain() {
 export default HeaderMain;
 
 const Wrapper = styled.div`
+  /* border: 1px solid red; */
   height: 98px;
   font-size: 20px;
   display: flex;
   justify-content: center;
   position: absolute;
-  width: 1440px;
+  width: 100%;
+  min-width: 1440px;
   font-family: "PretendardRegular";
 `;
 

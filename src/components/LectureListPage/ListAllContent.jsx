@@ -53,8 +53,12 @@ function LectureListContent() {
         <Filter>
           <FilterContainerMain
             absolute={false}
+            transform="none"
+            top="0%"
+            left="0%"
             marginTop="0px"
             marginLeft="0px"
+            noPosition
           />
         </Filter>
         <CourseContainer>
