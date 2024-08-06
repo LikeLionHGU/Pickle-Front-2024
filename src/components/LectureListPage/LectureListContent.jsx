@@ -76,7 +76,10 @@ function LectureListContent({ courses }) {
               </Link>
             ))
           ) : (
-            <p>강좌 정보 불러오는 중..</p>
+            <LoadingWrapper>
+              <Pickle src={pickleImg} alt="기본 피클 이미지" />
+              <LoadingText>강좌 정보 로딩 중..</LoadingText>
+            </LoadingWrapper>
           )}
         </CourseContainer>
         <PaginationCom
@@ -125,6 +128,7 @@ const LoadingWrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
+  margin: auto;
 `;
 const Pickle = styled.img`
   height: 200px;

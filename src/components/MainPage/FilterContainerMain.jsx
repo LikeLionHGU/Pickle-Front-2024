@@ -515,9 +515,6 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
         direction: "DESC",
       };
 
-      if (selectedSportType && selectedSportType.length > 0) {
-        params["sportType"] = selectedSportType.join(",");
-      }
       if (selectedRegion?.length > 0) {
         params["city"] = selectedRegion
           .map((region) => getMainRegion(region))
@@ -525,6 +522,9 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
       }
       if (selectedDistrict && selectedDistrict.length > 0) {
         params["district"] = selectedDistrict.join(",");
+      }
+      if (selectedSportType && selectedSportType.length > 0) {
+        params["sportType"] = selectedSportType.join(",");
       }
       if (selectedDisabilityType && selectedDisabilityType.length > 0) {
         params["disabilityType"] = selectedDisabilityType.join(",");
