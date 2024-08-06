@@ -99,7 +99,9 @@ function LecturePurchaseContent() {
           <UserInfo>이름</UserInfo>
           <GrayInfoBox>{userData.name}</GrayInfoBox>
           <UserInfo>생년월일</UserInfo>
-          <GrayInfoBox>2002.08.16</GrayInfoBox>
+          <GrayInfoBox>
+            {userData.bornYear}년 {userData.bornMonth}월 {userData.bornDay}일
+          </GrayInfoBox>
           <UserInfo>전화번호</UserInfo>
           <GrayInfoBox>{formatPhoneNumber(userData.contactNumber)}</GrayInfoBox>
           <Coupon>
