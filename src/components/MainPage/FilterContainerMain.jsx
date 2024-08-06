@@ -435,8 +435,8 @@ function FilterContainerMain({
       setSubDropdown(false);
       if (regionDropdown) {
         if (!selectedRegion.includes(option.name)) {
-          setSelectedRegion((prev) => [...prev, option.name]);
-          setSelectedCity((prev) => [...prev, option.name]);
+          setSelectedRegion((prev) => [option.name]);
+          setSelectedCity((prev) => [option.name]);
         }
       } else if (sportsDropdown) {
         if (!selectedSportType.includes(option.name)) {
@@ -459,8 +459,8 @@ function FilterContainerMain({
   const handleSubOptionClick = (subOption) => {
     if (regionDropdown) {
       if (!selectedRegion.includes(subOption)) {
-        setSelectedRegion((prev) => [...prev, subOption]);
-        setSelectedDistrict((prev) => [...prev, subOption]);
+        setSelectedRegion((prev) => [subOption]);
+        setSelectedDistrict((prev) => [subOption]);
       } else {
         setSelectedRegion((prev) => prev.filter((item) => item !== subOption));
         setSelectedDistrict((prev) =>
