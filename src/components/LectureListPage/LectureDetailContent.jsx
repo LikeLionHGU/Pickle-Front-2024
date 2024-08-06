@@ -50,42 +50,45 @@ function LectureDetailContent() {
   const disabilityTypesText = possibleDisabilityTypes?.join(", ");
 
   // 카드 강좌 시간 나타내는 부분
-  const FormatCourseTime = (courseBlock) => {
-    if (!courseBlock) return "";
-    // 강좌 시간 포맷팅
-    const lectureTimes = courseBlock
-      .filter((item) => item.open)
-      .map((item) => {
-        const date = new Date(item.date);
-        const formattedDate = `${date.getMonth() + 1}/${date.getDate()}`;
-        const startTime = `${item.takenHour < 10 ? "0" : ""}${item.takenHour}:${
-          item.takenMinute < 10 ? "0" : ""
-        }${item.takenMinute}`;
-        return `${formattedDate}일 ${startTime}`;
-      });
-    return lectureTimes.join(", ");
-  };
+  // const FormatCourseTime = (courseBlock) => {
+  //   if (!courseBlock) return "";
+  //   // 강좌 시간 포맷팅
+  //   const lectureTimes = courseBlock
+  //     .filter((item) => item.open)
+  //     .map((item) => {
+  //       const date = new Date(item.date);
+  //       const formattedDate = `${date.getMonth() + 1}/${date.getDate()}`;
+  //       const startTime = `${item.takenHour < 10 ? "0" : ""}${item.takenHour}:${
+  //         item.takenMinute < 10 ? "0" : ""
+  //       }${item.takenMinute}`;
+  //       return `${formattedDate}일 ${startTime}`;
+  //     });
+  //   return lectureTimes.join(", ");
+  // };
 
   // 강좌 블럭 선택을 위한 포맷팅
   const formatCourseTime = (courseBlock) => {
     if (!courseBlock) return [];
     // 강좌 시간 포맷팅
-    return courseBlock
-      .filter((item) => item.open)
-      .map((item) => {
-        const date = new Date(item.date);
-        const formattedDate = `${date.getMonth() + 1}/${date.getDate()}`;
-        const startTime = `${item.takenHour < 10 ? "0" : ""}${item.takenHour}:${
-          item.takenMinute < 10 ? "0" : ""
-        }${item.takenMinute}`;
-        return {
-          id: item.id,
-          text: `${formattedDate}일 ${startTime}`,
-        };
-      });
+    return (
+      courseBlock
+        // .filter((item) => item.open)
+        .map((item) => {
+          const date = new Date(item.date);
+          const formattedDate = `${date.getMonth() + 1}/${date.getDate()}`;
+          const startTime = `${item.takenHour < 10 ? "0" : ""}${
+            item.takenHour
+          }:${item.takenMinute < 10 ? "0" : ""}${item.takenMinute}`;
+          return {
+            id: item.id,
+            text: `${formattedDate}일 ${startTime}`,
+          };
+        })
+    );
   };
 
   const formattedCourseTimes = formatCourseTime(data?.courseBlock);
+  console.log("FormatCourseTime: ", formattedCourseTimes);
 
   const navigate = useNavigate();
 
@@ -181,7 +184,8 @@ function LectureDetailContent() {
                 • 가능한 장애유형 : {disabilityTypesText} 장애 가능
               </DetailText>
               <DetailText>
-                • 강좌 시간 : {FormatCourseTime(data.courseBlock)}
+                {/* • 강좌 시간 : {FormatCourseTime(data.courseBlock)} */}• 강좌
+                시간 : {data.duration}분
               </DetailText>
             </Middle>
           </CourseDetail>
