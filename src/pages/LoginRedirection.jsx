@@ -19,6 +19,8 @@ const handleLogin = (code, navigate) => {
     })
     .catch((error) => {
       console.error("Error:", error);
+      alert("가입되지 않은 유저입니다. 회원가입 해 주세요.");
+      navigate("/sign");
     });
 };
 
