@@ -1,6 +1,6 @@
 # 장애인 스포츠 강좌 선택 수강 플랫폼, Pickle 🥇
 
-![Pickle](https://github.com/user-attachments/assets/e7035763-50a6-4f2c-9e4b-a4ee8acfe938)
+![Pickle](https://github.com/user-attachments/assets/0ad71f9d-1935-455d-89b1-57219e973b81)
 
 - 배포 URL : https://pickle-pickle.netlify.app
 
@@ -53,7 +53,7 @@
 
 ### 맞춤형 강좌 선택
 
-![image.jpg1](https://github.com/user-attachments/assets/9ba0dc8f-834e-47eb-9e89-407460981084) |![image.jpg2](https://github.com/user-attachments/assets/3a32bda9-1cef-4b60-9d97-e21cfecf9306)
+![image.jpg1](https://github.com/user-attachments/assets/2c9c8638-53d5-4d6f-94c9-9a1d5ebc0bb2) |![image.jpg2](https://github.com/user-attachments/assets/40bced4c-d371-4ea7-952f-422d269ccd9d)
 --- | --- | 
 
 - 지역, 운동종목, 장애유형, 날짜, 가격, 개인/그룹 항목별 필터링이 제공됩니다.
@@ -62,8 +62,7 @@
 
 ### 신뢰도 있는 강사
 
-![image.jpg1](https://github.com/user-attachments/assets/05b609e9-b792-497f-8e58-d66df3fdb7eb)|![image.jpg2](https://github.com/user-attachments/assets/2dbc6122-a5a7-4717-b539-3f1697b4461d) 
---- | --- | 
+![image.jpg1](https://github.com/user-attachments/assets/cc00a208-f37c-4f30-933b-110ea24a6d1c)
 
 - 강사 프로플 확인을 통해 강좌 개설 내역을 확인할 수 있습니다.
 - 강사의 보유 자격증 및 강좌 평점이 표시됩니다.
@@ -73,14 +72,14 @@
 ### 사용자 동기부여
 
 ![image.jpg1](https://github.com/user-attachments/assets/a3a57018-4f59-4927-8733-abd0c9df946c)
---- | 
+
 - 등급제를 통한 혜택 지급으로 사용자가 운동을 지속할 수 있도록 동기부여 합니다.
 
 <br>
 
 ### 강좌 수강 
 
-![image.jpg1](https://github.com/user-attachments/assets/ce31f676-89d5-4f24-9f2e-6f63f416ead3)|![image.jpg2](https://github.com/user-attachments/assets/e6cd06bf-013e-4b86-a551-c6019d799856) 
+![image.jpg1](https://github.com/user-attachments/assets/8b107d18-1160-4633-8800-091aed5ee74d)|![image.jpg2](https://github.com/user-attachments/assets/17fbb1f5-b164-4982-b9eb-4667dbc295c2) 
 --- | --- | 
 
 - 해당 강좌의 시간을 선택하여 수강신청 할 수 있습니다.
