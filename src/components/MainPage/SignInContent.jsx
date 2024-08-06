@@ -96,6 +96,9 @@ function SignInContent() {
       contactNumber,
       disabilityTypeList,
       disabilityLevelList,
+      bornYear,
+      bornMonth,
+      bornDay,
     } = form;
 
     if (
@@ -106,7 +109,10 @@ function SignInContent() {
       !detailAddress ||
       !contactNumber ||
       !disabilityTypeList ||
-      !disabilityLevelList
+      !disabilityLevelList ||
+      !bornYear ||
+      !bornMonth ||
+      !bornDay
     ) {
       alert("필수 입력사항을 채워주세요.");
       return;
@@ -182,7 +188,9 @@ function SignInContent() {
               </Gender>
             </Section>
             <Section>
-              <Label htmlFor="birthdate">생년월일</Label>
+              <Label htmlFor="birthdate">
+                생년월일<Red>*</Red>
+              </Label>
               <Calendar
                 type="date"
                 id="birthdate"
