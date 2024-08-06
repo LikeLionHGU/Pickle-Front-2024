@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
 import { selectedRegionState } from "../../atom";
@@ -6,8 +6,11 @@ import { selectedSportTypeState } from "../../atom";
 import { selectedDisabilityTypeState } from "../../atom";
 import { selectedDateState } from "../../atom";
 import { selectedPriceState } from "../../atom";
+import { useLocation } from "react-router-dom";
 
 const SelectedContentBox = ({ handleClearSelection, regionOptions = [] }) => {
+  const location = useLocation();
+  const currentPath = location.pathname;
   const [selectedRegion, setsSlectedRegion] =
     useRecoilState(selectedRegionState);
   const [selectedSportType, setSelectedSportType] = useRecoilState(
@@ -34,6 +37,10 @@ const SelectedContentBox = ({ handleClearSelection, regionOptions = [] }) => {
     );
     return mainRegion ? mainRegion.name : null;
   };
+
+  useEffect(() => {
+    if (currentPath === "/") setSelectedPrice({});
+  }, []);
 
   return (
     <>
@@ -88,11 +95,13 @@ const SelectedContentBox = ({ handleClearSelection, regionOptions = [] }) => {
           </ClearButton>
         </SelectedContent>
       ))}
-      <SelectedPriceContent>
-        <Hashtag>#</Hashtag>
-        {selectedPrice.min.toLocaleString()}원 ~{" "}
-        {selectedPrice.max.toLocaleString()}원
-      </SelectedPriceContent>
+      {selectedPrice.min !== undefined && selectedPrice.max !== undefined && (
+        <SelectedPriceContent>
+          <Hashtag>#</Hashtag>
+          {selectedPrice.min.toLocaleString()}원 ~{" "}
+          {selectedPrice.max.toLocaleString()}원
+        </SelectedPriceContent>
+      )}
     </>
   );
 };

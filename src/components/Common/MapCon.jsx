@@ -100,7 +100,7 @@ export default function MapCon() {
 const OverlayWrapper = styled.div`
   background-color: #4aabf9;
   width: 191px;
-  height: 34px;
+  height: 20px;
   border-radius: 10px;
   padding: 11px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
