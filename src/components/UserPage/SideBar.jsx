@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import scoreIcon from "../../assets/img/userScore.svg";
@@ -10,6 +10,7 @@ import BgColor from "../Common/BgColor";
 
 function SideBar() {
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(window.location.pathname);
 
   const handleMenuClick = (url) => {
     navigate(url);
@@ -18,31 +19,46 @@ function SideBar() {
   return (
     <BgColor>
       <Wrapper>
-        <Menu onClick={() => handleMenuClick("/user")}>
+        <Menu
+          isSelected={currentPage === "/user"}
+          onClick={() => handleMenuClick("/user")}
+        >
           <Section>
             <img src={scoreIcon} alt="내 경험치 아이콘"></img>
             <Text>내 경험치</Text>
           </Section>
         </Menu>
-        <Menu onClick={() => handleMenuClick("/user/saved")}>
+        <Menu
+          isSelected={currentPage === "/user/saved"}
+          onClick={() => handleMenuClick("/user/saved")}
+        >
           <Section>
             <img src={likedCourseIcon} alt="찜한 강좌 아이콘"></img>
             <Text>찜한 강좌</Text>
           </Section>
         </Menu>
-        <Menu onClick={() => handleMenuClick("/user/learning")}>
+        <Menu
+          isSelected={currentPage === "/user/learning"}
+          onClick={() => handleMenuClick("/user/learning")}
+        >
           <Section>
             <img src={learningIcon} alt="수강 중 아이콘"></img>
             <Text>수강 중</Text>
           </Section>
         </Menu>
-        <Menu onClick={() => handleMenuClick("/user/complete")}>
+        <Menu
+          isSelected={currentPage === "/user/complete"}
+          onClick={() => handleMenuClick("/user/complete")}
+        >
           <Section>
             <img src={completeIcon} alt="수강 완료 아이콘"></img>
             <Text>수강 완료</Text>
           </Section>
         </Menu>
-        <Menu onClick={() => handleMenuClick("/user/edit")}>
+        <Menu
+          isSelected={currentPage === "/user/edit"}
+          onClick={() => handleMenuClick("/user/edit")}
+        >
           <Section>
             <img src={editIcon} alt="프로필 수정 아이콘"></img>
             <Text>프로필 수정</Text>
@@ -80,7 +96,8 @@ const Menu = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: white;
+  background-color: ${(props) =>
+    props.isSelected ? "rgba(66, 168, 248, 0.1)" : "white"};
   &:first-child {
     margin-top: 60px;
   }
