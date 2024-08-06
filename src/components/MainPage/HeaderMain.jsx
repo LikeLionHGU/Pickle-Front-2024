@@ -13,6 +13,8 @@ import { selectedPriceState } from "../../atom";
 
 function HeaderMain() {
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(window.location.pathname); // Track current page
+
   const [selectedRegion, setSelectedRegion] =
     useRecoilState(selectedRegionState);
   const [selectedSportType, setSelectedSportType] = useRecoilState(
@@ -27,26 +29,29 @@ function HeaderMain() {
   const navigate = useNavigate();
   const token = localStorage.getItem("jwtToken");
 
+  const handleMenuClick = (url) => {
+    setCurrentPage(url); // Update current page state
+    navigate(url);
+  };
+
   const toggleLoginModal = () => {
     setLoginModalOpen((prevState) => !prevState);
   };
 
   const handleSignInClick = () => {
+    setCurrentPage("/sign");
     navigate("/sign");
   };
 
   const handleSignOutBtnClick = () => {
     localStorage.clear();
     window.location.reload();
+    setCurrentPage("/");
   };
 
   useEffect(() => {
     document.body.style.overflow = isLoginModalOpen ? "hidden" : "auto";
   }, [isLoginModalOpen]);
-
-  const handleMenuClick = (url) => {
-    navigate(url);
-  };
 
   const handleUserPageClick = (url) => {
     const jwtToken = localStorage.getItem("jwtToken");
@@ -59,6 +64,7 @@ function HeaderMain() {
   };
 
   const handlePickleLogoClick = () => {
+    setCurrentPage("/");
     navigate("/");
     setSelectedRegion([]);
     setSelectedSportType([]);
@@ -79,6 +85,7 @@ function HeaderMain() {
             setSelectedDate([]);
             setSelectedPrice({ min: 0, max: 100000 });
           }}
+          isSelected={currentPage === "/"}
         >
           홈
         </Menu>
@@ -91,10 +98,16 @@ function HeaderMain() {
             setSelectedDate([]);
             setSelectedPrice({ min: 0, max: 100000 });
           }}
+          isSelected={currentPage === "/listall"}
         >
           강좌목록
         </Menu>
-        <Menu onClick={() => handleUserPageClick("/user")}>마이페이지</Menu>
+        <Menu
+          onClick={() => handleUserPageClick("/user")}
+          isSelected={currentPage === "/user"}
+        >
+          마이페이지
+        </Menu>
         <Logo>
           <img
             onClick={handlePickleLogoClick}
@@ -160,7 +173,7 @@ const Menu = styled.div`
     position: absolute;
     width: 100%;
     min-width: 50px;
-    transform: scaleX(0);
+    transform: scaleX(${(props) => (props.isSelected ? 1 : 0)});
     height: 6px;
     bottom: 0px;
     left: 0;
