@@ -248,7 +248,7 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   /* margin-left: 240px; */
-  border: 1px solid red;
+  /* border: 1px solid red; */
 `;
 
 const AdCon = styled.div`
