@@ -13,6 +13,7 @@ import { selectedPriceState } from "../../atom";
 
 function HeaderLightVer() {
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(window.location.pathname); // Track current page
 
   const [selectedRegion, setSelectedRegion] =
     useRecoilState(selectedRegionState);
@@ -29,6 +30,7 @@ function HeaderLightVer() {
   const token = localStorage.getItem("jwtToken");
 
   const handleMenuClick = (url) => {
+    setCurrentPage(url);
     navigate(url);
   };
 
@@ -38,11 +40,13 @@ function HeaderLightVer() {
       alert("로그인이 필요합니다.");
       navigate("/");
     } else {
+      setCurrentPage(url);
       navigate(url);
     }
   };
 
   const handlePickleLogoClick = () => {
+    setCurrentPage("/");
     navigate("/");
     setSelectedRegion([]);
     setSelectedSportType([]);
@@ -60,11 +64,13 @@ function HeaderLightVer() {
   }, [isLoginModalOpen]);
 
   const handleSignInClick = () => {
+    setCurrentPage("/sign");
     navigate("/sign");
   };
 
   const handleSignOutBtnClick = () => {
     localStorage.clear();
+    setCurrentPage("/");
     navigate("/");
   };
 
@@ -80,6 +86,7 @@ function HeaderLightVer() {
             setSelectedDate([]);
             setSelectedPrice({ min: 0, max: 100000 });
           }}
+          isSelected={currentPage === "/"}
         >
           홈
         </Menu>
@@ -92,10 +99,16 @@ function HeaderLightVer() {
             setSelectedDate([]);
             setSelectedPrice({ min: 0, max: 100000 });
           }}
+          isSelected={currentPage === "/listall"}
         >
           강좌목록
         </Menu>
-        <Menu onClick={() => handleUserPageClick("/user")}>마이페이지</Menu>
+        <Menu
+          onClick={() => handleUserPageClick("/user")}
+          isSelected={currentPage === "/user"}
+        >
+          마이페이지
+        </Menu>
         <Logo>
           <img
             onClick={handlePickleLogoClick}
@@ -148,7 +161,6 @@ const Menu = styled.div`
   cursor: pointer;
   margin-left: 45px;
   position: relative;
-  /* border: 1px solid red; */
   text-align: center;
   min-width: 50px;
 
@@ -161,7 +173,7 @@ const Menu = styled.div`
     position: absolute;
     width: 100%;
     min-width: 50px;
-    transform: scaleX(0);
+    transform: scaleX(${(props) => (props.isSelected ? 1 : 0)});
     height: 6px;
     bottom: 0px;
     left: 0;
@@ -210,6 +222,5 @@ const SignOut = styled.div`
   color: #1997fc;
   font-size: 14px;
   cursor: pointer;
-  /* border: 1px solid red; */
   margin-left: 70px;
 `;
