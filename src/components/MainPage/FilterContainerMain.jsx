@@ -12,7 +12,15 @@ import { selectedDisabilityTypeState } from "../../atom";
 import { selectedDateState } from "../../atom";
 import { selectedPriceState } from "../../atom";
 
-function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
+function FilterContainerMain({
+  absolute = true,
+  marginTop,
+  marginLeft,
+  top,
+  left,
+  transform,
+  noPosition,
+}) {
   const navigate = useNavigate();
 
   const [checked, setChecked] = useState({
@@ -579,7 +587,15 @@ function FilterContainerMain({ absolute = true, marginTop, marginLeft }) {
   };
 
   return (
-    <Wrapper absolute={absolute} marginTop={marginTop} marginLeft={marginLeft}>
+    <Wrapper
+      absolute={absolute}
+      marginTop={marginTop}
+      marginLeft={marginLeft}
+      top={top}
+      left={left}
+      transform={transform}
+      noPosition={noPosition}
+    >
       <Container>
         <Text>원하는 운동 강좌를 검색해보세요</Text>
         <CheckboxContainer>
@@ -774,13 +790,20 @@ const Wrapper = styled.div`
   width: 1000px;
   height: auto;
   margin-top: ${(props) => props.marginTop || "320px"};
-  margin-left: ${(props) => props.marginLeft || "220px"};
-  /* left: 40%; */
-  /* transform: translateX(-50%); */
+  /* margin-left: ${(props) => props.marginLeft || "220px"}; */
+  margin-left: ${(props) => props.marginLeft || "0px"};
   background-color: white;
   z-index: 10000;
   border-radius: 10px;
   padding-bottom: 28px;
+  // 조건부 스타일 적용
+  ${(props) =>
+    !props.noPosition &&
+    `
+    top: ${props.top || "15%"};
+    left: ${props.left || "50%"};
+    transform: translate(-50%, -50%);
+  `}
 `;
 
 const Container = styled.div`
