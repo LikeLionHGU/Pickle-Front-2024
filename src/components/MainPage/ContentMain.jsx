@@ -242,13 +242,13 @@ const Wrapper = styled.div`
   /* width: 1160px; */
   width: 1000px;
   margin: auto;
-  margin-top: 135px;
+  margin-top: 115px;
   font-size: 20px;
   padding-bottom: 40px;
   justify-content: center;
   align-items: center;
   /* margin-left: 240px; */
-  /* border: 1px solid red; */
+  border: 1px solid red;
 `;
 
 const AdCon = styled.div`
