@@ -91,7 +91,7 @@ const Wrapper = styled.div`
 
 const BannerBg = styled.div`
   background-image: url(${mainBannerImg});
-  width: 108%;
+  width: 109%;
   height: 118%;
   background-size: cover;
   background-position: left;
