@@ -242,7 +242,7 @@ const Wrapper = styled.div`
   /* width: 1160px; */
   width: 1000px;
   margin: auto;
-  margin-top: 135px;
+  margin-top: 115px;
   font-size: 20px;
   padding-bottom: 40px;
   justify-content: center;
