@@ -151,6 +151,7 @@ const Left = styled.div`
   width: 265px;
   margin-right: 55px;
   /* border: 1px solid red; */
+  padding-top: 20px;
 `;
 
 const TeacherImg = styled.div`
@@ -158,12 +159,16 @@ const TeacherImg = styled.div`
   width: 184px;
   height: 184px;
   border-radius: 50%;
-  margin: auto;
-  padding-top: 20px;
 
+  margin: auto;
+  overflow: hidden;
+  background-size: cover;
   img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    border: 1px solid green;
+    background-size: cover;
   }
 `;
 
