@@ -1,4 +1,4 @@
 body {
-  width: 100vw !important;
+  min-width: 1440px !important;
   margin: auto !important;
 }
