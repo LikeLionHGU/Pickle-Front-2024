@@ -11,9 +11,9 @@ function UserEditProfileContent() {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
-    bornYear: "2002",
-    bornMonth: "08",
-    bornDay: "16",
+    bornYear: "0000",
+    bornMonth: "00",
+    bornDay: "00",
     sex: false,
     nickname: "",
     description: "특이사항",
@@ -227,7 +227,7 @@ function UserEditProfileContent() {
             <UserInfo>생년월일</UserInfo>
             <GrayInfoBox>
               <div onClick={handleNoEditField}>
-                {`${formData.bornYear}-${formData.bornMonth}-${formData.bornDay}`}
+                {`${formData.bornYear}년 ${formData.bornMonth}월 ${formData.bornDay}일`}
               </div>
             </GrayInfoBox>
             <UserInfo>주소</UserInfo>
