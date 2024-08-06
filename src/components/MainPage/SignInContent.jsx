@@ -12,11 +12,11 @@ function SignInContent() {
     bornDay: "",
     sex: "",
     nickname: "",
-    description: "특이사항",
+    description: "특이사항을 입력해주세요.",
     disabilityTypeList: [], // 배열로 변경
     disabilityLevelList: [], // 배열로 변경
     contactNumber: "",
-    familyNumber: "",
+    familyNumber: "보호자 연락처를 입력해주세요.",
     address: "",
     detailAddress: "",
   });
